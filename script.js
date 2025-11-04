@@ -1,5 +1,5 @@
 // タブ切り替え機能
-function showTab(tabName) {
+function showTab(tabName, clickedButton) {
     // すべてのタブコンテンツを非表示
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(content => {
@@ -16,15 +16,14 @@ function showTab(tabName) {
     document.getElementById(tabName).classList.add('active');
     
     // 対応するボタンをアクティブ化
-    event.target.classList.add('active');
+    if (clickedButton) {
+        clickedButton.classList.add('active');
+    }
 }
 
 // ページ読み込み時の初期化
 document.addEventListener('DOMContentLoaded', function() {
     console.log('NeVの窓 ポータルが読み込まれました');
-    
-    // デフォルトで「全員向け」タブを表示
-    document.getElementById('everyone').classList.add('active');
 });
 
 // リンクのクリックイベント（デモ用）
