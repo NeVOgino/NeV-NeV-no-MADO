@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeVの窓 - 情報ポータル</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>NeVの窓</h1>
+            <p class="subtitle">職員向け情報ポータル</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="tab-container">
+            <button class="tab-button active" onclick="showTab('everyone')">全員向け</button>
+            <button class="tab-button" onclick="showTab('staff')">職員向け</button>
+        </div>
+
+        <!-- 全員向けタブ -->
+        <div id="everyone" class="tab-content active">
+            <section class="info-section">
+                <h2>📢 INFORMATION</h2>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="date">2025.9.27</span>
+                        <div class="content">
+                            <h3>安否確認全国一斉訓練の結果</h3>
+                            <p><a href="#" class="link">訓練結果</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="date">2024.7.24</span>
+                        <div class="content">
+                            <h3>大規模災害時初動心得（全職員向け）</h3>
+                            <p><a href="#" class="link">冊子版</a> | <a href="#" class="link">ポケット版</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="date">2025.7.1</span>
+                        <div class="content">
+                            <h3>ITセキュリティに係るBCP対応について</h3>
+                            <p><a href="#" class="link">派遣職員向け説明資料</a> | <a href="#" class="link">ITセキュリティに係る教材</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="date">2025.6.9</span>
+                        <div class="content">
+                            <h3>ハラスメント相談窓口設置のお知らせ</h3>
+                            <p><a href="#" class="link">お知らせ</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="date">2024.8.6</span>
+                        <div class="content">
+                            <h3>電子決裁システム（ワークフロー）の利用マニュアル</h3>
+                            <p><a href="#" class="link">マニュアル</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="date">2025.9.1</span>
+                        <div class="content">
+                            <h3>人事異動</h3>
+                            <p><a href="#" class="link">★通達 人事異動（2025.09.01）</a></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="columns">
+                <section class="info-section">
+                    <h2>📁 共通コーナー（全職員向け）</h2>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">R6年度カレンダー</a></li>
+                        <li><a href="#" class="link">R7年度カレンダー</a></li>
+                        <li><a href="#" class="link">通達 役員改選（2017.06.29）</a></li>
+                        <li><a href="#" class="link">NEV 組織・人員体制（最新）</a></li>
+                        <li><a href="#" class="link">★ロゴデータファイル</a></li>
+                        <li><a href="#" class="link">NeV パンフレット</a></li>
+                        <li><a href="#" class="link">派遣職員の就業ルール(2016.07.04)</a></li>
+                        <li><a href="#" class="link">事業所自衛消防隊（内部用）（2024.05.01）</a></li>
+                        <li><a href="#" class="link">日常の火災予防の担当者と注意事項(内部用)（2023.0616）</a></li>
+                        <li><a href="#" class="link">避難経路図（3階）</a></li>
+                        <li><a href="#" class="link">避難経路図（4階）</a></li>
+                        <li><a href="#" class="link">避難経路図（5階）</a></li>
+                        <li><a href="#" class="link">避難経路図（8階）</a></li>
+                        <li><a href="#" class="link">避難経路図（9階）</a></li>
+                        <li><a href="#" class="link">避難経路図（10階）</a></li>
+                        <li><a href="#" class="link">火災避難時集合場所(日本橋地区)</a></li>
+                        <li><a href="#" class="link">日本橋木村ビルの避難階段と消防設備</a></li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>🏢 会議室予約</h2>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">10階 会議室（R6年度）</a></li>
+                        <li><a href="#" class="link">901 会議室（R6年度）</a></li>
+                        <li><a href="#" class="link">801 会議室（R6年度）</a></li>
+                        <li><a href="#" class="link">10階 会議室（R7年度）</a></li>
+                        <li><a href="#" class="link">901 会議室（R7年度）</a></li>
+                        <li><a href="#" class="link">801 会議室（R7年度）</a></li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>📋 各部掲示板</h2>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">管理部</a></li>
+                        <li><a href="#" class="link">管理部座席表</a></li>
+                        <li><a href="#" class="link">次世代自動車部</a></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <!-- 職員向けタブ -->
+        <div id="staff" class="tab-content">
+            <section class="info-section">
+                <h2>📢 INFORMATION</h2>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="date">2025.5.29</span>
+                        <div class="content">
+                            <h3>規程類の制定・改定⇒標準書コーナー</h3>
+                            <p><a href="#" class="link">ITセキュリティ関連「誓約書」・「承諾書」要領(2025.5.29制定）</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="date">2025.5.26</span>
+                        <div class="content">
+                            <h3>規程類の制定・改定⇒標準書コーナー</h3>
+                            <ul>
+                                <li><a href="#" class="link">情報セキュリティ基本規程制定</a></li>
+                                <li><a href="#" class="link">個人情報保護規程制定</a></li>
+                                <li><a href="#" class="link">アクセス制御規程制定</a></li>
+                                <li><a href="#" class="link">機密情報管理規程改定</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="columns">
+                <section class="info-section">
+                    <h2>📖 標準書コーナー</h2>
+                    <h3>基本規則</h3>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">標準書に関する規則（2014.7.11改定）</a></li>
+                        <li><a href="#" class="link">標準書類の管理要領（2015.08.21改定）</a></li>
+                        <li><a href="#" class="link">方針に関する規則（2015.3.13制定）</a></li>
+                    </ul>
+
+                    <h3>稟議・契約関係</h3>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">稟議規程(2025.4.25改定）</a></li>
+                        <li><a href="#" class="link">【別表１】稟議書</a></li>
+                        <li><a href="#" class="link">【別表１ａ】稟議書</a></li>
+                        <li><a href="#" class="link">【別表２】契約関係決裁書（競争入札）</a></li>
+                        <li><a href="#" class="link">【別表３】契約関係決裁書（随意契約）</a></li>
+                        <li><a href="#" class="link">【別表４】稟議書決裁基準</a></li>
+                        <li><a href="#" class="link">契約関係事務取扱要領(2025.04.25改定)</a></li>
+                        <li><a href="#" class="link">契約関係事務取扱要領（図解）</a></li>
+                        <li><a href="#" class="link">稟議書の手順書(2015.06.12制定)</a></li>
+                        <li><a href="#" class="link">公印及び発信文書番号管理規程（2019.4.1改定）</a></li>
+                        <li><a href="#" class="link">【別表１】公印押印申請書</a></li>
+                        <li><a href="#" class="link">決裁関連書類保存手順</a></li>
+                    </ul>
+
+                    <h3>組織・運営</h3>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">組織機構及び組織運営に関する規程（改定2024.09.20）</a></li>
+                        <li><a href="#" class="link">【別表1】業務分掌</a></li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>📄 各種帳票フォーマット</h2>
+                    <p class="note">※以下は帳票フォーマットの保存フォルダー</p>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">01（2020年2月から）稟議書・契約関係決裁書</a></li>
+                        <li><a href="#" class="link">02 補助金関係</a></li>
+                        <li><a href="#" class="link">03 届出・申請書類</a></li>
+                        <li><a href="#" class="link">04 総務・経理関係</a></li>
+                        <li><a href="#" class="link">05 入札関係</a></li>
+                        <li><a href="#" class="link">06 報告書原紙</a></li>
+                        <li><a href="#" class="link">07 セキュリティ関係</a></li>
+                    </ul>
+
+                    <h3>発信文書</h3>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">発信文書番号取得</a></li>
+                        <li><a href="#" class="link">発信文書番号記録簿</a></li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>👥 職員向け情報コーナー</h2>
+                    <ul class="resource-list">
+                        <li><a href="#" class="link">NeV 組織図（R6.4.1）氏名有り</a></li>
+                        <li><a href="#" class="link">NeV 組織図（R5.4.1）氏名無</a></li>
+                        <li><a href="#" class="link">NEV 組織・人員体制（最新）</a></li>
+                        <li><a href="#" class="link">人員数（2025.04.01）</a></li>
+                        <li><a href="#" class="link">役職員緊急連絡先</a></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NeV. All rights reserved.</p>
+            <p class="storage-note">※格納場所：share(H)</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

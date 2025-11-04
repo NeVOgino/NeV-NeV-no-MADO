@@ -1,0 +1,289 @@
+/* 基本スタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Yu Gothic', 'Meiryo', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ヘッダー */
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+/* タブ */
+.tab-container {
+    display: flex;
+    gap: 10px;
+    margin: 30px 0 20px 0;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.tab-button:hover {
+    color: #667eea;
+    background-color: #f8f9fa;
+}
+
+.tab-button.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+    font-weight: 700;
+}
+
+/* タブコンテンツ */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* セクション */
+.info-section {
+    background: white;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.info-section h2 {
+    color: #667eea;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.info-section h3 {
+    color: #555;
+    font-size: 1.1em;
+    margin: 20px 0 10px 0;
+}
+
+/* カラムレイアウト */
+.columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+/* 情報アイテム */
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #667eea;
+    transition: all 0.2s ease;
+}
+
+.info-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.info-item .date {
+    color: #667eea;
+    font-weight: 700;
+    min-width: 100px;
+    font-size: 0.95em;
+}
+
+.info-item .content {
+    flex: 1;
+}
+
+.info-item h3 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 1em;
+}
+
+.info-item p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.info-item ul {
+    list-style: none;
+    margin: 5px 0;
+}
+
+.info-item ul li {
+    margin: 5px 0;
+}
+
+/* リソースリスト */
+.resource-list {
+    list-style: none;
+    padding: 0;
+}
+
+.resource-list li {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.resource-list li:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+/* リンク */
+.link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.link:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+.link::before {
+    content: '📎 ';
+    margin-right: 5px;
+}
+
+/* 注釈 */
+.note {
+    color: #888;
+    font-size: 0.9em;
+    font-style: italic;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #fff9e6;
+    border-left: 3px solid #ffc107;
+    border-radius: 4px;
+}
+
+.storage-note {
+    color: #999;
+    font-size: 0.85em;
+    margin-top: 5px;
+}
+
+/* フッター */
+footer {
+    background: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    margin-top: 50px;
+    text-align: center;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    .tab-button {
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+
+    .columns {
+        grid-template-columns: 1fr;
+    }
+
+    .info-item {
+        flex-direction: column;
+    }
+
+    .info-item .date {
+        min-width: auto;
+    }
+}
+
+/* 印刷用スタイル */
+@media print {
+    body {
+        background: white;
+    }
+
+    .tab-container {
+        display: none;
+    }
+
+    .tab-content {
+        display: block !important;
+    }
+
+    .info-section {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
+    }
+}
