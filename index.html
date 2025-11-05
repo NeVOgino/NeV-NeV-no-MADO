@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEVの窓 - ブラウザ版</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🪟 NEVの窓</h1>
+            <p class="subtitle">社内掲示板システム</p>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <div class="container">
+            <button class="tab-button active" data-tab="全員向け">全員向け</button>
+            <button class="tab-button" data-tab="職員向け">職員向け</button>
+            <button class="edit-button" onclick="window.location.href='admin.html'">📝 編集モード</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div id="全員向け" class="tab-content active">
+            <!-- Content will be loaded dynamically -->
+        </div>
+        
+        <div id="職員向け" class="tab-content">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NEV - Next-Generation Vehicle Promotion Center</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

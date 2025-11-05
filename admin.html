@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEVの窓 - 編集モード</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🪟 NEVの窓 - 編集モード</h1>
+            <p class="subtitle">掲示板の内容を編集できます</p>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <div class="container">
+            <button class="tab-button active" data-tab="全員向け">全員向け</button>
+            <button class="tab-button" data-tab="職員向け">職員向け</button>
+            <button class="back-button" onclick="window.location.href='index.html'">← 閲覧モードに戻る</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="admin-instructions">
+            <h3>📝 編集方法</h3>
+            <ol>
+                <li>編集したいセクションの「編集」ボタンをクリックします</li>
+                <li>テキストエリアで内容を編集します（JSONフォーマットで）</li>
+                <li>「保存」ボタンをクリックして変更を保存します</li>
+                <li>「ダウンロード」ボタンで編集したデータをダウンロードし、data.jsonファイルを更新してください</li>
+            </ol>
+        </div>
+
+        <div class="download-section">
+            <button class="download-button" onclick="downloadData()">💾 data.jsonをダウンロード</button>
+            <button class="upload-button" onclick="document.getElementById('fileInput').click()">📤 data.jsonをアップロード</button>
+            <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="uploadData(event)">
+        </div>
+
+        <div id="全員向け" class="tab-content active">
+            <!-- Content will be loaded dynamically -->
+        </div>
+        
+        <div id="職員向け" class="tab-content">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NEV - Next-Generation Vehicle Promotion Center</p>
+        </div>
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>
