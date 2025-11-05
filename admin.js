@@ -80,11 +80,15 @@ function renderSectionPreview(section) {
     if (section.name === 'INFORMATION' || section.name.includes('INFORMATION')) {
         section.items.forEach(item => {
             if (typeof item === 'object' && item.date) {
+                const detailContent = item.link 
+                    ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
+                    : escapeHtml(item.detail);
+                
                 html += `
                     <div class="info-item">
                         <div class="info-date">${escapeHtml(item.date)}</div>
                         <div class="info-content">${escapeHtml(item.content)}</div>
-                        ${item.detail ? `<div class="info-detail">→ ${escapeHtml(item.detail)}</div>` : ''}
+                        ${item.detail ? `<div class="info-detail">→ ${detailContent}</div>` : ''}
                     </div>
                 `;
             }
@@ -94,8 +98,18 @@ function renderSectionPreview(section) {
         section.items.forEach(item => {
             if (typeof item === 'string') {
                 html += `<li>${escapeHtml(item)}</li>`;
+            } else if (item.text) {
+                // New structure with text and optional link
+                const itemContent = item.link 
+                    ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
+                    : escapeHtml(item.text);
+                html += `<li>${itemContent}</li>`;
             } else if (item.name) {
-                html += `<li><strong>${escapeHtml(item.name)}</strong>${item.link ? ` - ${escapeHtml(item.link)}` : ''}</li>`;
+                // Department board structure
+                const itemText = item.link 
+                    ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
+                    : escapeHtml(item.text);
+                html += `<li><strong>${escapeHtml(item.name)}</strong> - ${itemText}</li>`;
             }
         });
         html += '</ul>';

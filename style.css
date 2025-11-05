@@ -263,3 +263,24 @@ footer {
     border-color: #667eea;
     box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
 }
+
+/* Link Styles */
+.info-detail a,
+.item-list a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.info-detail a:hover,
+.item-list a:hover {
+    color: #764ba2;
+    border-bottom: 1px solid #764ba2;
+}
+
+.info-detail a:visited,
+.item-list a:visited {
+    color: #9b59b6;
+}
