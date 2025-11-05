@@ -1,6 +1,13 @@
 // Load data and initialize the application
 let boardData = {};
 
+// Escape HTML to prevent XSS attacks
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 // Load data from JSON file
 async function loadData() {
     try {
@@ -21,31 +28,33 @@ function renderTabContent(tabName) {
     
     if (!data) return;
     
-    let html = `<h1 class="section-title">${data.title}</h1>`;
+    let html = `<h1 class="section-title">${escapeHtml(data.title)}</h1>`;
     
     // Add search box
+    const escapedTabName = escapeHtml(tabName);
     html += `
         <div class="search-box">
             <input type="text" 
                    placeholder="🔍 検索..." 
-                   onkeyup="filterContent('${tabName}', this.value)">
+                   data-tab="${escapedTabName}"
+                   onkeyup="filterContent(this.dataset.tab, this.value)">
         </div>
     `;
     
-    html += '<div class="sections-container" id="sections-' + tabName + '">';
+    html += '<div class="sections-container" id="sections-' + escapedTabName + '">';
     
     data.sections.forEach((section, index) => {
         html += `<div class="section" data-section-index="${index}">`;
-        html += `<h2>${section.name}</h2>`;
+        html += `<h2>${escapeHtml(section.name)}</h2>`;
         
         if (section.name === 'INFORMATION') {
             // Render information items with date, content, and detail
             section.items.forEach(item => {
                 html += `
                     <div class="info-item">
-                        <div class="info-date">${item.date}</div>
-                        <div class="info-content">${item.content}</div>
-                        ${item.detail ? `<div class="info-detail">→ ${item.detail}</div>` : ''}
+                        <div class="info-date">${escapeHtml(item.date)}</div>
+                        <div class="info-content">${escapeHtml(item.content)}</div>
+                        ${item.detail ? `<div class="info-detail">→ ${escapeHtml(item.detail)}</div>` : ''}
                     </div>
                 `;
             });
@@ -54,9 +63,9 @@ function renderTabContent(tabName) {
             html += '<ul class="item-list">';
             section.items.forEach(item => {
                 if (typeof item === 'string') {
-                    html += `<li>${item}</li>`;
+                    html += `<li>${escapeHtml(item)}</li>`;
                 } else if (item.name) {
-                    html += `<li><strong>${item.name}</strong>${item.link ? ` - ${item.link}` : ''}</li>`;
+                    html += `<li><strong>${escapeHtml(item.name)}</strong>${item.link ? ` - ${escapeHtml(item.link)}` : ''}</li>`;
                 }
             });
             html += '</ul>';

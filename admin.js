@@ -2,6 +2,13 @@
 let boardData = {};
 let originalData = {};
 
+// Escape HTML to prevent XSS attacks
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 // Load data from JSON file
 async function loadData() {
     try {
@@ -23,31 +30,32 @@ function renderAdminContent(tabName) {
     
     if (!data) return;
     
-    let html = `<h1 class="section-title">${data.title}</h1>`;
+    let html = `<h1 class="section-title">${escapeHtml(data.title)}</h1>`;
     
+    const escapedTabName = escapeHtml(tabName);
     data.sections.forEach((section, sectionIndex) => {
         html += `
-            <div class="edit-section" id="section-${tabName}-${sectionIndex}">
+            <div class="edit-section" id="section-${escapedTabName}-${sectionIndex}">
                 <h2>
-                    ${section.name}
-                    <button class="edit-button" onclick="editSection('${tabName}', ${sectionIndex})">
+                    ${escapeHtml(section.name)}
+                    <button class="edit-button" onclick="editSection('${escapedTabName}', ${sectionIndex})">
                         ✏️ 編集
                     </button>
                 </h2>
                 
-                <div class="section-preview" id="preview-${tabName}-${sectionIndex}">
+                <div class="section-preview" id="preview-${escapedTabName}-${sectionIndex}">
                     ${renderSectionPreview(section)}
                 </div>
                 
-                <div class="section-editor-container" id="editor-${tabName}-${sectionIndex}" style="display: none;">
-                    <textarea class="section-editor" id="textarea-${tabName}-${sectionIndex}">
+                <div class="section-editor-container" id="editor-${escapedTabName}-${sectionIndex}" style="display: none;">
+                    <textarea class="section-editor" id="textarea-${escapedTabName}-${sectionIndex}">
 ${JSON.stringify(section, null, 2)}
                     </textarea>
                     <div class="button-group">
-                        <button class="save-button" onclick="saveSection('${tabName}', ${sectionIndex})">
+                        <button class="save-button" onclick="saveSection('${escapedTabName}', ${sectionIndex})">
                             💾 保存
                         </button>
-                        <button class="cancel-button" onclick="cancelEdit('${tabName}', ${sectionIndex})">
+                        <button class="cancel-button" onclick="cancelEdit('${escapedTabName}', ${sectionIndex})">
                             ❌ キャンセル
                         </button>
                     </div>
@@ -74,9 +82,9 @@ function renderSectionPreview(section) {
             if (typeof item === 'object' && item.date) {
                 html += `
                     <div class="info-item">
-                        <div class="info-date">${item.date}</div>
-                        <div class="info-content">${item.content}</div>
-                        ${item.detail ? `<div class="info-detail">→ ${item.detail}</div>` : ''}
+                        <div class="info-date">${escapeHtml(item.date)}</div>
+                        <div class="info-content">${escapeHtml(item.content)}</div>
+                        ${item.detail ? `<div class="info-detail">→ ${escapeHtml(item.detail)}</div>` : ''}
                     </div>
                 `;
             }
@@ -85,9 +93,9 @@ function renderSectionPreview(section) {
         html += '<ul class="item-list">';
         section.items.forEach(item => {
             if (typeof item === 'string') {
-                html += `<li>${item}</li>`;
+                html += `<li>${escapeHtml(item)}</li>`;
             } else if (item.name) {
-                html += `<li><strong>${item.name}</strong>${item.link ? ` - ${item.link}` : ''}</li>`;
+                html += `<li><strong>${escapeHtml(item.name)}</strong>${item.link ? ` - ${escapeHtml(item.link)}` : ''}</li>`;
             }
         });
         html += '</ul>';
