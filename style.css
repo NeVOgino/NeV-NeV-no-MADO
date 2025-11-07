@@ -294,7 +294,7 @@ footer {
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     margin: 40px auto;
-    max-width: 600px;
+    max-width: 800px;
 }
 
 .loading-message p {
@@ -304,10 +304,73 @@ footer {
     animation: pulse 1.5s ease-in-out infinite;
 }
 
-.error-message p {
-    font-size: 1.1em;
+.error-message {
+    text-align: left;
+}
+
+.error-message h3 {
     color: #e74c3c;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.error-message h4 {
+    color: #667eea;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.error-message p {
+    font-size: 1em;
+    color: #333;
     margin: 10px 0;
+    line-height: 1.6;
+}
+
+.error-type {
+    background: #ffe5e5;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border-left: 4px solid #e74c3c;
+}
+
+.error-details {
+    margin: 20px 0;
+}
+
+.error-solutions {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.error-solutions ol {
+    margin-left: 20px;
+    line-height: 1.8;
+}
+
+.error-solutions li {
+    margin-bottom: 15px;
+}
+
+.error-solutions code {
+    background: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    color: #d63384;
+    font-size: 0.95em;
+}
+
+.error-note {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    color: #856404;
 }
 
 .error-message button {
@@ -320,6 +383,9 @@ footer {
     font-size: 1em;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .error-message button:hover {

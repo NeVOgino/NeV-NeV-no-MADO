@@ -41,6 +41,34 @@ async function loadData() {
     } catch (error) {
         console.error('❌ データの読み込みエラー:', error);
         
+        // Determine error type and show appropriate message
+        const errorDetails = document.getElementById('error-details');
+        let errorMessage = '';
+        
+        if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+            // CORS or network error
+            errorMessage = `
+                <p class="error-type"><strong>エラータイプ：</strong> ネットワーク/CORS エラー</p>
+                <p><strong>原因：</strong> ローカルファイルシステムから直接開いているため、ブラウザのセキュリティ制限によりdata.jsonを読み込めません。</p>
+                <p><strong>現在のURL：</strong> <code>${window.location.href}</code></p>
+            `;
+        } else if (error.message.includes('HTTP error')) {
+            // HTTP error
+            errorMessage = `
+                <p class="error-type"><strong>エラータイプ：</strong> HTTPエラー</p>
+                <p><strong>詳細：</strong> ${escapeHtml(error.message)}</p>
+                <p>data.jsonファイルが見つからないか、アクセスできません。</p>
+            `;
+        } else {
+            // Other error (e.g., JSON parse error)
+            errorMessage = `
+                <p class="error-type"><strong>エラータイプ：</strong> ${escapeHtml(error.name)}</p>
+                <p><strong>詳細：</strong> ${escapeHtml(error.message)}</p>
+            `;
+        }
+        
+        errorDetails.innerHTML = errorMessage;
+        
         // Hide loading and show error message
         loadingElement.style.display = 'none';
         errorElement.style.display = 'block';

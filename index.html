@@ -38,9 +38,28 @@
         </div>
         
         <div id="error-message" class="error-message" style="display: none;">
-            <p>❌ データの読み込みに失敗しました。</p>
-            <p>data.jsonファイルが同じフォルダにあることを確認してください。</p>
-            <button onclick="location.reload()">再読み込み</button>
+            <h3>❌ データの読み込みに失敗しました</h3>
+            <div id="error-details"></div>
+            <div class="error-solutions">
+                <h4>💡 解決方法：</h4>
+                <ol>
+                    <li><strong>共有フォルダから開く</strong><br>
+                        ファイルを社内共有フォルダ（例：\\cev-file5\share\NEVの窓ブラウザ版\）に配置して開いてください。
+                    </li>
+                    <li><strong>簡易Webサーバーを起動</strong>（テスト用）<br>
+                        コマンドプロンプトでファイルのあるフォルダに移動し、以下を実行：<br>
+                        <code>python -m http.server 8080</code><br>
+                        その後、ブラウザで <code>http://localhost:8080/index.html</code> を開く
+                    </li>
+                    <li><strong>data.jsonの確認</strong><br>
+                        index.htmlと同じフォルダにdata.jsonがあることを確認してください。
+                    </li>
+                </ol>
+                <p class="error-note">
+                    ⚠️ <strong>注意：</strong> ローカルPCから直接HTMLファイルを開いた場合（file://...）、ブラウザのセキュリティ制限によりJSONファイルを読み込めません。
+                </p>
+            </div>
+            <button onclick="location.reload()">🔄 再読み込み</button>
         </div>
     </main>
 
