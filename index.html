@@ -341,13 +341,21 @@
         }
 
         // 検索機能
+        // 日本語の正規化関数（ひらがなをカタカナに変換）
+        function normalizeJapanese(text) {
+            return text.replace(/[\u3041-\u3096]/g, function(match) {
+                const chr = match.charCodeAt(0) + 0x60;
+                return String.fromCharCode(chr);
+            });
+        }
+        
         function filterContent(tabName, query) {
             const sectionsContainer = document.getElementById('sections-' + tabName);
             const sections = sectionsContainer.querySelectorAll('.section');
-            const searchQuery = query.toLowerCase();
+            const searchQuery = normalizeJapanese(query.toLowerCase());
             
             sections.forEach(section => {
-                const text = section.textContent.toLowerCase();
+                const text = normalizeJapanese(section.textContent.toLowerCase());
                 if (text.includes(searchQuery)) {
                     section.style.display = 'block';
                 } else {
