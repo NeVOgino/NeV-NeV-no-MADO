@@ -66,6 +66,14 @@ def generate_html():
             </div>
 '''
         
+        # セクションナビゲーションボタン
+        html_content += f'            <div class="section-nav">\n'
+        sections = tab_data.get('sections', [])
+        for section_idx, section in enumerate(sections):
+            section_name = section.get('name', '')
+            html_content += f'                <button class="section-nav-btn" onclick="scrollToSection(\'{escape_html(tab_name)}\', {section_idx})">{escape_html(section_name)}</button>\n'
+        html_content += '            </div>\n\n'
+        
         html_content += f'            <div class="sections-container" id="sections-{escape_html(tab_name)}">\n'
         
         # 各セクションを生成
@@ -181,6 +189,20 @@ def generate_html():
                     section.style.display = 'none';
                 }
             });
+        }
+
+        // セクションへスクロール機能
+        function scrollToSection(tabName, sectionIndex) {
+            const sectionsContainer = document.getElementById('sections-' + tabName);
+            const section = sectionsContainer.querySelector(`[data-section-index="${sectionIndex}"]`);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // ハイライト効果
+                section.style.backgroundColor = '#fff3cd';
+                setTimeout(() => {
+                    section.style.backgroundColor = '';
+                }, 1500);
+            }
         }
 
         // ページ読み込み時に初期化

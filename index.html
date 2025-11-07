@@ -30,6 +30,13 @@
                        data-tab="全員向け"
                        onkeyup="filterContent('全員向け', this.value)">
             </div>
+            <div class="section-nav">
+                <button class="section-nav-btn" onclick="scrollToSection('全員向け', 0)">INFORMATION</button>
+                <button class="section-nav-btn" onclick="scrollToSection('全員向け', 1)">共通コーナー（全職員向け）</button>
+                <button class="section-nav-btn" onclick="scrollToSection('全員向け', 2)">会議室予約</button>
+                <button class="section-nav-btn" onclick="scrollToSection('全員向け', 3)">各部掲示板</button>
+            </div>
+
             <div class="sections-container" id="sections-全員向け">
                 <div class="section" data-section-index="0">
                     <h2>INFORMATION</h2>
@@ -206,6 +213,13 @@
                        data-tab="職員向け"
                        onkeyup="filterContent('職員向け', this.value)">
             </div>
+            <div class="section-nav">
+                <button class="section-nav-btn" onclick="scrollToSection('職員向け', 0)">INFORMATION</button>
+                <button class="section-nav-btn" onclick="scrollToSection('職員向け', 1)">職員向け情報コーナー</button>
+                <button class="section-nav-btn" onclick="scrollToSection('職員向け', 2)">標準書コーナー</button>
+                <button class="section-nav-btn" onclick="scrollToSection('職員向け', 3)">各種帳票フォーマット</button>
+            </div>
+
             <div class="sections-container" id="sections-職員向け">
                 <div class="section" data-section-index="0">
                     <h2>INFORMATION</h2>
@@ -343,7 +357,7 @@
         // 検索機能
         // 日本語の正規化関数（ひらがなをカタカナに変換）
         function normalizeJapanese(text) {
-            return text.replace(/[\u3041-\u3096]/g, function(match) {
+            return text.replace(/[ぁ-ゖ]/g, function(match) {
                 const chr = match.charCodeAt(0) + 0x60;
                 return String.fromCharCode(chr);
             });
@@ -362,6 +376,20 @@
                     section.style.display = 'none';
                 }
             });
+        }
+
+        // セクションへスクロール機能
+        function scrollToSection(tabName, sectionIndex) {
+            const sectionsContainer = document.getElementById('sections-' + tabName);
+            const section = sectionsContainer.querySelector(`[data-section-index="${sectionIndex}"]`);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // ハイライト効果
+                section.style.backgroundColor = '#fff3cd';
+                setTimeout(() => {
+                    section.style.backgroundColor = '';
+                }, 1500);
+            }
         }
 
         // ページ読み込み時に初期化
