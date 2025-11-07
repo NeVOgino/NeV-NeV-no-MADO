@@ -205,11 +205,34 @@ def generate_html():
             }
         }
 
+        // スクロールトップボタンの表示/非表示
+        function toggleScrollTopButton() {
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        }
+
+        // トップへスクロール
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
         // ページ読み込み時に初期化
         document.addEventListener('DOMContentLoaded', () => {
             initializeTabs();
+            // スクロールイベントリスナーを追加
+            window.addEventListener('scroll', toggleScrollTopButton);
         });
     </script>
+
+    <!-- Scroll to top button -->
+    <button id="scrollTopBtn" class="scroll-to-top" onclick="scrollToTop()" title="トップへ戻る"></button>
 </body>
 </html>
 '''

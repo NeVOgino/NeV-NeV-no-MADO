@@ -269,6 +269,24 @@ function initializeTabs() {
     });
 }
 
+// Scroll to top functionality
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// Show/hide scroll to top button based on scroll position
+window.addEventListener('scroll', function() {
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (window.pageYOffset > 300) {
+        scrollTopBtn.classList.add('visible');
+    } else {
+        scrollTopBtn.classList.remove('visible');
+    }
+});
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
