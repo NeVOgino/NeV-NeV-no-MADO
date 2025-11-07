@@ -58,10 +58,17 @@ function renderAdminContent(tabName) {
     
     let html = `<h1 class="section-title">${escapeHtml(data.title)}</h1>`;
     
+    // Add section navigation buttons
+    html += '<div class="section-nav">';
+    data.sections.forEach((section, index) => {
+        html += `<button class="section-nav-btn" onclick="scrollToAdminSection('${escapeHtml(tabName)}', ${index})">${escapeHtml(section.name)}</button>`;
+    });
+    html += '</div>';
+    
     const escapedTabName = escapeHtml(tabName);
     data.sections.forEach((section, sectionIndex) => {
         html += `
-            <div class="edit-section" id="section-${escapedTabName}-${sectionIndex}">
+            <div class="edit-section" id="section-${escapedTabName}-${sectionIndex}" data-section-index="${sectionIndex}">
                 <h2>
                     ${escapeHtml(section.name)}
                     <button class="edit-button" onclick="editSection('${escapedTabName}', ${sectionIndex})">
@@ -270,6 +277,23 @@ function initializeTabs() {
 }
 
 // Scroll to top functionality
+// Scroll to a specific section with highlighting
+function scrollToAdminSection(tabName, sectionIndex) {
+    const sectionId = `section-${tabName}-${sectionIndex}`;
+    const section = document.getElementById(sectionId);
+    
+    if (section) {
+        // Scroll to the section
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Add highlight effect
+        section.style.backgroundColor = '#fff9c4';
+        setTimeout(() => {
+            section.style.backgroundColor = '';
+        }, 1500);
+    }
+}
+
 function scrollToTop() {
     window.scrollTo({
         top: 0,
