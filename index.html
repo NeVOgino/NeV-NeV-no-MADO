@@ -23,12 +23,24 @@
     </nav>
 
     <main class="container">
-        <div id="全員向け" class="tab-content active">
-            <!-- Content will be loaded dynamically -->
+        <div id="loading" class="loading-message">
+            <p>📂 データを読み込んでいます...</p>
         </div>
         
-        <div id="職員向け" class="tab-content">
-            <!-- Content will be loaded dynamically -->
+        <div id="content-wrapper" style="display: none;">
+            <div id="全員向け" class="tab-content active">
+                <!-- Content will be loaded dynamically -->
+            </div>
+            
+            <div id="職員向け" class="tab-content">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+        
+        <div id="error-message" class="error-message" style="display: none;">
+            <p>❌ データの読み込みに失敗しました。</p>
+            <p>data.jsonファイルが同じフォルダにあることを確認してください。</p>
+            <button onclick="location.reload()">再読み込み</button>
         </div>
     </main>
 

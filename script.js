@@ -10,14 +10,40 @@ function escapeHtml(text) {
 
 // Load data from JSON file
 async function loadData() {
+    const loadingElement = document.getElementById('loading');
+    const contentWrapper = document.getElementById('content-wrapper');
+    const errorElement = document.getElementById('error-message');
+    
     try {
+        // Show loading message
+        loadingElement.style.display = 'block';
+        contentWrapper.style.display = 'none';
+        errorElement.style.display = 'none';
+        
+        // Fetch data.json
         const response = await fetch('data.json');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         boardData = await response.json();
+        
+        // Render content for both tabs
         renderTabContent('全員向け');
         renderTabContent('職員向け');
+        
+        // Hide loading and show content
+        loadingElement.style.display = 'none';
+        contentWrapper.style.display = 'block';
+        
+        console.log('✅ データの読み込みが完了しました');
     } catch (error) {
-        console.error('Error loading data:', error);
-        alert('データの読み込みに失敗しました。');
+        console.error('❌ データの読み込みエラー:', error);
+        
+        // Hide loading and show error message
+        loadingElement.style.display = 'none';
+        errorElement.style.display = 'block';
     }
 }
 
