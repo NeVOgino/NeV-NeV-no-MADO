@@ -43,7 +43,6 @@ def generate_html():
         <div class="container">
             <button class="tab-button active" data-tab="全員向け">全員向け</button>
             <button class="tab-button" data-tab="職員向け">職員向け</button>
-            <button class="edit-button" onclick="window.location.href='admin.html'">📝 編集モード</button>
         </div>
     </nav>
 
