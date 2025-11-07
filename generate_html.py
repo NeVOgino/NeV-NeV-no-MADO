@@ -1,0 +1,196 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+NEVの窓 HTML Generator
+data.jsonからindex.htmlを生成するスクリプト
+"""
+
+import json
+import html
+from datetime import datetime
+
+def escape_html(text):
+    """HTMLエスケープ処理"""
+    if text is None:
+        return ""
+    return html.escape(str(text))
+
+def generate_html():
+    """data.jsonからindex.htmlを生成"""
+    
+    # data.jsonを読み込む
+    with open('data.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    # HTMLテンプレートの開始部分
+    html_content = '''<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEVの窓 - ブラウザ版</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🪟 NEVの窓</h1>
+            <p class="subtitle">社内掲示板システム</p>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <div class="container">
+            <button class="tab-button active" data-tab="全員向け">全員向け</button>
+            <button class="tab-button" data-tab="職員向け">職員向け</button>
+            <button class="edit-button" onclick="window.location.href='admin.html'">📝 編集モード</button>
+        </div>
+    </nav>
+
+    <main class="container">
+'''
+    
+    # 各タブのコンテンツを生成
+    for tab_name in ['全員向け', '職員向け']:
+        tab_data = data.get(tab_name, {})
+        is_active = 'active' if tab_name == '全員向け' else ''
+        
+        html_content += f'        <div id="{escape_html(tab_name)}" class="tab-content {is_active}">\n'
+        html_content += f'            <h1 class="section-title">{escape_html(tab_data.get("title", tab_name))}</h1>\n'
+        
+        # 検索ボックス
+        html_content += f'''            <div class="search-box">
+                <input type="text" 
+                       placeholder="🔍 検索..." 
+                       data-tab="{escape_html(tab_name)}"
+                       onkeyup="filterContent('{escape_html(tab_name)}', this.value)">
+            </div>
+'''
+        
+        html_content += f'            <div class="sections-container" id="sections-{escape_html(tab_name)}">\n'
+        
+        # 各セクションを生成
+        sections = tab_data.get('sections', [])
+        for section_idx, section in enumerate(sections):
+            section_name = section.get('name', '')
+            html_content += f'                <div class="section" data-section-index="{section_idx}">\n'
+            html_content += f'                    <h2>{escape_html(section_name)}</h2>\n'
+            
+            if section_name == 'INFORMATION':
+                # INFORMATIONセクション（日付・コンテンツ・詳細形式）
+                items = section.get('items', [])
+                for item in items:
+                    date = item.get('date', '')
+                    content = item.get('content', '')
+                    detail = item.get('detail', '')
+                    link = item.get('link', '')
+                    
+                    html_content += '                    <div class="info-item">\n'
+                    html_content += f'                        <div class="info-date">{escape_html(date)}</div>\n'
+                    html_content += f'                        <div class="info-content">{escape_html(content)}</div>\n'
+                    
+                    if detail:
+                        if link:
+                            html_content += f'                        <div class="info-detail">→ <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                        else:
+                            html_content += f'                        <div class="info-detail">→ {escape_html(detail)}</div>\n'
+                    
+                    html_content += '                    </div>\n'
+            else:
+                # リスト形式のセクション
+                items = section.get('items', [])
+                html_content += '                    <ul class="item-list">\n'
+                
+                for item in items:
+                    if isinstance(item, str):
+                        html_content += f'                        <li>{escape_html(item)}</li>\n'
+                    elif isinstance(item, dict):
+                        if 'text' in item:
+                            # text と link がある場合
+                            text = item.get('text', '')
+                            link = item.get('link', '')
+                            if link:
+                                html_content += f'                        <li>📄 <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                            else:
+                                html_content += f'                        <li>📄 {escape_html(text)}</li>\n'
+                        elif 'name' in item:
+                            # name と text がある場合（各部掲示板など）
+                            name = item.get('name', '')
+                            text = item.get('text', '')
+                            link = item.get('link', '')
+                            if link:
+                                html_content += f'                        <li>📄 <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                            else:
+                                html_content += f'                        <li>📄 {escape_html(text)}</li>\n'
+                
+                html_content += '                    </ul>\n'
+            
+            html_content += '                </div>\n'
+        
+        html_content += '            </div>\n'
+        html_content += '        </div>\n\n'
+    
+    # HTMLテンプレートの終了部分
+    html_content += '''    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NEV - Next-Generation Vehicle Promotion Center</p>
+        </div>
+    </footer>
+
+    <script>
+        // タブ切り替え機能
+        function initializeTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.getAttribute('data-tab');
+                    
+                    // すべてのボタンとコンテンツからactiveクラスを削除
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // クリックされたボタンと対応するコンテンツにactiveクラスを追加
+                    button.classList.add('active');
+                    document.getElementById(tabName).classList.add('active');
+                });
+            });
+        }
+
+        // 検索機能
+        function filterContent(tabName, query) {
+            const sectionsContainer = document.getElementById('sections-' + tabName);
+            const sections = sectionsContainer.querySelectorAll('.section');
+            const searchQuery = query.toLowerCase();
+            
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                if (text.includes(searchQuery)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        // ページ読み込み時に初期化
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTabs();
+        });
+    </script>
+</body>
+</html>
+'''
+    
+    # index.htmlに書き込む
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    print('✅ index.htmlを生成しました')
+    print(f'生成日時: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
+
+if __name__ == '__main__':
+    generate_html()

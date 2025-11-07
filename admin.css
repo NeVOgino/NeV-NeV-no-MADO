@@ -21,6 +21,22 @@
     margin-bottom: 10px;
 }
 
+.command-box {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1em;
+    border-left: 4px solid #667eea;
+}
+
+.command-box code {
+    color: #50fa7b;
+    font-weight: 600;
+}
+
 .download-section {
     background: white;
     padding: 20px;
