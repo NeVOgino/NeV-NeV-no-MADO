@@ -13,14 +13,40 @@ function escapeHtml(text) {
 async function loadData() {
     try {
         const response = await fetch('data.json');
+        if (!response.ok) {
+            throw new Error('Failed to load data.json');
+        }
         boardData = await response.json();
         originalData = JSON.parse(JSON.stringify(boardData)); // Deep copy
         renderAdminContent('全員向け');
         renderAdminContent('職員向け');
+        console.log('✅ データの読み込みが完了しました');
     } catch (error) {
         console.error('Error loading data:', error);
-        alert('データの読み込みに失敗しました。');
+        // データ読み込み失敗時は空の状態で初期化
+        console.log('⚠️ data.jsonの読み込みに失敗しました。「📤 data.jsonをアップロード」ボタンからファイルを読み込んでください。');
+        showUploadPrompt();
     }
+}
+
+// Show upload prompt when data loading fails
+function showUploadPrompt() {
+    const containers = ['全員向け', '職員向け'];
+    containers.forEach(tabName => {
+        const container = document.getElementById(tabName);
+        container.innerHTML = `
+            <div style="background: #fff3cd; border: 2px dashed #ffc107; border-radius: 10px; padding: 30px; text-align: center; margin: 20px 0;">
+                <h2 style="color: #856404; margin-bottom: 15px;">📤 data.jsonをアップロードしてください</h2>
+                <p style="color: #856404; margin-bottom: 20px;">
+                    編集を開始するには、まず「📤 data.jsonをアップロード」ボタンをクリックして、
+                    <br>既存のdata.jsonファイルを読み込んでください。
+                </p>
+                <button class="upload-button" onclick="document.getElementById('fileInput').click()" style="font-size: 1.2em; padding: 15px 30px;">
+                    📤 data.jsonをアップロード
+                </button>
+            </div>
+        `;
+    });
 }
 
 // Render admin content for a specific tab
@@ -200,13 +226,27 @@ function uploadData(event) {
             boardData = newData;
             renderAdminContent('全員向け');
             renderAdminContent('職員向け');
-            alert('データをアップロードしました。');
+            
+            // Show success message
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #d4edda; border: 2px solid #c3e6cb; color: #155724; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 10000; font-size: 1.1em; font-weight: 600;';
+            successDiv.innerHTML = '✅ data.jsonを正常に読み込みました！<br>編集を開始できます。';
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.remove();
+            }, 5000);
+            
+            console.log('✅ data.jsonを正常に読み込みました');
         } catch (error) {
             console.error('Error parsing uploaded file:', error);
-            alert('ファイルの読み込みに失敗しました。JSONフォーマットを確認してください。');
+            alert('❌ ファイルの読み込みに失敗しました。\n\nJSONフォーマットを確認してください。\n\nエラー内容: ' + error.message);
         }
     };
     reader.readAsText(file);
+    
+    // Reset file input so the same file can be uploaded again
+    event.target.value = '';
 }
 
 // Tab switching functionality
