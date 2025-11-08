@@ -86,7 +86,9 @@ def generate_html():
             if section_name == 'INFORMATION':
                 # INFORMATIONセクション（日付・コンテンツ・詳細形式）
                 items = section.get('items', [])
-                for item in items:
+                
+                # Display first 3 items
+                for idx, item in enumerate(items[:3]):
                     date = item.get('date', '')
                     content = item.get('content', '')
                     detail = item.get('detail', '')
@@ -103,6 +105,32 @@ def generate_html():
                             html_content += f'                        <div class="info-detail">→ {escape_html(detail)}</div>\n'
                     
                     html_content += '                    </div>\n'
+                
+                # Add collapsible section for remaining items
+                if len(items) > 3:
+                    collapse_id = f'collapse-{escape_html(tab_name)}-{section_idx}'
+                    html_content += f'                    <div id="{collapse_id}" class="collapsed-items" style="display: none;">\n'
+                    
+                    for idx, item in enumerate(items[3:]):
+                        date = item.get('date', '')
+                        content = item.get('content', '')
+                        detail = item.get('detail', '')
+                        link = item.get('link', '')
+                        
+                        html_content += '                        <div class="info-item">\n'
+                        html_content += f'                            <div class="info-date">{escape_html(date)}</div>\n'
+                        html_content += f'                            <div class="info-content">{escape_html(content)}</div>\n'
+                        
+                        if detail:
+                            if link:
+                                html_content += f'                            <div class="info-detail">→ <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                            else:
+                                html_content += f'                            <div class="info-detail">→ {escape_html(detail)}</div>\n'
+                        
+                        html_content += '                        </div>\n'
+                    
+                    html_content += '                    </div>\n'
+                    html_content += f'                    <button class="toggle-button" onclick="toggleCollapse(\'{collapse_id}\')">さらに表示 ({len(items) - 3}件)</button>\n'
             else:
                 # リスト形式のセクション
                 items = section.get('items', [])
@@ -189,6 +217,22 @@ def generate_html():
                     section.style.display = 'none';
                 }
             });
+        }
+
+        // Toggle collapse for INFORMATION sections
+        function toggleCollapse(collapseId) {
+            const element = document.getElementById(collapseId);
+            const button = event.target;
+            
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+                const itemCount = element.querySelectorAll('.info-item').length;
+                button.textContent = '表示を減らす';
+            } else {
+                element.style.display = 'none';
+                const itemCount = element.querySelectorAll('.info-item').length;
+                button.textContent = `さらに表示 (${itemCount}件)`;
+            }
         }
 
         // セクションへスクロール機能

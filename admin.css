@@ -303,3 +303,51 @@
     content: "↑";
     font-weight: bold;
 }
+
+/* Section Navigation - Matching index.html style */
+.section-nav {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.section-nav-btn {
+    padding: 10px 20px;
+    border: 2px solid white;
+    background: white;
+    color: #667eea;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    min-width: 140px;
+    max-width: 200px;
+    text-align: center;
+}
+
+.section-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: #764ba2;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    border-color: #ffd700;
+}
+
+.section-nav-btn:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* Add transition for edit sections */
+.edit-section {
+    transition: background-color 0.3s ease;
+}

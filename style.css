@@ -45,9 +45,6 @@ header h1 {
     background: rgba(255, 255, 255, 0.9);
     padding: 15px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
 }
 
 .tabs .container {
@@ -274,43 +271,34 @@ footer {
 }
 
 /* Section Navigation */
-/* Section Navigation - Prominent Quick Links */
 .section-nav {
     margin-bottom: 25px;
-    padding: 25px;
+    padding: 20px;
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     justify-content: center;
     border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
-.section-nav::before {
-    content: "📑 クイックジャンプ";
-    width: 100%;
-    text-align: center;
-    font-size: 1.1em;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
 .section-nav-btn {
-    padding: 12px 24px;
+    padding: 10px 20px;
     border: 2px solid white;
     background: white;
     color: #667eea;
     cursor: pointer;
-    font-size: 1.05em;
+    font-size: 0.9em;
     border-radius: 25px;
     transition: all 0.3s ease;
-    font-weight: 700;
+    font-weight: 600;
     white-space: nowrap;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    min-width: 140px;
+    max-width: 200px;
+    text-align: center;
 }
 
 .section-nav-btn:hover {
@@ -497,4 +485,33 @@ footer {
 .scroll-to-top::before {
     content: "↑";
     font-weight: bold;
+}
+
+/* Toggle Button for Collapsed Information */
+.toggle-button {
+    margin: 15px auto;
+    display: block;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.toggle-button:active {
+    transform: translateY(0);
+}
+
+.collapsed-items {
+    transition: all 0.3s ease;
 }
