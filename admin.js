@@ -111,7 +111,12 @@ function renderSectionPreview(section) {
     let html = '';
     
     if (section.name === 'INFORMATION' || section.name.includes('INFORMATION')) {
-        section.items.forEach(item => {
+        const totalItems = section.items.length;
+        const visibleItems = section.items.slice(0, 3);
+        const hiddenItems = section.items.slice(3);
+        
+        // Show first 3 items
+        visibleItems.forEach(item => {
             if (typeof item === 'object' && item.date) {
                 const detailContent = item.link 
                     ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
@@ -126,6 +131,33 @@ function renderSectionPreview(section) {
                 `;
             }
         });
+        
+        // Add collapsible section for remaining items if there are more than 3
+        if (hiddenItems.length > 0) {
+            const collapseId = `collapse-${section.name.replace(/\s+/g, '-')}`;
+            html += `<div class="collapsed-items" id="${collapseId}" style="display: none;">`;
+            hiddenItems.forEach(item => {
+                if (typeof item === 'object' && item.date) {
+                    const detailContent = item.link 
+                        ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
+                        : escapeHtml(item.detail);
+                    
+                    html += `
+                        <div class="info-item">
+                            <div class="info-date">${escapeHtml(item.date)}</div>
+                            <div class="info-content">${escapeHtml(item.content)}</div>
+                            ${item.detail ? `<div class="info-detail">→ ${detailContent}</div>` : ''}
+                        </div>
+                    `;
+                }
+            });
+            html += '</div>';
+            html += `
+                <button class="toggle-collapse-btn" onclick="toggleAdminCollapse('${collapseId}', this)">
+                    さらに表示 (${hiddenItems.length}件)
+                </button>
+            `;
+        }
     } else {
         html += '<ul class="item-list">';
         section.items.forEach(item => {
@@ -274,6 +306,21 @@ function initializeTabs() {
             document.getElementById(tabName).classList.add('active');
         });
     });
+}
+
+// Toggle collapse for INFORMATION sections
+function toggleAdminCollapse(collapseId, button) {
+    const collapsedItems = document.getElementById(collapseId);
+    const isExpanded = collapsedItems.style.display === 'block';
+    
+    if (isExpanded) {
+        collapsedItems.style.display = 'none';
+        const hiddenCount = collapsedItems.querySelectorAll('.info-item').length;
+        button.textContent = `さらに表示 (${hiddenCount}件)`;
+    } else {
+        collapsedItems.style.display = 'block';
+        button.textContent = '表示を減らす';
+    }
 }
 
 // Scroll to top functionality

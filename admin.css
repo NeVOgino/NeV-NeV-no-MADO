@@ -351,3 +351,29 @@
 .edit-section {
     transition: background-color 0.3s ease;
 }
+
+/* Toggle collapse button for INFORMATION sections */
+.toggle-collapse-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.toggle-collapse-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.collapsed-items {
+    margin-top: 10px;
+}
+
