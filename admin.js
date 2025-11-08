@@ -110,7 +110,34 @@ ${JSON.stringify(section, null, 2)}
 function renderSectionPreview(section) {
     let html = '';
     
-    if (section.name === 'INFORMATION' || section.name.includes('INFORMATION')) {
+    // Check if section has subsections
+    if (section.subsections) {
+        // Render subsection navigation
+        html += '<div class="subsection-nav">';
+        section.subsections.forEach((subsec, idx) => {
+            html += `<button class="subsection-nav-btn" onclick="scrollToAdminSubsection(${idx})">${escapeHtml(subsec.name)}</button>`;
+        });
+        html += '</div>';
+        
+        // Render each subsection
+        section.subsections.forEach((subsec, idx) => {
+            html += `<div class="subsection" data-subsection-index="${idx}">`;
+            html += `<h3>${escapeHtml(subsec.name)}</h3>`;
+            html += '<ul class="item-list">';
+            subsec.items.forEach(item => {
+                if (typeof item === 'string') {
+                    html += `<li>${escapeHtml(item)}</li>`;
+                } else if (item.text) {
+                    const itemContent = item.link 
+                        ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
+                        : escapeHtml(item.text);
+                    html += `<li>${itemContent}</li>`;
+                }
+            });
+            html += '</ul>';
+            html += '</div>';
+        });
+    } else if (section.name === 'INFORMATION' || section.name.includes('INFORMATION')) {
         const totalItems = section.items.length;
         const visibleItems = section.items.slice(0, 3);
         const hiddenItems = section.items.slice(3);
@@ -337,6 +364,22 @@ function scrollToAdminSection(tabName, sectionIndex) {
         section.style.backgroundColor = '#fff9c4';
         setTimeout(() => {
             section.style.backgroundColor = '';
+        }, 1500);
+    }
+}
+
+// Scroll to a specific subsection with highlighting
+function scrollToAdminSubsection(subsectionIndex) {
+    const subsection = document.querySelector(`[data-subsection-index="${subsectionIndex}"]`);
+    
+    if (subsection) {
+        // Scroll to the subsection
+        subsection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Add highlight effect
+        subsection.style.backgroundColor = '#fff9c4';
+        setTimeout(() => {
+            subsection.style.backgroundColor = '';
         }, 1500);
     }
 }

@@ -83,7 +83,39 @@ def generate_html():
             html_content += f'                <div class="section" data-section-index="{section_idx}">\n'
             html_content += f'                    <h2>{escape_html(section_name)}</h2>\n'
             
-            if section_name == 'INFORMATION':
+            # Check if section has subsections (like 標準書コーナー)
+            if 'subsections' in section:
+                # Section with subsections - add subsection navigation buttons
+                subsections = section.get('subsections', [])
+                html_content += '                    <div class="subsection-nav">\n'
+                for subsec_idx, subsection in enumerate(subsections):
+                    subsec_name = subsection.get('name', '')
+                    html_content += f'                        <button class="subsection-nav-btn" onclick="scrollToSubsection(\'{escape_html(tab_name)}\', {section_idx}, {subsec_idx})">{escape_html(subsec_name)}</button>\n'
+                html_content += '                    </div>\n\n'
+                
+                # Render each subsection
+                for subsec_idx, subsection in enumerate(subsections):
+                    subsec_name = subsection.get('name', '')
+                    html_content += f'                    <div class="subsection" data-subsection-index="{subsec_idx}">\n'
+                    html_content += f'                        <h3>{escape_html(subsec_name)}</h3>\n'
+                    html_content += '                        <ul class="item-list">\n'
+                    
+                    items = subsection.get('items', [])
+                    for item in items:
+                        if isinstance(item, str):
+                            html_content += f'                            <li>{escape_html(item)}</li>\n'
+                        elif isinstance(item, dict):
+                            if 'text' in item:
+                                text = item.get('text', '')
+                                link = item.get('link', '')
+                                if link:
+                                    html_content += f'                            <li>📄 <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                else:
+                                    html_content += f'                            <li>📄 {escape_html(text)}</li>\n'
+                    
+                    html_content += '                        </ul>\n'
+                    html_content += '                    </div>\n'
+            elif section_name == 'INFORMATION':
                 # INFORMATIONセクション（日付・コンテンツ・詳細形式）
                 items = section.get('items', [])
                 
@@ -246,6 +278,23 @@ def generate_html():
                 setTimeout(() => {
                     section.style.backgroundColor = '';
                 }, 1500);
+            }
+        }
+
+        // サブセクションへスクロール機能
+        function scrollToSubsection(tabName, sectionIndex, subsectionIndex) {
+            const sectionsContainer = document.getElementById('sections-' + tabName);
+            const section = sectionsContainer.querySelector(`[data-section-index="${sectionIndex}"]`);
+            if (section) {
+                const subsection = section.querySelector(`[data-subsection-index="${subsectionIndex}"]`);
+                if (subsection) {
+                    subsection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // ハイライト効果
+                    subsection.style.backgroundColor = '#fff3cd';
+                    setTimeout(() => {
+                        subsection.style.backgroundColor = '';
+                    }, 1500);
+                }
             }
         }
 
