@@ -138,9 +138,10 @@ Microsoft Office URI スキームを実装し、Office ドキュメントへの�
 #### 変更ファイル
 1. `generate_html.py` - `get_office_uri()` 関数を追加
 2. `index.html` - Office URI スキームで再生成
-3. `.gitignore` - Python キャッシュファイルを除外
-4. `OFFICE_URI_GUIDE.md` - 詳細ドキュメント作成
-5. `README.md` - 新機能を追加
+3. `admin.js` - `getOfficeUri()` 関数を追加（管理画面用）
+4. `.gitignore` - Python キャッシュファイルを除外
+5. `OFFICE_URI_GUIDE.md` - 詳細ドキュメント作成
+6. `README.md` - 新機能を追加
 
 #### 対応ファイル形式
 - **Excel**: .xlsx, .xls, .xlsm, .xlsb

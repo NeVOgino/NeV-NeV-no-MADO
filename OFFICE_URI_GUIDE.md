@@ -70,7 +70,9 @@ Microsoft Office URI スキームを使用して、Office ドキュメントへ�
 
 ### 実装場所
 
-`generate_html.py` スクリプトに以下の機能を追加：
+以下のファイルに機能を追加：
+
+#### `generate_html.py` スクリプト
 
 1. `get_office_uri(link)` 関数
    - Office ファイルを検出
@@ -79,6 +81,19 @@ Microsoft Office URI スキームを使用して、Office ドキュメントへ�
 
 2. リンク生成時の処理
    - すべてのリンク生成箇所で `get_office_uri()` を呼び出し
+   - Office ファイルは URI スキームに変換
+   - その他のファイルはそのまま
+
+#### `admin.js` スクリプト
+
+1. `getOfficeUri(link)` 関数
+   - Office ファイルを検出（JavaScript版）
+   - 適切な URI スキームを生成
+   - パスの正規化と変換
+
+2. リンク生成時の処理
+   - すべてのリンク生成箇所で `getOfficeUri()` を呼び出し
+   - 管理画面のプレビューでも Office URI スキームを使用
    - Office ファイルは URI スキームに変換
    - その他のファイルはそのまま
 
@@ -99,6 +114,15 @@ python generate_html.py
 ```
 
 これにより、最新のデータが Office URI スキームを使用した形式で HTML に反映されます。
+
+### 管理画面での動作
+
+admin.html でも同様に Office URI スキームが適用されています：
+
+1. admin.html をブラウザで開く
+2. セクションを閲覧・編集
+3. プレビュー表示でも Office ファイルのリンクをクリック
+4. 対応する Office アプリケーションでファイルが直接開く
 
 ### ブラウザでの動作
 
