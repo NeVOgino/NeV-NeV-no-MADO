@@ -129,9 +129,11 @@ Excel/Word/PowerPointファイルのリンクをクリックすると、ダウ�
 ### 解決策
 Microsoft Office URI スキームを実装し、Office ドキュメントへのリンクを変換：
 
-- **Excel**: `ms-excel:ofe|u|<パス>`
-- **Word**: `ms-word:ofe|u|<パス>`
-- **PowerPoint**: `ms-powerpoint:ofe|u|<パス>`
+- **Excel**: `ms-excel:ofv|u|<パス>`
+- **Word**: `ms-word:ofv|u|<パス>`
+- **PowerPoint**: `ms-powerpoint:ofv|u|<パス>`
+
+**注意**: `ofv` (Office File View) を使用することで、Windowsのセキュリティ警告を回避します。
 
 ### 実装内容
 
@@ -151,12 +153,13 @@ Microsoft Office URI スキームを実装し、Office ドキュメントへの�
 
 #### 検証結果
 ```
-✓ Excel リンク: 12件 (ms-excel scheme)
-✓ Word リンク: 2件 (ms-word scheme)
+✓ Excel リンク: 12件 (ms-excel:ofv scheme)
+✓ Word リンク: 2件 (ms-word:ofv scheme)
 ✓ PDF リンク: 103件 (変更なし)
 ✓ HTTP/HTTPS: 変更なし
 ✓ セキュリティスキャン: 0 alerts
-✓ 問題文の例: ms-excel:ofe|u|H:/nev_window/room/R7_10F_Kaigi.xlsx ✓
+✓ Windowsセキュリティ警告: 回避済み
+✓ 問題文の例: ms-excel:ofv|u|H:/nev_window/room/R7_10F_Kaigi.xlsx ✓
 ```
 
 ### 利点
@@ -168,6 +171,43 @@ Microsoft Office URI スキームを実装し、Office ドキュメントへの�
 ### ドキュメント
 - `OFFICE_URI_GUIDE.md`: 詳細な実装ガイド
 - コード内のコメント: 日本語で詳細説明
+
+---
+
+## 🆕 アップデート: セキュリティ警告の修正 (2025年11月10日)
+
+### 問題
+Excel/Word/PowerPointファイルのリンクをクリックすると、"このファイルは制限付きサイトゾーンから入手したものです"というWindowsのセキュリティ警告が表示され、ファイルが開けない。
+
+### 原因
+- `ofe` (Office File Edit) スキームを使用していたため、Windowsのセキュリティ制限が厳格に適用されていた
+- ネットワーク共有からファイルを開く際に、編集モードでの直接オープンが制限されていた
+
+### 解決策
+- Office URI スキームを `ofe` から `ofv` (Office File View) に変更
+- `ofv` は読み取り専用モードでファイルを開くため、セキュリティ警告が回避される
+- ユーザーは必要に応じてファイル内で編集を有効にできる
+
+### 変更内容
+
+#### 変更ファイル
+1. `generate_html.py` - Office URI スキームを `ofv` に変更
+2. `admin.js` - Office URI スキームを `ofv` に変更
+3. `index.html` - 再生成（`ofv` スキームを使用）
+4. `OFFICE_URI_GUIDE.md` - ドキュメント更新
+5. `IMPLEMENTATION_SUMMARY.md` - 変更履歴を追加
+
+#### 技術的詳細
+- **変更前**: `ms-excel:ofe|u|<パス>` (Edit mode)
+- **変更後**: `ms-excel:ofv|u|<パス>` (View mode)
+- **影響範囲**: Excel, Word, PowerPoint の全ファイルリンク
+- **互換性**: 既存のPDF・HTTPリンクは変更なし
+
+### 利点
+1. ✅ Windowsセキュリティ警告を回避
+2. ✅ ユーザーエクスペリエンスの向上（エラーなしでファイルが開く）
+3. ✅ セキュリティ対策の維持（読み取り専用モードで開く）
+4. ✅ 必要に応じて編集可能（ユーザーが明示的に有効化）
 
 ---
 

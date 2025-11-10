@@ -32,17 +32,19 @@ def get_office_uri(link):
     lower_link = link.lower()
     
     # Office URIスキームのマッピング
+    # ofv (Office File View) を使用して、セキュリティ警告を回避
+    # ofv は読み取り専用モードで開き、ユーザーが編集を有効にできます
     office_schemes = {
-        '.xlsx': 'ms-excel:ofe|u|',
-        '.xls': 'ms-excel:ofe|u|',
-        '.xlsm': 'ms-excel:ofe|u|',
-        '.xlsb': 'ms-excel:ofe|u|',
-        '.docx': 'ms-word:ofe|u|',
-        '.doc': 'ms-word:ofe|u|',
-        '.docm': 'ms-word:ofe|u|',
-        '.pptx': 'ms-powerpoint:ofe|u|',
-        '.ppt': 'ms-powerpoint:ofe|u|',
-        '.pptm': 'ms-powerpoint:ofe|u|',
+        '.xlsx': 'ms-excel:ofv|u|',
+        '.xls': 'ms-excel:ofv|u|',
+        '.xlsm': 'ms-excel:ofv|u|',
+        '.xlsb': 'ms-excel:ofv|u|',
+        '.docx': 'ms-word:ofv|u|',
+        '.doc': 'ms-word:ofv|u|',
+        '.docm': 'ms-word:ofv|u|',
+        '.pptx': 'ms-powerpoint:ofv|u|',
+        '.ppt': 'ms-powerpoint:ofv|u|',
+        '.pptm': 'ms-powerpoint:ofv|u|',
     }
     
     # 拡張子をチェックしてOfficeファイルかどうか判定
