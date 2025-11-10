@@ -56,6 +56,9 @@ def get_office_uri(link):
                 link = link.replace('..\\nev_window\\', 'H:/nev_window/')
                 link = link.replace('..\\', 'H:/')
                 link = link.replace('\\', '/')
+            elif link.startswith('H:\\') or link.startswith('H:/'):
+                # 既にH:ドライブの絶対パスの場合はそのまま使用（バックスラッシュをスラッシュに変換）
+                link = link.replace('\\', '/')
             elif link.startswith('共通コーナー\\') or link.startswith('INFORMATION\\') or link.startswith('20'):
                 # 現在のディレクトリからの相対パスの場合
                 link = 'H:/nev_window/' + link.replace('\\', '/')

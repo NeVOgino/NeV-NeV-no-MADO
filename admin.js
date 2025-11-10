@@ -46,6 +46,9 @@ function getOfficeUri(link) {
                 path = path.replace('..\\nev_window\\', 'H:/nev_window/');
                 path = path.replace('..\\', 'H:/');
                 path = path.replace(/\\/g, '/');
+            } else if (path.startsWith('H:\\') || path.startsWith('H:/')) {
+                // Already an absolute H: drive path, just convert backslashes to forward slashes
+                path = path.replace(/\\/g, '/');
             } else if (path.startsWith('共通コーナー\\') || path.startsWith('INFORMATION\\') || path.startsWith('20')) {
                 path = 'H:/nev_window/' + path.replace(/\\/g, '/');
             } else if (!path.startsWith('file:///')) {
