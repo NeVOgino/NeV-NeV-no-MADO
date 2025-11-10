@@ -121,6 +121,56 @@ NEVの窓ブラウザ版は、Excel版の全機能を維持しながら、以下
 
 ---
 
+## 🆕 アップデート: Office URI Scheme Support (2025年11月10日)
+
+### 問題
+Excel/Word/PowerPointファイルのリンクをクリックすると、ダウンロードプロンプトが表示される。ファイルを直接開けるようにしたい。
+
+### 解決策
+Microsoft Office URI スキームを実装し、Office ドキュメントへのリンクを変換：
+
+- **Excel**: `ms-excel:ofe|u|<パス>`
+- **Word**: `ms-word:ofe|u|<パス>`
+- **PowerPoint**: `ms-powerpoint:ofe|u|<パス>`
+
+### 実装内容
+
+#### 変更ファイル
+1. `generate_html.py` - `get_office_uri()` 関数を追加
+2. `index.html` - Office URI スキームで再生成
+3. `.gitignore` - Python キャッシュファイルを除外
+4. `OFFICE_URI_GUIDE.md` - 詳細ドキュメント作成
+5. `README.md` - 新機能を追加
+
+#### 対応ファイル形式
+- **Excel**: .xlsx, .xls, .xlsm, .xlsb
+- **Word**: .docx, .doc, .docm
+- **PowerPoint**: .pptx, .ppt, .pptm
+- **変更なし**: PDF, HTTP/HTTPS URLs
+
+#### 検証結果
+```
+✓ Excel リンク: 12件 (ms-excel scheme)
+✓ Word リンク: 2件 (ms-word scheme)
+✓ PDF リンク: 103件 (変更なし)
+✓ HTTP/HTTPS: 変更なし
+✓ セキュリティスキャン: 0 alerts
+✓ 問題文の例: ms-excel:ofe|u|H:/nev_window/room/R7_10F_Kaigi.xlsx ✓
+```
+
+### 利点
+1. **ユーザーエクスペリエンス向上** - ワンクリックでファイルが開く
+2. **セキュリティ維持** - CodeQL検証済み、XSS対策継続
+3. **互換性** - 既存のPDF・HTTPリンクは変更なし
+4. **保守性向上** - 1つの関数で集中管理
+
+### ドキュメント
+- `OFFICE_URI_GUIDE.md`: 詳細な実装ガイド
+- コード内のコメント: 日本語で詳細説明
+
+---
+
 **実装日**: 2025年11月5日  
+**アップデート日**: 2025年11月10日  
 **実装者**: GitHub Copilot  
 **レビュー状態**: 完了（セキュリティチェック済み）
