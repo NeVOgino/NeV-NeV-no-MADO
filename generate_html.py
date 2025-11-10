@@ -15,6 +15,57 @@ def escape_html(text):
         return ""
     return html.escape(str(text))
 
+def get_office_uri(link):
+    """
+    OfficeファイルのURIスキームを生成
+    Excel/Word/PowerPointファイルの場合、ms-office URIスキームを返す
+    それ以外の場合、元のリンクを返す
+    """
+    if not link:
+        return link
+    
+    # ファイル拡張子を取得
+    lower_link = link.lower()
+    
+    # Office URIスキームのマッピング
+    office_schemes = {
+        '.xlsx': 'ms-excel:ofe|u|',
+        '.xls': 'ms-excel:ofe|u|',
+        '.xlsm': 'ms-excel:ofe|u|',
+        '.xlsb': 'ms-excel:ofe|u|',
+        '.docx': 'ms-word:ofe|u|',
+        '.doc': 'ms-word:ofe|u|',
+        '.docm': 'ms-word:ofe|u|',
+        '.pptx': 'ms-powerpoint:ofe|u|',
+        '.ppt': 'ms-powerpoint:ofe|u|',
+        '.pptm': 'ms-powerpoint:ofe|u|',
+    }
+    
+    # 拡張子をチェックしてOfficeファイルかどうか判定
+    for ext, scheme in office_schemes.items():
+        if lower_link.endswith(ext):
+            # 相対パスの場合は絶対パスに変換
+            if link.startswith('..\\') or link.startswith('..'):
+                # 相対パスをH:/nev_windowをベースに絶対パスに変換
+                link = link.replace('..\\nev_window\\', 'H:/nev_window/')
+                link = link.replace('..\\', 'H:/')
+                link = link.replace('\\', '/')
+            elif link.startswith('共通コーナー\\') or link.startswith('INFORMATION\\') or link.startswith('20'):
+                # 現在のディレクトリからの相対パスの場合
+                link = 'H:/nev_window/' + link.replace('\\', '/')
+            elif not link.startswith('file:///') and not link.startswith('http'):
+                # その他の相対パスの場合
+                link = 'H:/nev_window/' + link.replace('\\', '/')
+            
+            # file:///パスの場合は通常のパスに変換
+            if link.startswith('file:///'):
+                link = link.replace('file:///', '').replace('/', '\\')
+            
+            return scheme + link
+    
+    # Officeファイルでない場合は元のリンクを返す
+    return link
+
 def generate_html():
     """data.jsonからindex.htmlを生成"""
     
@@ -109,7 +160,8 @@ def generate_html():
                                 text = item.get('text', '')
                                 link = item.get('link', '')
                                 if link:
-                                    html_content += f'                            <li>📄 <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                    office_uri = get_office_uri(link)
+                                    html_content += f'                            <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                                 else:
                                     html_content += f'                            <li>📄 {escape_html(text)}</li>\n'
                     
@@ -132,7 +184,8 @@ def generate_html():
                     
                     if detail:
                         if link:
-                            html_content += f'                        <div class="info-detail">→ <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                            office_uri = get_office_uri(link)
+                            html_content += f'                        <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
                         else:
                             html_content += f'                        <div class="info-detail">→ {escape_html(detail)}</div>\n'
                     
@@ -155,7 +208,8 @@ def generate_html():
                         
                         if detail:
                             if link:
-                                html_content += f'                            <div class="info-detail">→ <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                                office_uri = get_office_uri(link)
+                                html_content += f'                            <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
                             else:
                                 html_content += f'                            <div class="info-detail">→ {escape_html(detail)}</div>\n'
                         
@@ -177,7 +231,8 @@ def generate_html():
                             text = item.get('text', '')
                             link = item.get('link', '')
                             if link:
-                                html_content += f'                        <li>📄 <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                office_uri = get_office_uri(link)
+                                html_content += f'                        <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                             else:
                                 html_content += f'                        <li>📄 {escape_html(text)}</li>\n'
                         elif 'name' in item:
@@ -186,7 +241,8 @@ def generate_html():
                             text = item.get('text', '')
                             link = item.get('link', '')
                             if link:
-                                html_content += f'                        <li>📄 <a href="{escape_html(link)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                office_uri = get_office_uri(link)
+                                html_content += f'                        <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                             else:
                                 html_content += f'                        <li>📄 {escape_html(text)}</li>\n'
                 
