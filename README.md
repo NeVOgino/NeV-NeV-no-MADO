@@ -13,6 +13,7 @@ NEVの窓_1110.xlsxをブラウザ版に変換したシステムです。
 - **サーバー不要**: ブラウザで直接開けます（ファイル共有から）
 - **検索機能**: リアルタイムでコンテンツを検索
 - **リンク対応**: Excelに設定されていた126個のハイパーリンクを保持
+- **Office URIスキーム**: Excel/Word/PowerPointファイルをクリックで直接開く（ダウンロード不要）
 - **簡単編集**: 非技術者でも編集可能な管理画面付き
 
 ## 📁 ファイル構成
@@ -29,7 +30,8 @@ NEVの窓ブラウザ版/
 ├── README.md           # このファイル
 ├── USER_GUIDE.md       # 詳細ユーザーガイド
 ├── QUICK_START.md      # クイックスタート
-└── DEPLOYMENT_GUIDE.md # デプロイガイド
+├── DEPLOYMENT_GUIDE.md # デプロイガイド
+└── OFFICE_URI_GUIDE.md # Office URIスキーム実装ガイド
 ```
 
 ## 🚀 使い方
@@ -196,8 +198,9 @@ A:
 - [ユーザーガイド](USER_GUIDE.md)
 - [クイックスタート](QUICK_START.md)
 - [デプロイガイド](DEPLOYMENT_GUIDE.md)
+- [Office URIスキーム実装ガイド](OFFICE_URI_GUIDE.md) - Officeファイルのダイレクト開封機能について
 
 ---
 
-**最終更新日**: 2025年11月7日  
+**最終更新日**: 2025年11月10日  
 **バージョン**: 2.0（静的HTML方式）
