@@ -24,6 +24,10 @@ def get_office_uri(link):
     if not link:
         return link
     
+    # HTTPやHTTPSリンクはそのまま返す（Office URIスキームに変換しない）
+    if link.startswith('http://') or link.startswith('https://'):
+        return link
+    
     # ファイル拡張子を取得
     lower_link = link.lower()
     
@@ -53,8 +57,8 @@ def get_office_uri(link):
             elif link.startswith('共通コーナー\\') or link.startswith('INFORMATION\\') or link.startswith('20'):
                 # 現在のディレクトリからの相対パスの場合
                 link = 'H:/nev_window/' + link.replace('\\', '/')
-            elif not link.startswith('file:///') and not link.startswith('http'):
-                # その他の相対パスの場合
+            elif not link.startswith('file:///'):
+                # その他の相対パスの場合（file:///パス以外）
                 link = 'H:/nev_window/' + link.replace('\\', '/')
             
             # file:///パスの場合は通常のパスに変換
