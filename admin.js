@@ -9,6 +9,60 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+// Get Office URI scheme for Office files
+function getOfficeUri(link) {
+    if (!link) return link;
+    
+    // HTTP/HTTPS links remain unchanged
+    if (link.startsWith('http://') || link.startsWith('https://')) {
+        return link;
+    }
+    
+    const lowerLink = link.toLowerCase();
+    
+    // Office URI scheme mapping
+    const officeSchemes = {
+        '.xlsx': 'ms-excel:ofe|u|',
+        '.xls': 'ms-excel:ofe|u|',
+        '.xlsm': 'ms-excel:ofe|u|',
+        '.xlsb': 'ms-excel:ofe|u|',
+        '.docx': 'ms-word:ofe|u|',
+        '.doc': 'ms-word:ofe|u|',
+        '.docm': 'ms-word:ofe|u|',
+        '.pptx': 'ms-powerpoint:ofe|u|',
+        '.ppt': 'ms-powerpoint:ofe|u|',
+        '.pptm': 'ms-powerpoint:ofe|u|'
+    };
+    
+    // Check if it's an Office file
+    for (const [ext, scheme] of Object.entries(officeSchemes)) {
+        if (lowerLink.endsWith(ext)) {
+            let path = link;
+            
+            // Convert relative paths to absolute paths
+            if (path.startsWith('..\\') || path.startsWith('..')) {
+                path = path.replace('..\\nev_window\\', 'H:/nev_window/');
+                path = path.replace('..\\', 'H:/');
+                path = path.replace(/\\/g, '/');
+            } else if (path.startsWith('共通コーナー\\') || path.startsWith('INFORMATION\\') || path.startsWith('20')) {
+                path = 'H:/nev_window/' + path.replace(/\\/g, '/');
+            } else if (!path.startsWith('file:///')) {
+                path = 'H:/nev_window/' + path.replace(/\\/g, '/');
+            }
+            
+            // Convert file:/// paths
+            if (path.startsWith('file:///')) {
+                path = path.replace('file:///', '').replace(/\//g, '\\');
+            }
+            
+            return scheme + path;
+        }
+    }
+    
+    // Not an Office file, return as-is
+    return link;
+}
+
 // Load data from JSON file
 async function loadData() {
     try {
@@ -129,7 +183,7 @@ function renderSectionPreview(section) {
                     html += `<li>${escapeHtml(item)}</li>`;
                 } else if (item.text) {
                     const itemContent = item.link 
-                        ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
+                        ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                         : escapeHtml(item.text);
                     html += `<li>${itemContent}</li>`;
                 }
@@ -146,7 +200,7 @@ function renderSectionPreview(section) {
         visibleItems.forEach(item => {
             if (typeof item === 'object' && item.date) {
                 const detailContent = item.link 
-                    ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
+                    ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
                     : escapeHtml(item.detail);
                 
                 html += `
@@ -166,7 +220,7 @@ function renderSectionPreview(section) {
             hiddenItems.forEach(item => {
                 if (typeof item === 'object' && item.date) {
                     const detailContent = item.link 
-                        ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
+                        ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
                         : escapeHtml(item.detail);
                     
                     html += `
@@ -193,13 +247,13 @@ function renderSectionPreview(section) {
             } else if (item.text) {
                 // New structure with text and optional link
                 const itemContent = item.link 
-                    ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
+                    ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                     : escapeHtml(item.text);
                 html += `<li>${itemContent}</li>`;
             } else if (item.name) {
                 // Department board structure
                 const itemText = item.link 
-                    ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
+                    ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                     : escapeHtml(item.text);
                 html += `<li><strong>${escapeHtml(item.name)}</strong> - ${itemText}</li>`;
             }
