@@ -327,16 +327,41 @@ function cancelEdit(tabName, sectionIndex) {
 function downloadData() {
     const dataStr = JSON.stringify(boardData, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'data.json';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
     
-    alert('data.jsonをダウンロードしました。このファイルを元のdata.jsonと置き換えて、変更を反映させてください。');
+    // Generate timestamp for backup filename
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const timestamp = `${year}${month}${day}_${hours}${minutes}${seconds}`;
+    
+    // Download backup file first
+    const backupUrl = URL.createObjectURL(dataBlob);
+    const backupLink = document.createElement('a');
+    backupLink.href = backupUrl;
+    backupLink.download = `data_backup_${timestamp}.json`;
+    document.body.appendChild(backupLink);
+    backupLink.click();
+    document.body.removeChild(backupLink);
+    URL.revokeObjectURL(backupUrl);
+    
+    // Wait a moment before downloading the main file
+    setTimeout(() => {
+        // Download main data.json file
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'data.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        alert(`data.jsonをダウンロードしました。\nバックアップファイル（data_backup_${timestamp}.json）も保存されました。\ndata.jsonを元のファイルと置き換えて、変更を反映させてください。`);
+    }, 500);
 }
 
 // Upload data from JSON file
