@@ -83,7 +83,7 @@ async function loadData() {
     } catch (error) {
         console.error('Error loading data:', error);
         // データ読み込み失敗時は空の状態で初期化
-        console.log('⚠️ data.jsonの読み込みに失敗しました。「📤 data.jsonをアップロード」ボタンからファイルを読み込んでください。');
+        console.log('⚠️ data.jsonの読み込みに失敗しました。「📂 初めに：data.jsonよみこみ」ボタンからファイルを読み込んでください。');
         showUploadPrompt();
     }
 }
@@ -94,14 +94,14 @@ function showUploadPrompt() {
     containers.forEach(tabName => {
         const container = document.getElementById(tabName);
         container.innerHTML = `
-            <div style="background: #fff3cd; border: 2px dashed #ffc107; border-radius: 10px; padding: 30px; text-align: center; margin: 20px 0;">
-                <h2 style="color: #856404; margin-bottom: 15px;">📤 data.jsonをアップロードしてください</h2>
-                <p style="color: #856404; margin-bottom: 20px;">
-                    編集を開始するには、まず「📤 data.jsonをアップロード」ボタンをクリックして、
+            <div style="background: #e7f3ff; border: 2px dashed #2196F3; border-radius: 10px; padding: 30px; text-align: center; margin: 20px 0;">
+                <h2 style="color: #1976D2; margin-bottom: 15px;">📂 data.jsonを読み込んでください</h2>
+                <p style="color: #1976D2; margin-bottom: 20px;">
+                    編集を開始するには、まず「📂 初めに：data.jsonよみこみ」ボタンをクリックして、
                     <br>既存のdata.jsonファイルを読み込んでください。
                 </p>
-                <button class="upload-button" onclick="document.getElementById('fileInput').click()" style="font-size: 1.2em; padding: 15px 30px;">
-                    📤 data.jsonをアップロード
+                <button class="data-button upload-button" onclick="document.getElementById('fileInput').click()" style="font-size: 1.2em; padding: 15px 30px;">
+                    📂 初めに：data.jsonよみこみ
                 </button>
             </div>
         `;
