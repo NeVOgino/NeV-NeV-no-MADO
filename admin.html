@@ -26,22 +26,18 @@
         <div class="admin-instructions">
             <h3>📝 編集方法</h3>
             <ol>
-                <li>編集したいセクションの「編集」ボタンをクリックします</li>
-                <li>テキストエリアで内容を編集します（JSONフォーマットで）</li>
-                <li>「保存」ボタンをクリックして変更を保存します</li>
-                <li>「💾 data.jsonをダウンロード」ボタンで編集したデータをダウンロード</li>
-                <li>ダウンロードしたdata.jsonファイルで元のdata.jsonを置き換えます</li>
-                <li><strong>重要：</strong> 以下のコマンドを実行してindex.htmlを更新します：
-                    <div class="command-box">
-                        <code>python generate_html.py</code>
-                    </div>
-                    これにより、data.jsonの内容がindex.htmlに反映されます。
-                </li>
+                <li><strong>data.jsonよみこみ：</strong> 最初に現在のdata.jsonファイルを読み込みます</li>
+                <li><strong>編集：</strong> 編集したいセクションの「編集」ボタンをクリックします</li>
+                <li><strong>内容変更：</strong> テキストエリアで内容を編集します（JSONフォーマット）</li>
+                <li><strong>保存：</strong> 「保存」ボタンをクリックして変更を保存します</li>
+                <li><strong>data.jsonかきこみ：</strong> 編集したデータをダウンロードして元のdata.jsonを置き換えます</li>
+                <li><strong>反映：</strong> コマンド <code>python generate_html.py</code> を実行してindex.htmlに反映します</li>
             </ol>
         </div>
 
-        <div class="download-section">
-            <button class="download-button" onclick="downloadData()">💾 data.jsonをダウンロード</button>
+        <div class="data-management-section">
+            <button class="data-button upload-button" onclick="document.getElementById('fileInput').click()">📂 data.jsonよみこみ</button>
+            <button class="data-button download-button" onclick="downloadData()">💾 data.jsonかきこみ</button>
             <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="uploadData(event)">
         </div>
 
