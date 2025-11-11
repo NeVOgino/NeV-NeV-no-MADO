@@ -31,6 +31,26 @@
     color: #d63384;
 }
 
+.backup-notice {
+    background: #e7f3ff;
+    border-left: 4px solid #2196F3;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+}
+
+.backup-notice p {
+    margin: 0;
+    color: #1976D2;
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+.backup-notice strong {
+    color: #0D47A1;
+}
+
 .data-management-section {
     background: white;
     padding: 15px 20px;
