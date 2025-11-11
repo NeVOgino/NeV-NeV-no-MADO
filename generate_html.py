@@ -306,9 +306,97 @@ def generate_html():
             const sections = sectionsContainer.querySelectorAll('.section');
             const searchQuery = normalizeJapanese(query.toLowerCase());
             
+            // 検索クエリが空の場合、すべて表示
+            if (!searchQuery.trim()) {
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                    // すべてのアイテムを表示
+                    section.querySelectorAll('.info-item').forEach(item => item.style.display = 'block');
+                    section.querySelectorAll('.item-list li').forEach(item => item.style.display = 'list-item');
+                    section.querySelectorAll('.subsection').forEach(sub => sub.style.display = 'block');
+                    section.querySelectorAll('.subsection .item-list li').forEach(item => item.style.display = 'list-item');
+                });
+                return;
+            }
+            
             sections.forEach(section => {
-                const text = normalizeJapanese(section.textContent.toLowerCase());
-                if (text.includes(searchQuery)) {
+                let hasVisibleItems = false;
+                
+                // INFORMATIONセクションの場合（.info-itemを含む）
+                const infoItems = section.querySelectorAll('.info-item');
+                if (infoItems.length > 0) {
+                    infoItems.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'block';
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    // 折りたたみコンテナ内のアイテムも検索
+                    const collapsedContainers = section.querySelectorAll('.collapsed-items');
+                    collapsedContainers.forEach(container => {
+                        const collapsedItems = container.querySelectorAll('.info-item');
+                        let hasVisibleCollapsedItems = false;
+                        collapsedItems.forEach(item => {
+                            const text = normalizeJapanese(item.textContent.toLowerCase());
+                            if (text.includes(searchQuery)) {
+                                item.style.display = 'block';
+                                hasVisibleCollapsedItems = true;
+                                hasVisibleItems = true;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                        // 検索結果がある場合は折りたたみを展開
+                        if (hasVisibleCollapsedItems) {
+                            container.style.display = 'block';
+                        }
+                    });
+                }
+                
+                // リスト形式のセクションの場合
+                const itemLists = section.querySelectorAll('.item-list');
+                itemLists.forEach(list => {
+                    const items = list.querySelectorAll('li');
+                    items.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'list-item';
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // サブセクションがある場合
+                const subsections = section.querySelectorAll('.subsection');
+                subsections.forEach(subsection => {
+                    let hasVisibleSubItems = false;
+                    const subItems = subsection.querySelectorAll('.item-list li');
+                    subItems.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'list-item';
+                            hasVisibleSubItems = true;
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    // サブセクションに表示アイテムがある場合のみ表示
+                    if (hasVisibleSubItems) {
+                        subsection.style.display = 'block';
+                    } else {
+                        subsection.style.display = 'none';
+                    }
+                });
+                
+                // セクション全体の表示/非表示を設定
+                if (hasVisibleItems) {
                     section.style.display = 'block';
                 } else {
                     section.style.display = 'none';
