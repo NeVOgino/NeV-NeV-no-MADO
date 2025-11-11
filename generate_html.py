@@ -172,9 +172,9 @@ def generate_html():
                                 link = item.get('link', '')
                                 if link:
                                     office_uri = get_office_uri(link)
-                                    html_content += f'                            <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                    html_content += f'                            <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                                 else:
-                                    html_content += f'                            <li>📄 {escape_html(text)}</li>\n'
+                                    html_content += f'                            <li>{escape_html(text)}</li>\n'
                     
                     html_content += '                        </ul>\n'
                     html_content += '                    </div>\n'
@@ -243,9 +243,9 @@ def generate_html():
                             link = item.get('link', '')
                             if link:
                                 office_uri = get_office_uri(link)
-                                html_content += f'                        <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                             else:
-                                html_content += f'                        <li>📄 {escape_html(text)}</li>\n'
+                                html_content += f'                        <li>{escape_html(text)}</li>\n'
                         elif 'name' in item:
                             # name と text がある場合（各部掲示板など）
                             name = item.get('name', '')
@@ -253,9 +253,9 @@ def generate_html():
                             link = item.get('link', '')
                             if link:
                                 office_uri = get_office_uri(link)
-                                html_content += f'                        <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                             else:
-                                html_content += f'                        <li>📄 {escape_html(text)}</li>\n'
+                                html_content += f'                        <li>{escape_html(text)}</li>\n'
                 
                 html_content += '                    </ul>\n'
             
