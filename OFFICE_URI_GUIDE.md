@@ -10,9 +10,11 @@
 
 Microsoft Office URI スキームを使用して、Office ドキュメントへのリンクを変換します：
 
-- **Excel**: `ms-excel:ofe|u|<パス>`
-- **Word**: `ms-word:ofe|u|<パス>`
-- **PowerPoint**: `ms-powerpoint:ofe|u|<パス>`
+- **Excel**: `ms-excel:ofv|u|<パス>`
+- **Word**: `ms-word:ofv|u|<パス>`
+- **PowerPoint**: `ms-powerpoint:ofv|u|<パス>`
+
+**注意**: `ofv` (Office File View) を使用することで、Windowsのセキュリティ警告（"このファイルは制限付きサイトゾーンから入手したものです"）を回避します。ファイルは読み取り専用モードで開きますが、ユーザーは必要に応じて編集を有効にできます。
 
 ### 対応ファイル形式
 
@@ -50,9 +52,9 @@ Microsoft Office URI スキームを使用して、Office ドキュメントへ�
 
 ### 変更後
 ```html
-<a href="ms-excel:ofe|u|H:/nev_window/room/R7_10F_Kaigi.xlsx">10階 会議室（R7年度）</a>
+<a href="ms-excel:ofv|u|H:/nev_window/room/R7_10F_Kaigi.xlsx">10階 会議室（R7年度）</a>
 ```
-→ クリックすると Excel で直接開く
+→ クリックすると Excel で直接開く（読み取り専用モード）、必要に応じて編集を有効化可能
 
 ## パス変換ルール
 
@@ -135,6 +137,7 @@ admin.html でも同様に Office URI スキームが適用されています：
 1. **Microsoft Office が必要**: このスキームは Microsoft Office がインストールされている環境でのみ動作します
 2. **パスの正確性**: ファイルパスが正しく、アクセス可能である必要があります
 3. **ブラウザの互換性**: 最新のブラウザで動作確認済み（Edge, Chrome, Firefox）
+4. **セキュリティ警告の回避**: `ofv` (Office File View) を使用することで、"このファイルは制限付きサイトゾーンから入手したものです"というWindowsのセキュリティ警告を回避します。ファイルは読み取り専用モードで開きますが、必要に応じて編集を有効にできます。
 
 ## トラブルシューティング
 
@@ -144,6 +147,14 @@ admin.html でも同様に Office URI スキームが適用されています：
 2. ファイルパスが正しいか確認（特に H: ドライブがマウントされているか）
 3. ファイルへのアクセス権限を確認
 
+### "制限付きサイトゾーン" エラーが表示される場合
+
+このエラーは `ofe` (Office File Edit) スキームを使用していた場合に発生します。最新版では `ofv` (Office File View) を使用しており、このエラーは発生しないはずです。もしエラーが発生する場合は：
+
+1. `python generate_html.py` を実行して index.html を再生成
+2. ブラウザのキャッシュをクリア（Ctrl + F5）
+3. HTML ソースで `ms-excel:ofv|u|` が使用されているか確認
+
 ### ダウンロードプロンプトが表示される場合
 
 - PDF ファイルや他の非 Office ファイルは正常な動作です
@@ -151,11 +162,12 @@ admin.html でも同様に Office URI スキームが適用されています：
 
 ## 検証結果
 
-- ✅ Excel ファイル 12 件が ms-excel スキームを使用
-- ✅ Word ファイル 2 件が ms-word スキームを使用
+- ✅ Excel ファイル 12 件が ms-excel:ofv スキームを使用
+- ✅ Word ファイル 2 件が ms-word:ofv スキームを使用
 - ✅ PDF ファイル 103 件は通常のリンクのまま
 - ✅ HTTP/HTTPS リンクは変更なし
 - ✅ セキュリティスキャンで問題なし
+- ✅ Windowsセキュリティ警告の回避を確認
 
 ## 参考資料
 

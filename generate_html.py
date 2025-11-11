@@ -32,17 +32,19 @@ def get_office_uri(link):
     lower_link = link.lower()
     
     # Office URIスキームのマッピング
+    # ofv (Office File View) を使用して、セキュリティ警告を回避
+    # ofv は読み取り専用モードで開き、ユーザーが編集を有効にできます
     office_schemes = {
-        '.xlsx': 'ms-excel:ofe|u|',
-        '.xls': 'ms-excel:ofe|u|',
-        '.xlsm': 'ms-excel:ofe|u|',
-        '.xlsb': 'ms-excel:ofe|u|',
-        '.docx': 'ms-word:ofe|u|',
-        '.doc': 'ms-word:ofe|u|',
-        '.docm': 'ms-word:ofe|u|',
-        '.pptx': 'ms-powerpoint:ofe|u|',
-        '.ppt': 'ms-powerpoint:ofe|u|',
-        '.pptm': 'ms-powerpoint:ofe|u|',
+        '.xlsx': 'ms-excel:ofv|u|',
+        '.xls': 'ms-excel:ofv|u|',
+        '.xlsm': 'ms-excel:ofv|u|',
+        '.xlsb': 'ms-excel:ofv|u|',
+        '.docx': 'ms-word:ofv|u|',
+        '.doc': 'ms-word:ofv|u|',
+        '.docm': 'ms-word:ofv|u|',
+        '.pptx': 'ms-powerpoint:ofv|u|',
+        '.ppt': 'ms-powerpoint:ofv|u|',
+        '.pptm': 'ms-powerpoint:ofv|u|',
     }
     
     # 拡張子をチェックしてOfficeファイルかどうか判定
@@ -53,6 +55,9 @@ def get_office_uri(link):
                 # 相対パスをH:/nev_windowをベースに絶対パスに変換
                 link = link.replace('..\\nev_window\\', 'H:/nev_window/')
                 link = link.replace('..\\', 'H:/')
+                link = link.replace('\\', '/')
+            elif link.startswith('H:\\') or link.startswith('H:/'):
+                # 既にH:ドライブの絶対パスの場合はそのまま使用（バックスラッシュをスラッシュに変換）
                 link = link.replace('\\', '/')
             elif link.startswith('共通コーナー\\') or link.startswith('INFORMATION\\') or link.startswith('20'):
                 # 現在のディレクトリからの相対パスの場合
@@ -101,6 +106,17 @@ def generate_html():
         </div>
     </nav>
 
+    <!-- グローバル検索ボックス -->
+    <div class="container" style="margin-top: 20px;">
+        <div class="search-box">
+            <input type="text" 
+                   id="global-search"
+                   placeholder="🔍 すべてを検索（全員向け・職員向け両方）..." 
+                   onkeyup="filterAllContent(this.value)"
+                   style="background-color: #f0f8ff; border: 2px solid #4CAF50;">
+        </div>
+    </div>
+
     <main class="container">
 '''
     
@@ -111,15 +127,6 @@ def generate_html():
         
         html_content += f'        <div id="{escape_html(tab_name)}" class="tab-content {is_active}">\n'
         html_content += f'            <h1 class="section-title">{escape_html(tab_data.get("title", tab_name))}</h1>\n'
-        
-        # 検索ボックス
-        html_content += f'''            <div class="search-box">
-                <input type="text" 
-                       placeholder="🔍 検索..." 
-                       data-tab="{escape_html(tab_name)}"
-                       onkeyup="filterContent('{escape_html(tab_name)}', this.value)">
-            </div>
-'''
         
         # セクションナビゲーションボタン
         html_content += f'            <div class="section-nav">\n'
@@ -165,9 +172,9 @@ def generate_html():
                                 link = item.get('link', '')
                                 if link:
                                     office_uri = get_office_uri(link)
-                                    html_content += f'                            <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                    html_content += f'                            <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                                 else:
-                                    html_content += f'                            <li>📄 {escape_html(text)}</li>\n'
+                                    html_content += f'                            <li>{escape_html(text)}</li>\n'
                     
                     html_content += '                        </ul>\n'
                     html_content += '                    </div>\n'
@@ -236,9 +243,9 @@ def generate_html():
                             link = item.get('link', '')
                             if link:
                                 office_uri = get_office_uri(link)
-                                html_content += f'                        <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                             else:
-                                html_content += f'                        <li>📄 {escape_html(text)}</li>\n'
+                                html_content += f'                        <li>{escape_html(text)}</li>\n'
                         elif 'name' in item:
                             # name と text がある場合（各部掲示板など）
                             name = item.get('name', '')
@@ -246,9 +253,9 @@ def generate_html():
                             link = item.get('link', '')
                             if link:
                                 office_uri = get_office_uri(link)
-                                html_content += f'                        <li>📄 <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
                             else:
-                                html_content += f'                        <li>📄 {escape_html(text)}</li>\n'
+                                html_content += f'                        <li>{escape_html(text)}</li>\n'
                 
                 html_content += '                    </ul>\n'
             
@@ -301,14 +308,167 @@ def generate_html():
             const sections = sectionsContainer.querySelectorAll('.section');
             const searchQuery = normalizeJapanese(query.toLowerCase());
             
+            // 検索クエリが空の場合、すべて表示
+            if (!searchQuery.trim()) {
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                    // すべてのアイテムを表示
+                    section.querySelectorAll('.info-item').forEach(item => item.style.display = 'block');
+                    section.querySelectorAll('.item-list li').forEach(item => item.style.display = 'list-item');
+                    section.querySelectorAll('.subsection').forEach(sub => sub.style.display = 'block');
+                    section.querySelectorAll('.subsection .item-list li').forEach(item => item.style.display = 'list-item');
+                });
+                return;
+            }
+            
             sections.forEach(section => {
-                const text = normalizeJapanese(section.textContent.toLowerCase());
-                if (text.includes(searchQuery)) {
+                let hasVisibleItems = false;
+                
+                // INFORMATIONセクションの場合（.info-itemを含む）
+                const infoItems = section.querySelectorAll('.info-item');
+                if (infoItems.length > 0) {
+                    infoItems.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'block';
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    // 折りたたみコンテナ内のアイテムも検索
+                    const collapsedContainers = section.querySelectorAll('.collapsed-items');
+                    collapsedContainers.forEach(container => {
+                        const collapsedItems = container.querySelectorAll('.info-item');
+                        let hasVisibleCollapsedItems = false;
+                        collapsedItems.forEach(item => {
+                            const text = normalizeJapanese(item.textContent.toLowerCase());
+                            if (text.includes(searchQuery)) {
+                                item.style.display = 'block';
+                                hasVisibleCollapsedItems = true;
+                                hasVisibleItems = true;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                        // 検索結果がある場合は折りたたみを展開
+                        if (hasVisibleCollapsedItems) {
+                            container.style.display = 'block';
+                        }
+                    });
+                }
+                
+                // リスト形式のセクションの場合
+                const itemLists = section.querySelectorAll('.item-list');
+                itemLists.forEach(list => {
+                    const items = list.querySelectorAll('li');
+                    items.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'list-item';
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // サブセクションがある場合
+                const subsections = section.querySelectorAll('.subsection');
+                subsections.forEach(subsection => {
+                    let hasVisibleSubItems = false;
+                    const subItems = subsection.querySelectorAll('.item-list li');
+                    subItems.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'list-item';
+                            hasVisibleSubItems = true;
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    // サブセクションに表示アイテムがある場合のみ表示
+                    if (hasVisibleSubItems) {
+                        subsection.style.display = 'block';
+                    } else {
+                        subsection.style.display = 'none';
+                    }
+                });
+                
+                // セクション全体の表示/非表示を設定
+                if (hasVisibleItems) {
                     section.style.display = 'block';
                 } else {
                     section.style.display = 'none';
                 }
             });
+        }
+
+        // グローバル検索機能（全員向け・職員向け両方を検索）
+        function filterAllContent(query) {
+            const searchQuery = normalizeJapanese(query.toLowerCase());
+            
+            // 両方のタブを検索
+            ['全員向け', '職員向け'].forEach(tabName => {
+                filterContent(tabName, query);
+            });
+            
+            // 検索結果がある場合、両方のタブを表示
+            if (searchQuery.trim()) {
+                // 両方のタブコンテンツを表示状態にする
+                const allTabs = document.querySelectorAll('.tab-content');
+                let hasAnyResults = false;
+                
+                allTabs.forEach(tab => {
+                    const visibleSections = tab.querySelectorAll('.section[style*="display: block"], .section:not([style*="display: none"])');
+                    if (visibleSections.length > 0) {
+                        // 検索結果があるタブは表示
+                        const hasVisibleItems = Array.from(visibleSections).some(section => {
+                            const visibleInfoItems = section.querySelectorAll('.info-item[style*="display: block"], .info-item:not([style*="display: none"])');
+                            const visibleListItems = section.querySelectorAll('.item-list li[style*="display: list-item"], .item-list li:not([style*="display: none"])');
+                            return visibleInfoItems.length > 0 || visibleListItems.length > 0;
+                        });
+                        
+                        if (hasVisibleItems) {
+                            tab.classList.add('active');
+                            hasAnyResults = true;
+                        } else {
+                            tab.classList.remove('active');
+                        }
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // タブボタンの状態も更新（両方activeにする）
+                if (hasAnyResults) {
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                }
+            } else {
+                // 検索クエリが空の場合、最初のタブのみ表示
+                const allTabs = document.querySelectorAll('.tab-content');
+                allTabs.forEach((tab, index) => {
+                    if (index === 0) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // タブボタンも元に戻す
+                const tabButtons = document.querySelectorAll('.tab-button');
+                tabButtons.forEach((btn, index) => {
+                    if (index === 0) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
         }
 
         // Toggle collapse for INFORMATION sections

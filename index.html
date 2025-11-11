@@ -21,15 +21,20 @@
         </div>
     </nav>
 
+    <!-- グローバル検索ボックス -->
+    <div class="container" style="margin-top: 20px;">
+        <div class="search-box">
+            <input type="text" 
+                   id="global-search"
+                   placeholder="🔍 すべてを検索（全員向け・職員向け両方）..." 
+                   onkeyup="filterAllContent(this.value)"
+                   style="background-color: #f0f8ff; border: 2px solid #4CAF50;">
+        </div>
+    </div>
+
     <main class="container">
         <div id="全員向け" class="tab-content active">
             <h1 class="section-title">全員向け情報</h1>
-            <div class="search-box">
-                <input type="text" 
-                       placeholder="🔍 検索..." 
-                       data-tab="全員向け"
-                       onkeyup="filterContent('全員向け', this.value)">
-            </div>
             <div class="section-nav">
                 <button class="section-nav-btn" onclick="scrollToSection('全員向け', 0)">INFORMATION</button>
                 <button class="section-nav-btn" onclick="scrollToSection('全員向け', 1)">カレンダー・組織情報</button>
@@ -138,7 +143,7 @@
                         <div class="info-item">
                             <div class="info-date">8月31日(2020)</div>
                             <div class="info-content">↑</div>
-                            <div class="info-detail">→ <a href="ms-excel:ofe|u|H:/nev_window/INFORMATION/健康観察票（書式）.xlsx" target="_blank" rel="noopener noreferrer">健康観察票</a></div>
+                            <div class="info-detail">→ <a href="ms-excel:ofv|u|H:/nev_window/INFORMATION/健康観察票（書式）.xlsx" target="_blank" rel="noopener noreferrer">健康観察票</a></div>
                         </div>
                         <div class="info-item">
                             <div class="info-date">8月1日(2022)</div>
@@ -161,72 +166,72 @@
                 <div class="section" data-section-index="1">
                     <h2>カレンダー・組織情報</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="共通コーナー\R6年度カレンダー.pdf" target="_blank" rel="noopener noreferrer">R6年度カレンダー</a></li>
-                        <li>📄 <a href="共通コーナー\R7年度カレンダー.pdf" target="_blank" rel="noopener noreferrer">R7年度カレンダー</a></li>
-                        <li>📄 <a href="INFORMATION\★通達　役員改選（2017.06.29）.pdf" target="_blank" rel="noopener noreferrer">通達　役員改選（2017.06.29）</a></li>
-                        <li>📄 <a href="共通コーナー\NEV人員体制\NEV%20組織・人員体制.pdf" target="_blank" rel="noopener noreferrer">NEV 組織・人員体制（最新）</a></li>
-                        <li>📄 <a href="file:///\\cev-file4\data\☆☆管理部★★\その他のフォルダー\NeV設立記念\お知らせ（設立15周年）.pdf" target="_blank" rel="noopener noreferrer">お知らせ（設立15周年）</a></li>
+                        <li><a href="共通コーナー\R6年度カレンダー.pdf" target="_blank" rel="noopener noreferrer">R6年度カレンダー</a></li>
+                        <li><a href="共通コーナー\R7年度カレンダー.pdf" target="_blank" rel="noopener noreferrer">R7年度カレンダー</a></li>
+                        <li><a href="INFORMATION\★通達　役員改選（2017.06.29）.pdf" target="_blank" rel="noopener noreferrer">通達　役員改選（2017.06.29）</a></li>
+                        <li><a href="共通コーナー\NEV人員体制\NEV%20組織・人員体制.pdf" target="_blank" rel="noopener noreferrer">NEV 組織・人員体制（最新）</a></li>
+                        <li><a href="file:///\\cev-file4\data\☆☆管理部★★\その他のフォルダー\NeV設立記念\お知らせ（設立15周年）.pdf" target="_blank" rel="noopener noreferrer">お知らせ（設立15周年）</a></li>
                     </ul>
                 </div>
                 <div class="section" data-section-index="2">
                     <h2>広報・資料</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="ms-word:ofe|u|H:/nev_window/共通コーナー/ロゴデータファイル.docx" target="_blank" rel="noopener noreferrer">★ロゴデータファイル</a></li>
-                        <li>📄 <a href="共通コーナー\NeVパンフレットPDF\NeVパンフ_表裏合体版_.pdf" target="_blank" rel="noopener noreferrer">NeV パンフレット</a></li>
+                        <li><a href="ms-word:ofv|u|H:/NEVの窓（管理部管理）/共通コーナー/ロゴデータファイル.docx" target="_blank" rel="noopener noreferrer">★ロゴデータファイル</a></li>
+                        <li><a href="共通コーナー\NeVパンフレットPDF\NeVパンフ_表裏合体版_.pdf" target="_blank" rel="noopener noreferrer">NeV パンフレット</a></li>
                     </ul>
                 </div>
                 <div class="section" data-section-index="3">
                     <h2>安全・防災</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="INFORMATION\別表５Ａ事業所自衛消防隊（内部用）.pdf" target="_blank" rel="noopener noreferrer">事業所自衛消防隊（内部用）（2025.10.20）</a></li>
-                        <li>📄 <a href="INFORMATION\別表１日常の火災予防の担当者と日常の注意事項（内部用）.pdf" target="_blank" rel="noopener noreferrer">日常の火災予防の担当者と注意事項(内部用)（2023.0616）</a></li>
-                        <li>📄 <a href="INFORMATION\避難経路図(3階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図（3階）</a></li>
-                        <li>📄 <a href="INFORMATION\避難経路図(4階).pdf" target="_blank" rel="noopener noreferrer">避難経路図（４階）</a></li>
-                        <li>📄 <a href="INFORMATION\避難経路図(5階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図（5階）</a></li>
-                        <li>📄 <a href="INFORMATION\避難経路図(8階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図(8階）</a></li>
-                        <li>📄 <a href="INFORMATION\避難経路図(9階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図(9階）</a></li>
-                        <li>📄 <a href="INFORMATION\避難経路図(10階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図(10階）</a></li>
-                        <li>📄 <a href="INFORMATION\NeV日本橋地区_火災避難時集合場所20201218.pdf" target="_blank" rel="noopener noreferrer">火災避難時集合場所(日本橋地区)</a></li>
-                        <li>📄 <a href="INFORMATION\日本橋木村ビルの避難階段と消防設備.pdf" target="_blank" rel="noopener noreferrer">日本橋木村ビルの避難階段と消防設備</a></li>
-                        <li>📄 <a href="INFORMATION\中央区防災マップ.pdf" target="_blank" rel="noopener noreferrer">中央区防災マップ</a></li>
+                        <li><a href="INFORMATION\別表５Ａ事業所自衛消防隊（内部用）.pdf" target="_blank" rel="noopener noreferrer">事業所自衛消防隊（内部用）（2025.10.20）</a></li>
+                        <li><a href="INFORMATION\別表１日常の火災予防の担当者と日常の注意事項（内部用）.pdf" target="_blank" rel="noopener noreferrer">日常の火災予防の担当者と注意事項(内部用)（2023.0616）</a></li>
+                        <li><a href="INFORMATION\避難経路図(3階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図（3階）</a></li>
+                        <li><a href="INFORMATION\避難経路図(4階).pdf" target="_blank" rel="noopener noreferrer">避難経路図（４階）</a></li>
+                        <li><a href="INFORMATION\避難経路図(5階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図（5階）</a></li>
+                        <li><a href="INFORMATION\避難経路図(8階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図(8階）</a></li>
+                        <li><a href="INFORMATION\避難経路図(9階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図(9階）</a></li>
+                        <li><a href="INFORMATION\避難経路図(10階）.pdf" target="_blank" rel="noopener noreferrer">避難経路図(10階）</a></li>
+                        <li><a href="INFORMATION\NeV日本橋地区_火災避難時集合場所20201218.pdf" target="_blank" rel="noopener noreferrer">火災避難時集合場所(日本橋地区)</a></li>
+                        <li><a href="INFORMATION\日本橋木村ビルの避難階段と消防設備.pdf" target="_blank" rel="noopener noreferrer">日本橋木村ビルの避難階段と消防設備</a></li>
+                        <li><a href="INFORMATION\中央区防災マップ.pdf" target="_blank" rel="noopener noreferrer">中央区防災マップ</a></li>
                     </ul>
                 </div>
                 <div class="section" data-section-index="4">
                     <h2>職場ルール・施設</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="INFORMATION\派遣職員の就業ルール(2016.07.04).pdf" target="_blank" rel="noopener noreferrer">派遣職員の就業ルール(2016.07.04)</a></li>
-                        <li>📄 <a href="INFORMATION\ゴミ廃却の有料化.pdf" target="_blank" rel="noopener noreferrer">ゴミの分別について</a></li>
-                        <li>📄 <a href="INFORMATION\お知らせ（クールビスについて）2023.pdf" target="_blank" rel="noopener noreferrer">お知らせ（クールビスについて）2023</a></li>
-                        <li>📄 <a href="共通コーナー\救急箱在中器具・薬品一覧(2019.11.6).pdf" target="_blank" rel="noopener noreferrer">救急箱在中器具・薬品一覧</a></li>
+                        <li><a href="INFORMATION\派遣職員の就業ルール(2016.07.04).pdf" target="_blank" rel="noopener noreferrer">派遣職員の就業ルール(2016.07.04)</a></li>
+                        <li><a href="INFORMATION\ゴミ廃却の有料化.pdf" target="_blank" rel="noopener noreferrer">ゴミの分別について</a></li>
+                        <li><a href="INFORMATION\お知らせ（クールビスについて）2023.pdf" target="_blank" rel="noopener noreferrer">お知らせ（クールビスについて）2023</a></li>
+                        <li><a href="共通コーナー\救急箱在中器具・薬品一覧(2019.11.6).pdf" target="_blank" rel="noopener noreferrer">救急箱在中器具・薬品一覧</a></li>
                     </ul>
                 </div>
                 <div class="section" data-section-index="5">
                     <h2>IT・在宅勤務・その他</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="共通コーナー\在宅勤務関連\在宅勤務パソコン利用要領(派遣職員版)_20201101.pdf" target="_blank" rel="noopener noreferrer">在宅勤務でのパソコン利用要領(派遣職員版 2020.11.1制定)</a></li>
-                        <li>📄 <a href="共通コーナー\在宅勤務関連\届出書類" target="_blank" rel="noopener noreferrer">在宅勤務でのパソコン利用要領届出書類</a></li>
-                        <li>📄 <a href="共通コーナー\在宅勤務関連\自宅PC業務利用手順_VPNクライアント版20250808.pdf" target="_blank" rel="noopener noreferrer">【補足】自宅PC業務利用手順(2025.8.8改定)</a></li>
-                        <li>📄 <a href="共通コーナー\倫理関連リスクマネジメント_方針,対処_&#x27;21.4.23改.pdf" target="_blank" rel="noopener noreferrer">倫理関連リスクマネジメント</a></li>
+                        <li><a href="共通コーナー\在宅勤務関連\在宅勤務パソコン利用要領(派遣職員版)_20201101.pdf" target="_blank" rel="noopener noreferrer">在宅勤務でのパソコン利用要領(派遣職員版 2020.11.1制定)</a></li>
+                        <li><a href="共通コーナー\在宅勤務関連\届出書類" target="_blank" rel="noopener noreferrer">在宅勤務でのパソコン利用要領届出書類</a></li>
+                        <li><a href="共通コーナー\在宅勤務関連\自宅PC業務利用手順_VPNクライアント版20250808.pdf" target="_blank" rel="noopener noreferrer">【補足】自宅PC業務利用手順(2025.8.8改定)</a></li>
+                        <li><a href="共通コーナー\倫理関連リスクマネジメント_方針,対処_&#x27;21.4.23改.pdf" target="_blank" rel="noopener noreferrer">倫理関連リスクマネジメント</a></li>
                     </ul>
                 </div>
                 <div class="section" data-section-index="6">
                     <h2>会議室予約</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/room/R6_10F_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">10階 会議室（R6年度）</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/room/R6_901_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">901 会議室（R6年度）</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/room/R6_801_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">801 会議室（R6年度）</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/room/R7_10F_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">10階 会議室（R7年度）</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/room/R7_901_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">901 会議室（R7年度）</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/room/R7_801_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">801 会議室（R7年度）</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/room/R6_10F_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">10階 会議室（R6年度）</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/room/R6_901_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">901 会議室（R6年度）</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/room/R6_801_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">801 会議室（R6年度）</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/room/R7_10F_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">10階 会議室（R7年度）</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/room/R7_901_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">901 会議室（R7年度）</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/room/R7_801_Kaigi.xlsx" target="_blank" rel="noopener noreferrer">801 会議室（R7年度）</a></li>
                     </ul>
                 </div>
                 <div class="section" data-section-index="7">
                     <h2>各部掲示板</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="..\nev_window\seat\manage_seat.pdf" target="_blank" rel="noopener noreferrer">管理部座席表</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/seat/cev_seat.xlsx" target="_blank" rel="noopener noreferrer">CEV座席表</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/seat/charge_seat.xlsx" target="_blank" rel="noopener noreferrer">充電インフラ座席表</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|H:/nev_window/seat/hydrogen_seat.xlsx" target="_blank" rel="noopener noreferrer">水素インフラ部座席表</a></li>
+                        <li><a href="..\nev_window\seat\manage_seat.pdf" target="_blank" rel="noopener noreferrer">管理部座席表</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/seat/cev_seat.xlsx" target="_blank" rel="noopener noreferrer">CEV座席表</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/seat/charge_seat.xlsx" target="_blank" rel="noopener noreferrer">充電インフラ座席表</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/seat/hydrogen_seat.xlsx" target="_blank" rel="noopener noreferrer">水素インフラ部座席表</a></li>
                     </ul>
                 </div>
             </div>
@@ -234,12 +239,6 @@
 
         <div id="職員向け" class="tab-content ">
             <h1 class="section-title">職員向け情報</h1>
-            <div class="search-box">
-                <input type="text" 
-                       placeholder="🔍 検索..." 
-                       data-tab="職員向け"
-                       onkeyup="filterContent('職員向け', this.value)">
-            </div>
             <div class="section-nav">
                 <button class="section-nav-btn" onclick="scrollToSection('職員向け', 0)">INFORMATION</button>
                 <button class="section-nav-btn" onclick="scrollToSection('職員向け', 1)">職員向け情報コーナー</button>
@@ -266,19 +265,19 @@
                 <div class="section" data-section-index="1">
                     <h2>職員向け情報コーナー</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\組織・人員体制関係\NeV%20組織図（R6.4.1）氏名有り.pdf" target="_blank" rel="noopener noreferrer">NeV 組織図（R6.4.1）氏名有り</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\組織・人員体制関係\NeV%20組織図（R5.4.1）氏名無.pdf" target="_blank" rel="noopener noreferrer">NeV 組織図（R5.4.1）氏名無</a></li>
-                        <li>📄 <a href="共通コーナー\NEV人員体制\NEV%20組織・人員体制.pdf" target="_blank" rel="noopener noreferrer">NEV 組織・人員体制（最新）</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEV%20各部人員数\人員数.pdf" target="_blank" rel="noopener noreferrer">人員数（2025.04.01）</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\組織・人員体制関係\★役職員緊急連絡先.pdf" target="_blank" rel="noopener noreferrer">役職員緊急連絡先</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\センター内の業務用携帯電話番号帳.pdf" target="_blank" rel="noopener noreferrer">センター内の業務用携帯電話番号帳</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\JARI就業規則変更への対応(2019.08.27).pdf" target="_blank" rel="noopener noreferrer">JARI就業規則変更への対応(2019.08.27)</a></li>
-                        <li>📄 <a href="ms-excel:ofe|u|\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\勤務体制&amp;実施状況.xlsx" target="_blank" rel="noopener noreferrer">勤務体制&amp;実施状況</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\その他のフォルダー\業務管理システム\業務管理システム_資料等_2023.09.01\①業務管理手引書.pdf" target="_blank" rel="noopener noreferrer">業務管理手引書（2023.09～）</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\派遣元の連絡先.pdf" target="_blank" rel="noopener noreferrer">派遣元の連絡先</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\業務記録入力ガイドライン.pdf" target="_blank" rel="noopener noreferrer">業務記録入力ガイドライン</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\その他のフォルダー\マイナンバー対応\従業員周知文.pdf" target="_blank" rel="noopener noreferrer">マイナンバー制度に伴うお知らせ</a></li>
-                        <li>📄 <a href="http://www.cev-pc.or.jp/about/access-map.html" target="_blank" rel="noopener noreferrer">WEBサイトアクセスマップ</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\組織・人員体制関係\NeV%20組織図（R6.4.1）氏名有り.pdf" target="_blank" rel="noopener noreferrer">NeV 組織図（R6.4.1）氏名有り</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\組織・人員体制関係\NeV%20組織図（R5.4.1）氏名無.pdf" target="_blank" rel="noopener noreferrer">NeV 組織図（R5.4.1）氏名無</a></li>
+                        <li><a href="共通コーナー\NEV人員体制\NEV%20組織・人員体制.pdf" target="_blank" rel="noopener noreferrer">NEV 組織・人員体制（最新）</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEV%20各部人員数\人員数.pdf" target="_blank" rel="noopener noreferrer">人員数（2025.04.01）</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\組織・人員体制関係\★役職員緊急連絡先.pdf" target="_blank" rel="noopener noreferrer">役職員緊急連絡先</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\センター内の業務用携帯電話番号帳.pdf" target="_blank" rel="noopener noreferrer">センター内の業務用携帯電話番号帳</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\JARI就業規則変更への対応(2019.08.27).pdf" target="_blank" rel="noopener noreferrer">JARI就業規則変更への対応(2019.08.27)</a></li>
+                        <li><a href="ms-excel:ofv|u|H:/nev_window/勤務体制&amp;実施状況.xlsx" target="_blank" rel="noopener noreferrer">勤務体制&amp;実施状況</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\その他のフォルダー\業務管理システム\業務管理システム_資料等_2023.09.01\①業務管理手引書.pdf" target="_blank" rel="noopener noreferrer">業務管理手引書（2023.09～）</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\派遣元の連絡先.pdf" target="_blank" rel="noopener noreferrer">派遣元の連絡先</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\業務記録入力ガイドライン.pdf" target="_blank" rel="noopener noreferrer">業務記録入力ガイドライン</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\その他のフォルダー\マイナンバー対応\従業員周知文.pdf" target="_blank" rel="noopener noreferrer">マイナンバー制度に伴うお知らせ</a></li>
+                        <li><a href="http://www.cev-pc.or.jp/about/access-map.html" target="_blank" rel="noopener noreferrer">WEBサイトアクセスマップ</a></li>
                     </ul>
                 </div>
                 <div class="section" data-section-index="2">
@@ -296,101 +295,101 @@
                     <div class="subsection" data-subsection-index="0">
                         <h3>０．規則</h3>
                         <ul class="item-list">
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\00標準書に関する規則\★標準書に関する規則（2014.7.11改定）.pdf" target="_blank" rel="noopener noreferrer">標準書に関する規則（2014.7.11改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\00標準書に関する規則\標準書類の管理要領（2015.08.21改定）.pdf" target="_blank" rel="noopener noreferrer">標準書類の管理要領（2015.08.21改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\00標準書に関する規則\★方針に関する規則（2015.3.13制定）.pdf" target="_blank" rel="noopener noreferrer">方針に関する規則（2015.3.13制定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\00標準書に関する規則\★標準書に関する規則（2014.7.11改定）.pdf" target="_blank" rel="noopener noreferrer">標準書に関する規則（2014.7.11改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\00標準書に関する規則\標準書類の管理要領（2015.08.21改定）.pdf" target="_blank" rel="noopener noreferrer">標準書類の管理要領（2015.08.21改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\00標準書に関する規則\★方針に関する規則（2015.3.13制定）.pdf" target="_blank" rel="noopener noreferrer">方針に関する規則（2015.3.13制定）</a></li>
                         </ul>
                     </div>
                     <div class="subsection" data-subsection-index="1">
                         <h3>１．稟議・契約</h3>
                         <ul class="item-list">
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\★稟議規程(2025.4.25改定).pdf" target="_blank" rel="noopener noreferrer">稟議規程(2025.4.25改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表１】稟議書（2019.05.01）.pdf" target="_blank" rel="noopener noreferrer">【別表１】稟議書</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表１ａ】稟議書（2022.08.01）.pdf" target="_blank" rel="noopener noreferrer">【別表１ａ】稟議書</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表２】契約関係決裁書（競争入札）（2020.02.03）.pdf" target="_blank" rel="noopener noreferrer">【別表２】契約関係決裁書（競争入札）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表３】契約関係決裁書（随意契約）（2020.02.03）.pdf" target="_blank" rel="noopener noreferrer">【別表３】契約関係決裁書（随意契約）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表４】稟議書決裁基準（2020.09.01）.pdf" target="_blank" rel="noopener noreferrer">【別表４】稟議書決裁基準</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\★契約関係事務取扱要領(2025.4.25改定).pdf" target="_blank" rel="noopener noreferrer">契約関係事務取扱要領(2025.04.25改定)</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\★契約関係事務取扱要領（図解）.pdf" target="_blank" rel="noopener noreferrer">契約関係事務取扱要領（図解）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\★稟議書の手順書(2015.06.12制定).pdf" target="_blank" rel="noopener noreferrer">稟議書の手順書(2015.06.12制定)</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\03公印・発信文書番号管理規程\★公印及び発信文書番号管理規程（2019.4.1改定）.pdf" target="_blank" rel="noopener noreferrer">公印及び発信文書番号管理規程（2019.4.1改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\03公印・発信文書番号管理規程\【別表１】公印押印申請書.pdf" target="_blank" rel="noopener noreferrer">【別表１】公印押印申請書</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\決裁関連書類保存手順_2024.1.5.pdf" target="_blank" rel="noopener noreferrer">決裁関連書類保存手順</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\★稟議規程(2025.4.25改定).pdf" target="_blank" rel="noopener noreferrer">稟議規程(2025.4.25改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表１】稟議書（2019.05.01）.pdf" target="_blank" rel="noopener noreferrer">【別表１】稟議書</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表１ａ】稟議書（2022.08.01）.pdf" target="_blank" rel="noopener noreferrer">【別表１ａ】稟議書</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表２】契約関係決裁書（競争入札）（2020.02.03）.pdf" target="_blank" rel="noopener noreferrer">【別表２】契約関係決裁書（競争入札）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表３】契約関係決裁書（随意契約）（2020.02.03）.pdf" target="_blank" rel="noopener noreferrer">【別表３】契約関係決裁書（随意契約）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\【別表４】稟議書決裁基準（2020.09.01）.pdf" target="_blank" rel="noopener noreferrer">【別表４】稟議書決裁基準</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\★契約関係事務取扱要領(2025.4.25改定).pdf" target="_blank" rel="noopener noreferrer">契約関係事務取扱要領(2025.04.25改定)</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\★契約関係事務取扱要領（図解）.pdf" target="_blank" rel="noopener noreferrer">契約関係事務取扱要領（図解）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\01稟議・契約\★稟議書の手順書(2015.06.12制定).pdf" target="_blank" rel="noopener noreferrer">稟議書の手順書(2015.06.12制定)</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\03公印・発信文書番号管理規程\★公印及び発信文書番号管理規程（2019.4.1改定）.pdf" target="_blank" rel="noopener noreferrer">公印及び発信文書番号管理規程（2019.4.1改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\03公印・発信文書番号管理規程\【別表１】公印押印申請書.pdf" target="_blank" rel="noopener noreferrer">【別表１】公印押印申請書</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\決裁関連書類保存手順_2024.1.5.pdf" target="_blank" rel="noopener noreferrer">決裁関連書類保存手順</a></li>
                         </ul>
                     </div>
                     <div class="subsection" data-subsection-index="2">
                         <h3>２．組織・運営</h3>
                         <ul class="item-list">
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\（改8）★組織機構及び組織運営に関する規程（改定2024.9.20）.pdf" target="_blank" rel="noopener noreferrer">組織機構及び組織運営に関する規程（改定2024.09.20）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\（改）★【別表1】業務分掌（改定2014.4.1）.pdf" target="_blank" rel="noopener noreferrer">【別表1】業務分掌</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\（改5）★【別表2】%20職務権限表（改定2017.2.17）.pdf" target="_blank" rel="noopener noreferrer">【別表2】職務権限表</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\★【別表3】職務の委任状(Word版）（制定2014.10.1）.pdf" target="_blank" rel="noopener noreferrer">【別表3】職務の委任状</a></li>
-                            <li>📄 <a href="ms-word:ofe|u|\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\★【別表3】職務の委任状(Word版）（制定2014.10.1）.docx" target="_blank" rel="noopener noreferrer">【別表3】職務の委任状(Word版）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\運営会議の運営要領（改定2017.06.16）.pdf" target="_blank" rel="noopener noreferrer">運営会議の運営要領（改定2017.06.16）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\（改8）★組織機構及び組織運営に関する規程（改定2024.9.20）.pdf" target="_blank" rel="noopener noreferrer">組織機構及び組織運営に関する規程（改定2024.09.20）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\（改）★【別表1】業務分掌（改定2014.4.1）.pdf" target="_blank" rel="noopener noreferrer">【別表1】業務分掌</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\（改5）★【別表2】%20職務権限表（改定2017.2.17）.pdf" target="_blank" rel="noopener noreferrer">【別表2】職務権限表</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\★【別表3】職務の委任状(Word版）（制定2014.10.1）.pdf" target="_blank" rel="noopener noreferrer">【別表3】職務の委任状</a></li>
+                            <li><a href="ms-word:ofv|u|\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\★【別表3】職務の委任状(Word版）（制定2014.10.1）.docx" target="_blank" rel="noopener noreferrer">【別表3】職務の委任状(Word版）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\02組織規程\運営会議の運営要領（改定2017.06.16）.pdf" target="_blank" rel="noopener noreferrer">運営会議の運営要領（改定2017.06.16）</a></li>
                         </ul>
                     </div>
                     <div class="subsection" data-subsection-index="3">
                         <h3>３．就業規則・出張・旅費他</h3>
                         <ul class="item-list">
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★%20就業規則_20240401施行.pdf" target="_blank" rel="noopener noreferrer">就業規則(2024.04.01施行)</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★契約職員就業規程（20240401改定）.pdf" target="_blank" rel="noopener noreferrer">契約職員規程（2024.04.01改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★時間外勤務実施要領.pdf" target="_blank" rel="noopener noreferrer">時間外勤務実施要領</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★国内旅費規程.pdf" target="_blank" rel="noopener noreferrer">国内旅費規程</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★国内旅費支給基準（20141001改定）.pdf" target="_blank" rel="noopener noreferrer">国内旅費支給基準（20141001改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\海外出張旅費支払要領（20141113制定）.pdf" target="_blank" rel="noopener noreferrer">海外出張旅費支払要領（20141113制定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\派遣職員の就業ルール(2016.07.04).pdf" target="_blank" rel="noopener noreferrer">派遣職員の就業ルール(2016.07.04改定)</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\派遣会社個別契約統一基準の件.pdf" target="_blank" rel="noopener noreferrer">派遣会社個別契約統一基準の件</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★%20就業規則_20240401施行.pdf" target="_blank" rel="noopener noreferrer">就業規則(2024.04.01施行)</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★契約職員就業規程（20240401改定）.pdf" target="_blank" rel="noopener noreferrer">契約職員規程（2024.04.01改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★時間外勤務実施要領.pdf" target="_blank" rel="noopener noreferrer">時間外勤務実施要領</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★国内旅費規程.pdf" target="_blank" rel="noopener noreferrer">国内旅費規程</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★国内旅費支給基準（20141001改定）.pdf" target="_blank" rel="noopener noreferrer">国内旅費支給基準（20141001改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\海外出張旅費支払要領（20141113制定）.pdf" target="_blank" rel="noopener noreferrer">海外出張旅費支払要領（20141113制定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\派遣職員の就業ルール(2016.07.04).pdf" target="_blank" rel="noopener noreferrer">派遣職員の就業ルール(2016.07.04改定)</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\00全体共有情報フォルダー\NEVの窓　掲載ファイル\派遣会社個別契約統一基準の件.pdf" target="_blank" rel="noopener noreferrer">派遣会社個別契約統一基準の件</a></li>
                         </ul>
                     </div>
                     <div class="subsection" data-subsection-index="4">
                         <h3>４．安全衛生他</h3>
                         <ul class="item-list">
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\05安全衛生・倫理・危機管理\★安全衛生管理＆衛生委員会規程（2017.07.14）改定.pdf" target="_blank" rel="noopener noreferrer">安全衛生管理＆衛生委員会規程（2017.07.14）改定</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\07慶弔規程\慶弔規程（2022.11.01改定）.pdf" target="_blank" rel="noopener noreferrer">慶弔規程（2022.11.01改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\11衛生委員会&amp;倫理委員会\委員構成\R6年度　衛生委員会委員.pdf" target="_blank" rel="noopener noreferrer">R6年度　衛生委員会委員</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\11衛生委員会&amp;倫理委員会\委員構成\R6年度　倫理委員会委員.pdf" target="_blank" rel="noopener noreferrer">R6年度　倫理委員会委員</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\05安全衛生・倫理・危機管理\★倫理規程（2017.07.14）改定.pdf" target="_blank" rel="noopener noreferrer">倫理規程（2017.07.14）改定</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\05安全衛生・倫理・危機管理\★危機管理規程（2017.07.14）改定.pdf" target="_blank" rel="noopener noreferrer">危機管理規程（2017.07.14）改定</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\05安全衛生・倫理・危機管理\★安全衛生管理＆衛生委員会規程（2017.07.14）改定.pdf" target="_blank" rel="noopener noreferrer">安全衛生管理＆衛生委員会規程（2017.07.14）改定</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\07慶弔規程\慶弔規程（2022.11.01改定）.pdf" target="_blank" rel="noopener noreferrer">慶弔規程（2022.11.01改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\11衛生委員会&amp;倫理委員会\委員構成\R6年度　衛生委員会委員.pdf" target="_blank" rel="noopener noreferrer">R6年度　衛生委員会委員</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\11衛生委員会&amp;倫理委員会\委員構成\R6年度　倫理委員会委員.pdf" target="_blank" rel="noopener noreferrer">R6年度　倫理委員会委員</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\05安全衛生・倫理・危機管理\★倫理規程（2017.07.14）改定.pdf" target="_blank" rel="noopener noreferrer">倫理規程（2017.07.14）改定</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\05安全衛生・倫理・危機管理\★危機管理規程（2017.07.14）改定.pdf" target="_blank" rel="noopener noreferrer">危機管理規程（2017.07.14）改定</a></li>
                         </ul>
                     </div>
                     <div class="subsection" data-subsection-index="5">
                         <h3>５．ITセキュリティ関係他</h3>
                         <ul class="item-list">
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\15情報セキュリティ基本規程\★情報セキュリティ基本規程（2025.5.26制定）.pdf" target="_blank" rel="noopener noreferrer">情報セキュリティ基本規程（2025.5.26）制定</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\16個人情報保護規程\★個人情報保護規程（2025.5.26制定）.pdf" target="_blank" rel="noopener noreferrer">個人情報保護規程（2025.5.26）制定</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\17アクセス制御規程\★アクセス制御規程（2025.5.26制定）.pdf" target="_blank" rel="noopener noreferrer">アクセス制御規程（2025.5.26）制定</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\14機密情報管理規程\★機密情報管理規程（2025.5.26改定）.pdf" target="_blank" rel="noopener noreferrer">機密情報管理規程（2025.5.26）改定</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\08マイナンバー規程\★特定個人情報取扱規程（2015.12.18新設）.pdf" target="_blank" rel="noopener noreferrer">特定個人情報取扱規程（2015.12.18制定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\18誓約書・承諾書要領\ITセキュリティ関連「誓約書」・「承諾書」要領.pdf" target="_blank" rel="noopener noreferrer">ITセキュリティ関連「誓約書」・「承諾書」要領(2025.5.29制定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\08マイナンバー規程\★マイナンバー運用要領（2017.06.16改定）.pdf" target="_blank" rel="noopener noreferrer">マイナンバー運用要領（2017.06.16改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\09セキュリティ関連規程\★WEBフィルタリング解除要領(2016.04.15新設）.pdf" target="_blank" rel="noopener noreferrer">WEBフィルタリング解除要領(2016.04.15新設）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\11在宅勤務関連規程\☆在宅勤務規程（2024.9.4制定）.pdf" target="_blank" rel="noopener noreferrer">在宅勤務勤務規程（2024.09.04制定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\11在宅勤務関連規程\★在宅勤務パソコン利用要領（2020.11.1改定）.pdf" target="_blank" rel="noopener noreferrer">在宅勤務でのパソコン利用要領（2020.11.1改定）</a></li>
-                            <li>📄 <a href="共通コーナー\在宅勤務関連\自宅PC業務利用手順_VPNクライアント版20250808.pdf" target="_blank" rel="noopener noreferrer">【補足】自宅PC業務利用手順(2023.7.12改定)</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\15情報セキュリティ基本規程\★情報セキュリティ基本規程（2025.5.26制定）.pdf" target="_blank" rel="noopener noreferrer">情報セキュリティ基本規程（2025.5.26）制定</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\16個人情報保護規程\★個人情報保護規程（2025.5.26制定）.pdf" target="_blank" rel="noopener noreferrer">個人情報保護規程（2025.5.26）制定</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\17アクセス制御規程\★アクセス制御規程（2025.5.26制定）.pdf" target="_blank" rel="noopener noreferrer">アクセス制御規程（2025.5.26）制定</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\14機密情報管理規程\★機密情報管理規程（2025.5.26改定）.pdf" target="_blank" rel="noopener noreferrer">機密情報管理規程（2025.5.26）改定</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\08マイナンバー規程\★特定個人情報取扱規程（2015.12.18新設）.pdf" target="_blank" rel="noopener noreferrer">特定個人情報取扱規程（2015.12.18制定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\18誓約書・承諾書要領\ITセキュリティ関連「誓約書」・「承諾書」要領.pdf" target="_blank" rel="noopener noreferrer">ITセキュリティ関連「誓約書」・「承諾書」要領(2025.5.29制定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\08マイナンバー規程\★マイナンバー運用要領（2017.06.16改定）.pdf" target="_blank" rel="noopener noreferrer">マイナンバー運用要領（2017.06.16改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\09セキュリティ関連規程\★WEBフィルタリング解除要領(2016.04.15新設）.pdf" target="_blank" rel="noopener noreferrer">WEBフィルタリング解除要領(2016.04.15新設）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\11在宅勤務関連規程\☆在宅勤務規程（2024.9.4制定）.pdf" target="_blank" rel="noopener noreferrer">在宅勤務勤務規程（2024.09.04制定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\11在宅勤務関連規程\★在宅勤務パソコン利用要領（2020.11.1改定）.pdf" target="_blank" rel="noopener noreferrer">在宅勤務でのパソコン利用要領（2020.11.1改定）</a></li>
+                            <li><a href="共通コーナー\在宅勤務関連\自宅PC業務利用手順_VPNクライアント版20250808.pdf" target="_blank" rel="noopener noreferrer">【補足】自宅PC業務利用手順(2023.7.12改定)</a></li>
                         </ul>
                     </div>
                     <div class="subsection" data-subsection-index="6">
                         <h3>６．その他</h3>
                         <ul class="item-list">
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\06事務所規程\★事務所規程（2023.06.16改定）.pdf" target="_blank" rel="noopener noreferrer">事務所規程（2023.6.16改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\06事務所規程\★施錠要領（2023.06.16改定）.pdf" target="_blank" rel="noopener noreferrer">施錠要領（2023.6.16改定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★災害補償付加給付規程.pdf" target="_blank" rel="noopener noreferrer">災害補償付加給付規程（2022.11.01制定）</a></li>
-                            <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★災害補償付加給付規程（別表）.pdf" target="_blank" rel="noopener noreferrer">【別表】災害補償付加給付規程</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\06事務所規程\★事務所規程（2023.06.16改定）.pdf" target="_blank" rel="noopener noreferrer">事務所規程（2023.6.16改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\06事務所規程\★施錠要領（2023.06.16改定）.pdf" target="_blank" rel="noopener noreferrer">施錠要領（2023.6.16改定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★災害補償付加給付規程.pdf" target="_blank" rel="noopener noreferrer">災害補償付加給付規程（2022.11.01制定）</a></li>
+                            <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\04就業規則・旅費規程\★災害補償付加給付規程（別表）.pdf" target="_blank" rel="noopener noreferrer">【別表】災害補償付加給付規程</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="section" data-section-index="3">
                     <h2>各種帳票フォーマット</h2>
                     <ul class="item-list">
-                        <li>📄 <a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\01%20稟議・契約決裁関係\★稟議書・契約関係決裁書（2020年2月～）" target="_blank" rel="noopener noreferrer">01（2020年2月から）稟議書・契約関係決裁書</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\02%20補助金関係" target="_blank" rel="noopener noreferrer">02 補助金関係</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\03%20届出・申請書類" target="_blank" rel="noopener noreferrer">03 届出・申請書類</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\04%20総務・経理関係" target="_blank" rel="noopener noreferrer">04 総務・経理関係</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\05%20入札関係" target="_blank" rel="noopener noreferrer">05 入札関係</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\06%20報告書原紙" target="_blank" rel="noopener noreferrer">06 報告書原紙</a></li>
-                        <li>📄 <a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\09セキュリティ関連規程" target="_blank" rel="noopener noreferrer">07　セキュリティ関係</a></li>
-                        <li>📄 発信文書番号取得</li>
-                        <li>📄 <a href="ms-excel:ofe|u|\\cev-file5\data\40%20総務\発信文書番号記録簿(最新版）.xlsx" target="_blank" rel="noopener noreferrer">発信文書番号記録簿</a></li>
+                        <li><a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\01%20稟議・契約決裁関係\★稟議書・契約関係決裁書（2020年2月～）" target="_blank" rel="noopener noreferrer">01（2020年2月から）稟議書・契約関係決裁書</a></li>
+                        <li><a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\02%20補助金関係" target="_blank" rel="noopener noreferrer">02 補助金関係</a></li>
+                        <li><a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\03%20届出・申請書類" target="_blank" rel="noopener noreferrer">03 届出・申請書類</a></li>
+                        <li><a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\04%20総務・経理関係" target="_blank" rel="noopener noreferrer">04 総務・経理関係</a></li>
+                        <li><a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\05%20入札関係" target="_blank" rel="noopener noreferrer">05 入札関係</a></li>
+                        <li><a href="file:///\\cev-file5\data\40%20総務\20%20各種フォーマット\06%20報告書原紙" target="_blank" rel="noopener noreferrer">06 報告書原紙</a></li>
+                        <li><a href="file:///\\cev-file5\data\☆☆管理部★★\30規程類\21★標準書（規程類）\09セキュリティ関連規程" target="_blank" rel="noopener noreferrer">07　セキュリティ関係</a></li>
+                        <li>発信文書番号取得</li>
+                        <li><a href="ms-excel:ofv|u|\\cev-file5\data\40%20総務\発信文書番号記録簿(最新版）.xlsx" target="_blank" rel="noopener noreferrer">発信文書番号記録簿</a></li>
                     </ul>
                 </div>
             </div>
@@ -439,14 +438,167 @@
             const sections = sectionsContainer.querySelectorAll('.section');
             const searchQuery = normalizeJapanese(query.toLowerCase());
             
+            // 検索クエリが空の場合、すべて表示
+            if (!searchQuery.trim()) {
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                    // すべてのアイテムを表示
+                    section.querySelectorAll('.info-item').forEach(item => item.style.display = 'block');
+                    section.querySelectorAll('.item-list li').forEach(item => item.style.display = 'list-item');
+                    section.querySelectorAll('.subsection').forEach(sub => sub.style.display = 'block');
+                    section.querySelectorAll('.subsection .item-list li').forEach(item => item.style.display = 'list-item');
+                });
+                return;
+            }
+            
             sections.forEach(section => {
-                const text = normalizeJapanese(section.textContent.toLowerCase());
-                if (text.includes(searchQuery)) {
+                let hasVisibleItems = false;
+                
+                // INFORMATIONセクションの場合（.info-itemを含む）
+                const infoItems = section.querySelectorAll('.info-item');
+                if (infoItems.length > 0) {
+                    infoItems.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'block';
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    // 折りたたみコンテナ内のアイテムも検索
+                    const collapsedContainers = section.querySelectorAll('.collapsed-items');
+                    collapsedContainers.forEach(container => {
+                        const collapsedItems = container.querySelectorAll('.info-item');
+                        let hasVisibleCollapsedItems = false;
+                        collapsedItems.forEach(item => {
+                            const text = normalizeJapanese(item.textContent.toLowerCase());
+                            if (text.includes(searchQuery)) {
+                                item.style.display = 'block';
+                                hasVisibleCollapsedItems = true;
+                                hasVisibleItems = true;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                        // 検索結果がある場合は折りたたみを展開
+                        if (hasVisibleCollapsedItems) {
+                            container.style.display = 'block';
+                        }
+                    });
+                }
+                
+                // リスト形式のセクションの場合
+                const itemLists = section.querySelectorAll('.item-list');
+                itemLists.forEach(list => {
+                    const items = list.querySelectorAll('li');
+                    items.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'list-item';
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // サブセクションがある場合
+                const subsections = section.querySelectorAll('.subsection');
+                subsections.forEach(subsection => {
+                    let hasVisibleSubItems = false;
+                    const subItems = subsection.querySelectorAll('.item-list li');
+                    subItems.forEach(item => {
+                        const text = normalizeJapanese(item.textContent.toLowerCase());
+                        if (text.includes(searchQuery)) {
+                            item.style.display = 'list-item';
+                            hasVisibleSubItems = true;
+                            hasVisibleItems = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    // サブセクションに表示アイテムがある場合のみ表示
+                    if (hasVisibleSubItems) {
+                        subsection.style.display = 'block';
+                    } else {
+                        subsection.style.display = 'none';
+                    }
+                });
+                
+                // セクション全体の表示/非表示を設定
+                if (hasVisibleItems) {
                     section.style.display = 'block';
                 } else {
                     section.style.display = 'none';
                 }
             });
+        }
+
+        // グローバル検索機能（全員向け・職員向け両方を検索）
+        function filterAllContent(query) {
+            const searchQuery = normalizeJapanese(query.toLowerCase());
+            
+            // 両方のタブを検索
+            ['全員向け', '職員向け'].forEach(tabName => {
+                filterContent(tabName, query);
+            });
+            
+            // 検索結果がある場合、両方のタブを表示
+            if (searchQuery.trim()) {
+                // 両方のタブコンテンツを表示状態にする
+                const allTabs = document.querySelectorAll('.tab-content');
+                let hasAnyResults = false;
+                
+                allTabs.forEach(tab => {
+                    const visibleSections = tab.querySelectorAll('.section[style*="display: block"], .section:not([style*="display: none"])');
+                    if (visibleSections.length > 0) {
+                        // 検索結果があるタブは表示
+                        const hasVisibleItems = Array.from(visibleSections).some(section => {
+                            const visibleInfoItems = section.querySelectorAll('.info-item[style*="display: block"], .info-item:not([style*="display: none"])');
+                            const visibleListItems = section.querySelectorAll('.item-list li[style*="display: list-item"], .item-list li:not([style*="display: none"])');
+                            return visibleInfoItems.length > 0 || visibleListItems.length > 0;
+                        });
+                        
+                        if (hasVisibleItems) {
+                            tab.classList.add('active');
+                            hasAnyResults = true;
+                        } else {
+                            tab.classList.remove('active');
+                        }
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // タブボタンの状態も更新（両方activeにする）
+                if (hasAnyResults) {
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                }
+            } else {
+                // 検索クエリが空の場合、最初のタブのみ表示
+                const allTabs = document.querySelectorAll('.tab-content');
+                allTabs.forEach((tab, index) => {
+                    if (index === 0) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // タブボタンも元に戻す
+                const tabButtons = document.querySelectorAll('.tab-button');
+                tabButtons.forEach((btn, index) => {
+                    if (index === 0) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
         }
 
         // Toggle collapse for INFORMATION sections

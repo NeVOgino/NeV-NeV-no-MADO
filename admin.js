@@ -21,17 +21,19 @@ function getOfficeUri(link) {
     const lowerLink = link.toLowerCase();
     
     // Office URI scheme mapping
+    // Using ofv (Office File View) to avoid security warnings
+    // ofv opens files in read-only mode, users can enable editing if needed
     const officeSchemes = {
-        '.xlsx': 'ms-excel:ofe|u|',
-        '.xls': 'ms-excel:ofe|u|',
-        '.xlsm': 'ms-excel:ofe|u|',
-        '.xlsb': 'ms-excel:ofe|u|',
-        '.docx': 'ms-word:ofe|u|',
-        '.doc': 'ms-word:ofe|u|',
-        '.docm': 'ms-word:ofe|u|',
-        '.pptx': 'ms-powerpoint:ofe|u|',
-        '.ppt': 'ms-powerpoint:ofe|u|',
-        '.pptm': 'ms-powerpoint:ofe|u|'
+        '.xlsx': 'ms-excel:ofv|u|',
+        '.xls': 'ms-excel:ofv|u|',
+        '.xlsm': 'ms-excel:ofv|u|',
+        '.xlsb': 'ms-excel:ofv|u|',
+        '.docx': 'ms-word:ofv|u|',
+        '.doc': 'ms-word:ofv|u|',
+        '.docm': 'ms-word:ofv|u|',
+        '.pptx': 'ms-powerpoint:ofv|u|',
+        '.ppt': 'ms-powerpoint:ofv|u|',
+        '.pptm': 'ms-powerpoint:ofv|u|'
     };
     
     // Check if it's an Office file
@@ -43,6 +45,9 @@ function getOfficeUri(link) {
             if (path.startsWith('..\\') || path.startsWith('..')) {
                 path = path.replace('..\\nev_window\\', 'H:/nev_window/');
                 path = path.replace('..\\', 'H:/');
+                path = path.replace(/\\/g, '/');
+            } else if (path.startsWith('H:\\') || path.startsWith('H:/')) {
+                // Already an absolute H: drive path, just convert backslashes to forward slashes
                 path = path.replace(/\\/g, '/');
             } else if (path.startsWith('共通コーナー\\') || path.startsWith('INFORMATION\\') || path.startsWith('20')) {
                 path = 'H:/nev_window/' + path.replace(/\\/g, '/');
@@ -78,29 +83,11 @@ async function loadData() {
     } catch (error) {
         console.error('Error loading data:', error);
         // データ読み込み失敗時は空の状態で初期化
-        console.log('⚠️ data.jsonの読み込みに失敗しました。「📤 data.jsonをアップロード」ボタンからファイルを読み込んでください。');
-        showUploadPrompt();
+        console.log('⚠️ data.jsonの読み込みに失敗しました。「📂 初めに：data.jsonよみこみ」ボタンからファイルを読み込んでください。');
+        // Initialize with empty data structure
+        boardData = { '全員向け': { title: '全員向け', sections: [] }, '職員向け': { title: '職員向け', sections: [] } };
+        originalData = JSON.parse(JSON.stringify(boardData));
     }
-}
-
-// Show upload prompt when data loading fails
-function showUploadPrompt() {
-    const containers = ['全員向け', '職員向け'];
-    containers.forEach(tabName => {
-        const container = document.getElementById(tabName);
-        container.innerHTML = `
-            <div style="background: #fff3cd; border: 2px dashed #ffc107; border-radius: 10px; padding: 30px; text-align: center; margin: 20px 0;">
-                <h2 style="color: #856404; margin-bottom: 15px;">📤 data.jsonをアップロードしてください</h2>
-                <p style="color: #856404; margin-bottom: 20px;">
-                    編集を開始するには、まず「📤 data.jsonをアップロード」ボタンをクリックして、
-                    <br>既存のdata.jsonファイルを読み込んでください。
-                </p>
-                <button class="upload-button" onclick="document.getElementById('fileInput').click()" style="font-size: 1.2em; padding: 15px 30px;">
-                    📤 data.jsonをアップロード
-                </button>
-            </div>
-        `;
-    });
 }
 
 // Render admin content for a specific tab
@@ -322,16 +309,41 @@ function cancelEdit(tabName, sectionIndex) {
 function downloadData() {
     const dataStr = JSON.stringify(boardData, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'data.json';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
     
-    alert('data.jsonをダウンロードしました。このファイルを元のdata.jsonと置き換えて、変更を反映させてください。');
+    // Generate timestamp for backup filename
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const timestamp = `${year}${month}${day}_${hours}${minutes}${seconds}`;
+    
+    // Download backup file first
+    const backupUrl = URL.createObjectURL(dataBlob);
+    const backupLink = document.createElement('a');
+    backupLink.href = backupUrl;
+    backupLink.download = `data_backup_${timestamp}.json`;
+    document.body.appendChild(backupLink);
+    backupLink.click();
+    document.body.removeChild(backupLink);
+    URL.revokeObjectURL(backupUrl);
+    
+    // Wait a moment before downloading the main file
+    setTimeout(() => {
+        // Download main data.json file
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'data.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        alert(`data.jsonをダウンロードしました。\nバックアップファイル（data_backup_${timestamp}.json）も保存されました。\ndata.jsonを元のファイルと置き換えて、変更を反映させてください。`);
+    }, 500);
 }
 
 // Upload data from JSON file

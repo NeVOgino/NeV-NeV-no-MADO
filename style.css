@@ -191,10 +191,49 @@ main {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* File type icons */
 .item-list li::before {
     content: "📄 ";
     margin-right: 8px;
 }
+
+/* Excel files */
+.item-list li:has(a[href*="ms-excel:"])::before,
+.item-list li:has(a[href$=".xlsx"])::before,
+.item-list li:has(a[href$=".xls"])::before,
+.item-list li:has(a[href$=".xlsm"])::before,
+.item-list li:has(a[href$=".xlsb"])::before {
+    content: "📊 ";
+}
+
+/* Word files */
+.item-list li:has(a[href*="ms-word:"])::before,
+.item-list li:has(a[href$=".docx"])::before,
+.item-list li:has(a[href$=".doc"])::before,
+.item-list li:has(a[href$=".docm"])::before {
+    content: "📝 ";
+}
+
+/* PowerPoint files */
+.item-list li:has(a[href*="ms-powerpoint:"])::before,
+.item-list li:has(a[href$=".pptx"])::before,
+.item-list li:has(a[href$=".ppt"])::before,
+.item-list li:has(a[href$=".pptm"])::before {
+    content: "📊 ";
+}
+
+/* PDF files */
+.item-list li:has(a[href$=".pdf"])::before {
+    content: "📕 ";
+}
+
+/* Web links */
+.item-list li:has(a[href^="http://"])::before,
+.item-list li:has(a[href^="https://"])::before,
+.item-list li:has(a[href$=".html"])::before {
+    content: "🌐 ";
+}
+
 
 /* Grid Layout for Multiple Sections */
 .sections-grid {
@@ -470,15 +509,15 @@ footer {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+    color: #333;
+    border: 3px solid white;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 24px;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    font-size: 28px;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.7);
     transition: all 0.3s ease;
     z-index: 1000;
     display: none;
@@ -487,8 +526,9 @@ footer {
 }
 
 .scroll-to-top:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.9);
+    background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
 }
 
 .scroll-to-top.show {
