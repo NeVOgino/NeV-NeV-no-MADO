@@ -21,6 +21,17 @@
         </div>
     </nav>
 
+    <!-- グローバル検索ボックス -->
+    <div class="container" style="margin-top: 20px;">
+        <div class="search-box">
+            <input type="text" 
+                   id="global-search"
+                   placeholder="🔍 すべてを検索（全員向け・職員向け両方）..." 
+                   onkeyup="filterAllContent(this.value)"
+                   style="background-color: #f0f8ff; border: 2px solid #4CAF50;">
+        </div>
+    </div>
+
     <main class="container">
         <div id="全員向け" class="tab-content active">
             <h1 class="section-title">全員向け情報</h1>
@@ -439,6 +450,16 @@
             const sections = sectionsContainer.querySelectorAll('.section');
             const searchQuery = normalizeJapanese(query.toLowerCase());
             
+            // グローバル検索ボックスとの同期
+            const globalSearch = document.getElementById('global-search');
+            if (globalSearch && globalSearch.value !== query) {
+                // 個別検索ボックスから呼ばれた場合、グローバル検索もクリア
+                // ただし、filterAllContentから呼ばれた場合は同期しない
+                if (globalSearch.value === '') {
+                    // グローバル検索が空の場合のみ同期
+                }
+            }
+            
             // 検索クエリが空の場合、すべて表示
             if (!searchQuery.trim()) {
                 sections.forEach(section => {
@@ -534,6 +555,76 @@
                 } else {
                     section.style.display = 'none';
                 }
+            });
+        }
+
+        // グローバル検索機能（全員向け・職員向け両方を検索）
+        function filterAllContent(query) {
+            const searchQuery = normalizeJapanese(query.toLowerCase());
+            
+            // 両方のタブを検索
+            ['全員向け', '職員向け'].forEach(tabName => {
+                filterContent(tabName, query);
+            });
+            
+            // 検索結果がある場合、両方のタブを表示
+            if (searchQuery.trim()) {
+                // 両方のタブコンテンツを表示状態にする
+                const allTabs = document.querySelectorAll('.tab-content');
+                let hasAnyResults = false;
+                
+                allTabs.forEach(tab => {
+                    const visibleSections = tab.querySelectorAll('.section[style*="display: block"], .section:not([style*="display: none"])');
+                    if (visibleSections.length > 0) {
+                        // 検索結果があるタブは表示
+                        const hasVisibleItems = Array.from(visibleSections).some(section => {
+                            const visibleInfoItems = section.querySelectorAll('.info-item[style*="display: block"], .info-item:not([style*="display: none"])');
+                            const visibleListItems = section.querySelectorAll('.item-list li[style*="display: list-item"], .item-list li:not([style*="display: none"])');
+                            return visibleInfoItems.length > 0 || visibleListItems.length > 0;
+                        });
+                        
+                        if (hasVisibleItems) {
+                            tab.classList.add('active');
+                            hasAnyResults = true;
+                        } else {
+                            tab.classList.remove('active');
+                        }
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // タブボタンの状態も更新（両方activeにする）
+                if (hasAnyResults) {
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                }
+            } else {
+                // 検索クエリが空の場合、最初のタブのみ表示
+                const allTabs = document.querySelectorAll('.tab-content');
+                allTabs.forEach((tab, index) => {
+                    if (index === 0) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // タブボタンも元に戻す
+                const tabButtons = document.querySelectorAll('.tab-button');
+                tabButtons.forEach((btn, index) => {
+                    if (index === 0) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 個別の検索ボックスも同期
+            document.querySelectorAll('.search-box input[data-tab]').forEach(input => {
+                input.value = query;
             });
         }
 
