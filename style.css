@@ -509,15 +509,15 @@ footer {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+    color: #333;
+    border: 3px solid white;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 24px;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    font-size: 28px;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.7);
     transition: all 0.3s ease;
     z-index: 1000;
     display: none;
@@ -526,8 +526,9 @@ footer {
 }
 
 .scroll-to-top:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.9);
+    background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
 }
 
 .scroll-to-top.show {
