@@ -128,15 +128,6 @@ def generate_html():
         html_content += f'        <div id="{escape_html(tab_name)}" class="tab-content {is_active}">\n'
         html_content += f'            <h1 class="section-title">{escape_html(tab_data.get("title", tab_name))}</h1>\n'
         
-        # 検索ボックス
-        html_content += f'''            <div class="search-box">
-                <input type="text" 
-                       placeholder="🔍 検索..." 
-                       data-tab="{escape_html(tab_name)}"
-                       onkeyup="filterContent('{escape_html(tab_name)}', this.value)">
-            </div>
-'''
-        
         # セクションナビゲーションボタン
         html_content += f'            <div class="section-nav">\n'
         sections = tab_data.get('sections', [])
@@ -317,16 +308,6 @@ def generate_html():
             const sections = sectionsContainer.querySelectorAll('.section');
             const searchQuery = normalizeJapanese(query.toLowerCase());
             
-            // グローバル検索ボックスとの同期
-            const globalSearch = document.getElementById('global-search');
-            if (globalSearch && globalSearch.value !== query) {
-                // 個別検索ボックスから呼ばれた場合、グローバル検索もクリア
-                // ただし、filterAllContentから呼ばれた場合は同期しない
-                if (globalSearch.value === '') {
-                    // グローバル検索が空の場合のみ同期
-                }
-            }
-            
             // 検索クエリが空の場合、すべて表示
             if (!searchQuery.trim()) {
                 sections.forEach(section => {
@@ -488,11 +469,6 @@ def generate_html():
                     }
                 });
             }
-            
-            // 個別の検索ボックスも同期
-            document.querySelectorAll('.search-box input[data-tab]').forEach(input => {
-                input.value = query;
-            });
         }
 
         // Toggle collapse for INFORMATION sections

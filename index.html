@@ -35,12 +35,6 @@
     <main class="container">
         <div id="全員向け" class="tab-content active">
             <h1 class="section-title">全員向け情報</h1>
-            <div class="search-box">
-                <input type="text" 
-                       placeholder="🔍 検索..." 
-                       data-tab="全員向け"
-                       onkeyup="filterContent('全員向け', this.value)">
-            </div>
             <div class="section-nav">
                 <button class="section-nav-btn" onclick="scrollToSection('全員向け', 0)">INFORMATION</button>
                 <button class="section-nav-btn" onclick="scrollToSection('全員向け', 1)">カレンダー・組織情報</button>
@@ -245,12 +239,6 @@
 
         <div id="職員向け" class="tab-content ">
             <h1 class="section-title">職員向け情報</h1>
-            <div class="search-box">
-                <input type="text" 
-                       placeholder="🔍 検索..." 
-                       data-tab="職員向け"
-                       onkeyup="filterContent('職員向け', this.value)">
-            </div>
             <div class="section-nav">
                 <button class="section-nav-btn" onclick="scrollToSection('職員向け', 0)">INFORMATION</button>
                 <button class="section-nav-btn" onclick="scrollToSection('職員向け', 1)">職員向け情報コーナー</button>
@@ -450,16 +438,6 @@
             const sections = sectionsContainer.querySelectorAll('.section');
             const searchQuery = normalizeJapanese(query.toLowerCase());
             
-            // グローバル検索ボックスとの同期
-            const globalSearch = document.getElementById('global-search');
-            if (globalSearch && globalSearch.value !== query) {
-                // 個別検索ボックスから呼ばれた場合、グローバル検索もクリア
-                // ただし、filterAllContentから呼ばれた場合は同期しない
-                if (globalSearch.value === '') {
-                    // グローバル検索が空の場合のみ同期
-                }
-            }
-            
             // 検索クエリが空の場合、すべて表示
             if (!searchQuery.trim()) {
                 sections.forEach(section => {
@@ -621,11 +599,6 @@
                     }
                 });
             }
-            
-            // 個別の検索ボックスも同期
-            document.querySelectorAll('.search-box input[data-tab]').forEach(input => {
-                input.value = query;
-            });
         }
 
         // Toggle collapse for INFORMATION sections
