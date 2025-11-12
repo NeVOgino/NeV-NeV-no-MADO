@@ -186,6 +186,41 @@ function generateItemActionButtons(tabName, sectionIndex, itemIdx, totalItems, i
 }
 
 // Render section preview
+// Helper function to render an item in unified format
+function renderUnifiedItem(item, link, actionButtons) {
+    let html = '';
+    const hasDate = item.date;
+    const content = item.content || item.text || (typeof item === 'string' ? item : '');
+    const detail = item.detail;
+    
+    if (hasDate || detail) {
+        // Display as info-item format (INFORMATION style)
+        html += `<div class="info-item">`;
+        if (hasDate) {
+            html += `<div class="info-date">${escapeHtml(item.date)}</div>`;
+        }
+        if (content) {
+            html += `<div class="info-content">${escapeHtml(content)}</div>`;
+        }
+        if (detail) {
+            const detailContent = link 
+                ? `<a href="${escapeHtml(getOfficeUri(link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(detail)}</a>`
+                : escapeHtml(detail);
+            html += `<div class="info-detail">→ ${detailContent}</div>`;
+        }
+        html += actionButtons;
+        html += `</div>`;
+    } else {
+        // Display as simple list item
+        const itemContent = link 
+            ? `<a href="${escapeHtml(getOfficeUri(link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(content)}</a>`
+            : escapeHtml(content);
+        html += `<li>${itemContent}${actionButtons}</li>`;
+    }
+    
+    return html;
+}
+
 function renderSectionPreview(section, tabName, sectionIndex) {
     let html = '';
     
@@ -204,14 +239,9 @@ function renderSectionPreview(section, tabName, sectionIndex) {
             html += `<h3>${escapeHtml(subsec.name)}</h3>`;
             html += '<ul class="item-list">';
             subsec.items.forEach((item, itemIdx) => {
-                if (typeof item === 'string') {
-                    html += `<li>${escapeHtml(item)}${generateItemActionButtons(tabName, sectionIndex, itemIdx, subsec.items.length, true, idx)}</li>`;
-                } else if (item.text) {
-                    const itemContent = item.link 
-                        ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
-                        : escapeHtml(item.text);
-                    html += `<li>${itemContent}${generateItemActionButtons(tabName, sectionIndex, itemIdx, subsec.items.length, true, idx)}</li>`;
-                }
+                const actionButtons = generateItemActionButtons(tabName, sectionIndex, itemIdx, subsec.items.length, true, idx);
+                const link = (typeof item === 'object') ? item.link : null;
+                html += renderUnifiedItem(item, link, actionButtons);
             });
             html += '</ul>';
             html += '</div>';
@@ -223,20 +253,9 @@ function renderSectionPreview(section, tabName, sectionIndex) {
         
         // Show first 3 items
         visibleItems.forEach((item, itemIdx) => {
-            if (typeof item === 'object' && item.date) {
-                const detailContent = item.link 
-                    ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
-                    : escapeHtml(item.detail);
-                
-                html += `
-                    <div class="info-item">
-                        <div class="info-date">${escapeHtml(item.date)}</div>
-                        <div class="info-content">${escapeHtml(item.content)}</div>
-                        ${item.detail ? `<div class="info-detail">→ ${detailContent}</div>` : ''}
-                        ${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}
-                    </div>
-                `;
-            }
+            const actionButtons = generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length);
+            const link = (typeof item === 'object') ? item.link : null;
+            html += renderUnifiedItem(item, link, actionButtons);
         });
         
         // Add collapsible section for remaining items if there are more than 3
@@ -245,20 +264,9 @@ function renderSectionPreview(section, tabName, sectionIndex) {
             html += `<div class="collapsed-items" id="${collapseId}" style="display: none;">`;
             hiddenItems.forEach((item, idx) => {
                 const itemIdx = idx + 3; // Offset by 3 for the visible items
-                if (typeof item === 'object' && item.date) {
-                    const detailContent = item.link 
-                        ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
-                        : escapeHtml(item.detail);
-                    
-                    html += `
-                        <div class="info-item">
-                            <div class="info-date">${escapeHtml(item.date)}</div>
-                            <div class="info-content">${escapeHtml(item.content)}</div>
-                            ${item.detail ? `<div class="info-detail">→ ${detailContent}</div>` : ''}
-                            ${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}
-                        </div>
-                    `;
-                }
+                const actionButtons = generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length);
+                const link = (typeof item === 'object') ? item.link : null;
+                html += renderUnifiedItem(item, link, actionButtons);
             });
             html += '</div>';
             html += `
@@ -270,21 +278,9 @@ function renderSectionPreview(section, tabName, sectionIndex) {
     } else {
         html += '<ul class="item-list">';
         section.items.forEach((item, itemIdx) => {
-            if (typeof item === 'string') {
-                html += `<li>${escapeHtml(item)}${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}</li>`;
-            } else if (item.text) {
-                // New structure with text and optional link
-                const itemContent = item.link 
-                    ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
-                    : escapeHtml(item.text);
-                html += `<li>${itemContent}${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}</li>`;
-            } else if (item.name) {
-                // Department board structure
-                const itemText = item.link 
-                    ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
-                    : escapeHtml(item.text);
-                html += `<li><strong>${escapeHtml(item.name)}</strong> - ${itemText}${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}</li>`;
-            }
+            const actionButtons = generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length);
+            const link = (typeof item === 'object') ? item.link : null;
+            html += renderUnifiedItem(item, link, actionButtons);
         });
         html += '</ul>';
     }
@@ -772,6 +768,7 @@ function confirmAddItem() {
             return;
         }
         
+        // Use unified format
         newItem = {
             date: date || '',
             content: content,
@@ -787,8 +784,9 @@ function confirmAddItem() {
             return;
         }
         
+        // Use unified format (convert text to content for consistency)
         newItem = {
-            text: text,
+            content: text,
             link: link || ''
         };
     }
