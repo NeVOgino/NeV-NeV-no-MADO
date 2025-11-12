@@ -99,6 +99,11 @@ function renderAdminContent(tabName) {
     
     let html = `<h1 class="section-title">${escapeHtml(data.title)}</h1>`;
     
+    // Add button to add new section
+    html += `<button class="add-item-btn" style="margin-bottom: 20px;" onclick="showAddSectionModal('${escapeHtml(tabName)}')">
+        ➕ セクションを追加
+    </button>`;
+    
     // Add section navigation buttons
     html += '<div class="section-nav">';
     data.sections.forEach((section, index) => {
@@ -108,13 +113,19 @@ function renderAdminContent(tabName) {
     
     const escapedTabName = escapeHtml(tabName);
     data.sections.forEach((section, sectionIndex) => {
+        const totalSections = data.sections.length;
         html += `
             <div class="edit-section" id="section-${escapedTabName}-${sectionIndex}" data-section-index="${sectionIndex}">
                 <h2>
                     ${escapeHtml(section.name)}
-                    <button class="edit-button" onclick="editSection('${escapedTabName}', ${sectionIndex})">
-                        ✏️ 編集
-                    </button>
+                    <span class="section-actions">
+                        ${sectionIndex > 0 ? `<button class="item-action-btn move-up-btn" onclick="moveSectionUp('${escapedTabName}', ${sectionIndex})" title="セクションを上に移動">↑</button>` : ''}
+                        ${sectionIndex < totalSections - 1 ? `<button class="item-action-btn move-down-btn" onclick="moveSectionDown('${escapedTabName}', ${sectionIndex})" title="セクションを下に移動">↓</button>` : ''}
+                        <button class="edit-button" onclick="editSection('${escapedTabName}', ${sectionIndex})">
+                            ✏️ 編集
+                        </button>
+                        <button class="item-action-btn delete-btn" onclick="deleteSection('${escapedTabName}', ${sectionIndex})" title="セクションを削除">🗑️</button>
+                    </span>
                 </h2>
                 
                 <div class="section-preview" id="preview-${escapedTabName}-${sectionIndex}">
@@ -659,6 +670,8 @@ function confirmModalAction() {
         confirmMoveItem();
     } else if (currentModalAction === 'add') {
         confirmAddItem();
+    } else if (currentModalAction === 'addSection') {
+        confirmAddSection();
     }
 }
 
@@ -822,6 +835,102 @@ function deleteItem(tabName, sectionIndex, itemIndex, isSubsection = false, subs
     renderAdminContent(tabName);
     
     alert('項目を削除しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+}
+
+// Add new section to a tab
+function showAddSectionModal(tabName) {
+    const modal = document.getElementById('actionModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalForm = document.getElementById('modalForm');
+    
+    modalTitle.textContent = 'セクションを追加';
+    
+    modalForm.innerHTML = `
+        <div class="form-group">
+            <label for="sectionName">セクション名:</label>
+            <input type="text" id="sectionName" placeholder="例: 新しいセクション" required>
+        </div>
+    `;
+    
+    currentModalAction = 'addSection';
+    currentModalData = { tabName };
+    
+    modal.classList.add('active');
+}
+
+// Confirm add section
+function confirmAddSection() {
+    const { tabName } = currentModalData;
+    const sectionName = document.getElementById('sectionName').value.trim();
+    
+    if (!sectionName) {
+        alert('セクション名は必須です。');
+        return;
+    }
+    
+    // Create new section
+    const newSection = {
+        name: sectionName,
+        items: []
+    };
+    
+    // Add to the beginning of sections array
+    boardData[tabName].sections.unshift(newSection);
+    
+    // Refresh the tab
+    renderAdminContent(tabName);
+    
+    closeModal();
+    
+    alert('セクションを追加しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+}
+
+// Move section up
+function moveSectionUp(tabName, sectionIndex) {
+    if (sectionIndex === 0) return; // Already at the top
+    
+    const sections = boardData[tabName].sections;
+    
+    // Swap with the section above
+    const temp = sections[sectionIndex];
+    sections[sectionIndex] = sections[sectionIndex - 1];
+    sections[sectionIndex - 1] = temp;
+    
+    // Refresh the tab
+    renderAdminContent(tabName);
+}
+
+// Move section down
+function moveSectionDown(tabName, sectionIndex) {
+    const sections = boardData[tabName].sections;
+    
+    if (sectionIndex === sections.length - 1) return; // Already at the bottom
+    
+    // Swap with the section below
+    const temp = sections[sectionIndex];
+    sections[sectionIndex] = sections[sectionIndex + 1];
+    sections[sectionIndex + 1] = temp;
+    
+    // Refresh the tab
+    renderAdminContent(tabName);
+}
+
+// Delete section
+function deleteSection(tabName, sectionIndex) {
+    const section = boardData[tabName].sections[sectionIndex];
+    
+    // Confirm deletion
+    if (!confirm(`セクション「${section.name}」を削除してもよろしいですか？\n\nこのセクション内のすべての項目も削除されます。この操作は取り消せません。`)) {
+        return;
+    }
+    
+    // Remove the section
+    boardData[tabName].sections.splice(sectionIndex, 1);
+    
+    // Refresh the tab
+    renderAdminContent(tabName);
+    
+    alert('セクションを削除しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
 }
 
 // Initialize the application
