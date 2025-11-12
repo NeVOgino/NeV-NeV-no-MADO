@@ -736,12 +736,16 @@ function confirmMoveItem() {
     // Use setTimeout to ensure modal is closed and DOM is ready before re-rendering
     setTimeout(() => {
         if (targetTab !== tabName) {
-            // Switch to the target tab (this will render the target tab automatically)
+            // Different tab - switch to the target tab (this will render the target tab automatically)
             switchTab(targetTab);
             // Re-render the source tab for when user switches back
             renderAdminContent(tabName);
         } else {
-            // Same tab - just re-render it
+            // Same tab - force a complete re-render to ensure display updates
+            // First, clear the container to force a complete DOM rebuild
+            const container = document.getElementById(tabName);
+            container.innerHTML = '';
+            // Then re-render with updated data
             renderAdminContent(tabName);
         }
         
