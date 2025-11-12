@@ -168,6 +168,9 @@ function generateItemActionButtons(tabName, sectionIndex, itemIdx, totalItems, i
     // Move to another section button
     buttons += `<button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, ${isSubsection}, ${subsectionIndex})">移動</button>`;
     
+    // Delete button
+    buttons += `<button class="item-action-btn delete-btn" onclick="deleteItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, ${isSubsection}, ${subsectionIndex})">削除</button>`;
+    
     return `<span class="item-actions">${buttons}</span>`;
 }
 
@@ -781,6 +784,44 @@ function moveItemDown(tabName, sectionIndex, itemIndex, isSubsection = false, su
     
     // Refresh the section
     renderAdminContent(tabName);
+}
+
+// Delete item from section
+function deleteItem(tabName, sectionIndex, itemIndex, isSubsection = false, subsectionIndex = null) {
+    // Get item details for confirmation
+    let items;
+    if (isSubsection) {
+        items = boardData[tabName].sections[sectionIndex].subsections[subsectionIndex].items;
+    } else {
+        items = boardData[tabName].sections[sectionIndex].items;
+    }
+    
+    const item = items[itemIndex];
+    let itemText = '';
+    
+    // Get item display text for confirmation
+    if (typeof item === 'string') {
+        itemText = item;
+    } else if (item.text) {
+        itemText = item.text;
+    } else if (item.content) {
+        itemText = item.content;
+    } else if (item.name) {
+        itemText = item.name;
+    }
+    
+    // Confirm deletion
+    if (!confirm(`「${itemText}」を削除してもよろしいですか？\n\nこの操作は取り消せません。削除後、「data.jsonかきこみ」ボタンで保存してください。`)) {
+        return;
+    }
+    
+    // Remove the item
+    items.splice(itemIndex, 1);
+    
+    // Refresh the section
+    renderAdminContent(tabName);
+    
+    alert('項目を削除しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
 }
 
 // Initialize the application
