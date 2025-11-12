@@ -724,15 +724,20 @@ function confirmMoveItem() {
     
     closeModal();
     
-    // Re-render both tabs to ensure display is updated
-    renderAdminContent(tabName);
-    if (targetTab !== tabName) {
-        renderAdminContent(targetTab);
-        // Switch to the target tab to show the moved item
-        switchTab(targetTab);
-    }
-    
-    alert('項目を移動しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+    // Use setTimeout to ensure modal is closed and DOM is ready before re-rendering
+    setTimeout(() => {
+        if (targetTab !== tabName) {
+            // Switch to the target tab (this will render the target tab automatically)
+            switchTab(targetTab);
+            // Re-render the source tab for when user switches back
+            renderAdminContent(tabName);
+        } else {
+            // Same tab - just re-render it
+            renderAdminContent(tabName);
+        }
+        
+        alert('項目を移動しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+    }, 100);
 }
 
 // Confirm add item action
