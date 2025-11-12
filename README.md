@@ -113,10 +113,10 @@ admin.htmlでは、JSONを直接編集せずに項目やセクションを簡単
 4. **「保存」をクリック**
 
 5. **「💾 data.jsonをダウンロード」をクリック**
-   - `data.json` と `data_編集前バックアップ_YYYYMMDD_HHMMSS.json` の2つのファイルがダウンロードされます
+   - `data.json` と `data_更新後バックアップ_YYYYMMDD_HHMMSS.json` の2つのファイルがダウンロードされます
 
 6. **バックアップファイルを保存**
-   - ダウンロードされた `data_編集前バックアップ_YYYYMMDD_HHMMSS.json` を `json_backup` フォルダに保存します
+   - ダウンロードされた `data_更新後バックアップ_YYYYMMDD_HHMMSS.json` を `json_backup` フォルダに保存します
    - フォルダが存在しない場合は作成してください：`\\cev-file5\share\NEVの窓ブラウザ版\json_backup\`
 
 7. **data.jsonを配置**

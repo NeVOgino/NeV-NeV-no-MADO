@@ -365,7 +365,7 @@ function downloadData() {
     const backupUrl = URL.createObjectURL(dataBlob);
     const backupLink = document.createElement('a');
     backupLink.href = backupUrl;
-    backupLink.download = `data_編集前バックアップ_${timestamp}.json`;
+    backupLink.download = `data_更新後バックアップ_${timestamp}.json`;
     document.body.appendChild(backupLink);
     backupLink.click();
     document.body.removeChild(backupLink);
@@ -383,7 +383,7 @@ function downloadData() {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
         
-        alert(`data.jsonをダウンロードしました。\nバックアップファイル（data_編集前バックアップ_${timestamp}.json）も保存されました。\n\n重要：バックアップファイルは「json_backup」フォルダに保存してください。\ndata.jsonを元のファイルと置き換えて、変更を反映させてください。`);
+        alert(`data.jsonをダウンロードしました。\nバックアップファイル（data_更新後バックアップ_${timestamp}.json）も保存されました。\n\n重要：バックアップファイルは「json_backup」フォルダに保存してください。\ndata.jsonを元のファイルと置き換えて、変更を反映させてください。`);
     }, 500);
 }
 
@@ -440,6 +440,31 @@ function initializeTabs() {
             document.getElementById(tabName).classList.add('active');
         });
     });
+}
+
+// Switch to a specific tab programmatically
+function switchTab(tabName) {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    // Remove active class from all buttons and contents
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    // Find and activate the target tab button
+    tabButtons.forEach(button => {
+        if (button.getAttribute('data-tab') === tabName) {
+            button.classList.add('active');
+        }
+    });
+    
+    // Activate the target tab content
+    const targetContent = document.getElementById(tabName);
+    if (targetContent) {
+        targetContent.classList.add('active');
+        // Render the content for the target tab
+        renderAdminContent(tabName);
+    }
 }
 
 // Toggle collapse for INFORMATION sections
@@ -697,10 +722,13 @@ function confirmMoveItem() {
     // Add to target at the top (index 0)
     boardData[targetTab].sections[targetSectionIndex].items.unshift(item);
     
-    // Refresh both affected sections
+    // Refresh the source tab
     renderAdminContent(tabName);
+    
+    // If moving to a different tab, switch to that tab and render it
     if (targetTab !== tabName) {
-        renderAdminContent(targetTab);
+        // Switch to the target tab
+        switchTab(targetTab);
     }
     
     closeModal();
