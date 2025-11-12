@@ -151,6 +151,26 @@ ${JSON.stringify(section, null, 2)}
     container.innerHTML = html;
 }
 
+// Helper function to generate action buttons for items
+function generateItemActionButtons(tabName, sectionIndex, itemIdx, totalItems, isSubsection = false, subsectionIndex = null) {
+    let buttons = '';
+    
+    // Move up button (disabled if first item)
+    if (itemIdx > 0) {
+        buttons += `<button class="item-action-btn move-up-btn" onclick="moveItemUp('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, ${isSubsection}, ${subsectionIndex})">↑</button>`;
+    }
+    
+    // Move down button (disabled if last item)
+    if (itemIdx < totalItems - 1) {
+        buttons += `<button class="item-action-btn move-down-btn" onclick="moveItemDown('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, ${isSubsection}, ${subsectionIndex})">↓</button>`;
+    }
+    
+    // Move to another section button
+    buttons += `<button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, ${isSubsection}, ${subsectionIndex})">移動</button>`;
+    
+    return `<span class="item-actions">${buttons}</span>`;
+}
+
 // Render section preview
 function renderSectionPreview(section, tabName, sectionIndex) {
     let html = '';
@@ -171,16 +191,12 @@ function renderSectionPreview(section, tabName, sectionIndex) {
             html += '<ul class="item-list">';
             subsec.items.forEach((item, itemIdx) => {
                 if (typeof item === 'string') {
-                    html += `<li>${escapeHtml(item)}<span class="item-actions">
-                        <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, true, ${idx})">移動</button>
-                    </span></li>`;
+                    html += `<li>${escapeHtml(item)}${generateItemActionButtons(tabName, sectionIndex, itemIdx, subsec.items.length, true, idx)}</li>`;
                 } else if (item.text) {
                     const itemContent = item.link 
                         ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                         : escapeHtml(item.text);
-                    html += `<li>${itemContent}<span class="item-actions">
-                        <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, true, ${idx})">移動</button>
-                    </span></li>`;
+                    html += `<li>${itemContent}${generateItemActionButtons(tabName, sectionIndex, itemIdx, subsec.items.length, true, idx)}</li>`;
                 }
             });
             html += '</ul>';
@@ -203,9 +219,7 @@ function renderSectionPreview(section, tabName, sectionIndex) {
                         <div class="info-date">${escapeHtml(item.date)}</div>
                         <div class="info-content">${escapeHtml(item.content)}</div>
                         ${item.detail ? `<div class="info-detail">→ ${detailContent}</div>` : ''}
-                        <span class="item-actions">
-                            <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
-                        </span>
+                        ${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}
                     </div>
                 `;
             }
@@ -227,9 +241,7 @@ function renderSectionPreview(section, tabName, sectionIndex) {
                             <div class="info-date">${escapeHtml(item.date)}</div>
                             <div class="info-content">${escapeHtml(item.content)}</div>
                             ${item.detail ? `<div class="info-detail">→ ${detailContent}</div>` : ''}
-                            <span class="item-actions">
-                                <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
-                            </span>
+                            ${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}
                         </div>
                     `;
                 }
@@ -245,25 +257,19 @@ function renderSectionPreview(section, tabName, sectionIndex) {
         html += '<ul class="item-list">';
         section.items.forEach((item, itemIdx) => {
             if (typeof item === 'string') {
-                html += `<li>${escapeHtml(item)}<span class="item-actions">
-                    <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
-                </span></li>`;
+                html += `<li>${escapeHtml(item)}${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}</li>`;
             } else if (item.text) {
                 // New structure with text and optional link
                 const itemContent = item.link 
                     ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                     : escapeHtml(item.text);
-                html += `<li>${itemContent}<span class="item-actions">
-                    <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
-                </span></li>`;
+                html += `<li>${itemContent}${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}</li>`;
             } else if (item.name) {
                 // Department board structure
                 const itemText = item.link 
                     ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                     : escapeHtml(item.text);
-                html += `<li><strong>${escapeHtml(item.name)}</strong> - ${itemText}<span class="item-actions">
-                    <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
-                </span></li>`;
+                html += `<li><strong>${escapeHtml(item.name)}</strong> - ${itemText}${generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length)}</li>`;
             }
         });
         html += '</ul>';
@@ -672,8 +678,8 @@ function confirmMoveItem() {
         boardData[tabName].sections[sectionIndex].items.splice(itemIndex, 1);
     }
     
-    // Add to target
-    boardData[targetTab].sections[targetSectionIndex].items.push(item);
+    // Add to target at the top (index 0)
+    boardData[targetTab].sections[targetSectionIndex].items.unshift(item);
     
     // Refresh both affected sections
     renderAdminContent(tabName);
@@ -726,8 +732,8 @@ function confirmAddItem() {
         };
     }
     
-    // Add the new item
-    boardData[tabName].sections[sectionIndex].items.push(newItem);
+    // Add the new item at the top (index 0) instead of bottom
+    boardData[tabName].sections[sectionIndex].items.unshift(newItem);
     
     // Refresh the section
     renderAdminContent(tabName);
@@ -735,6 +741,46 @@ function confirmAddItem() {
     closeModal();
     
     alert('項目を追加しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+}
+
+// Move item up within the same section
+function moveItemUp(tabName, sectionIndex, itemIndex, isSubsection = false, subsectionIndex = null) {
+    if (itemIndex === 0) return; // Already at the top
+    
+    let items;
+    if (isSubsection) {
+        items = boardData[tabName].sections[sectionIndex].subsections[subsectionIndex].items;
+    } else {
+        items = boardData[tabName].sections[sectionIndex].items;
+    }
+    
+    // Swap with the item above
+    const temp = items[itemIndex];
+    items[itemIndex] = items[itemIndex - 1];
+    items[itemIndex - 1] = temp;
+    
+    // Refresh the section
+    renderAdminContent(tabName);
+}
+
+// Move item down within the same section
+function moveItemDown(tabName, sectionIndex, itemIndex, isSubsection = false, subsectionIndex = null) {
+    let items;
+    if (isSubsection) {
+        items = boardData[tabName].sections[sectionIndex].subsections[subsectionIndex].items;
+    } else {
+        items = boardData[tabName].sections[sectionIndex].items;
+    }
+    
+    if (itemIndex === items.length - 1) return; // Already at the bottom
+    
+    // Swap with the item below
+    const temp = items[itemIndex];
+    items[itemIndex] = items[itemIndex + 1];
+    items[itemIndex + 1] = temp;
+    
+    // Refresh the section
+    renderAdminContent(tabName);
 }
 
 // Initialize the application

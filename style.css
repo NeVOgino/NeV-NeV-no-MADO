@@ -329,10 +329,9 @@ footer {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-    justify-content: center;
     border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -348,8 +347,6 @@ footer {
     font-weight: 600;
     white-space: nowrap;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    min-width: 140px;
-    max-width: 200px;
     text-align: center;
 }
 
