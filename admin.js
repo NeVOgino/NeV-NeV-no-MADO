@@ -324,7 +324,7 @@ function downloadData() {
     const backupUrl = URL.createObjectURL(dataBlob);
     const backupLink = document.createElement('a');
     backupLink.href = backupUrl;
-    backupLink.download = `data_backup_${timestamp}.json`;
+    backupLink.download = `data_編集前バックアップ_${timestamp}.json`;
     document.body.appendChild(backupLink);
     backupLink.click();
     document.body.removeChild(backupLink);
@@ -342,7 +342,7 @@ function downloadData() {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
         
-        alert(`data.jsonをダウンロードしました。\nバックアップファイル（data_backup_${timestamp}.json）も保存されました。\ndata.jsonを元のファイルと置き換えて、変更を反映させてください。`);
+        alert(`data.jsonをダウンロードしました。\nバックアップファイル（data_編集前バックアップ_${timestamp}.json）も保存されました。\n\n重要：バックアップファイルは「json_backup」フォルダに保存してください。\ndata.jsonを元のファイルと置き換えて、変更を反映させてください。`);
     }, 500);
 }
 

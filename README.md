@@ -26,6 +26,7 @@ NEVの窓ブラウザ版/
 ├── admin.css           # 管理画面スタイル
 ├── admin.js            # 管理画面スクリプト
 ├── data.json           # 掲示板データ
+├── json_backup/        # バックアップファイル保存用フォルダ
 ├── generate_html.py    # HTML生成スクリプト
 ├── README.md           # このファイル
 ├── USER_GUIDE.md       # 詳細ユーザーガイド
@@ -93,8 +94,14 @@ NEVの窓ブラウザ版/
 4. **「保存」をクリック**
 
 5. **「💾 data.jsonをダウンロード」をクリック**
+   - `data.json` と `data_編集前バックアップ_YYYYMMDD_HHMMSS.json` の2つのファイルがダウンロードされます
 
-6. **ダウンロードしたファイルで共有フォルダのdata.jsonを置き換え**
+6. **バックアップファイルを保存**
+   - ダウンロードされた `data_編集前バックアップ_YYYYMMDD_HHMMSS.json` を `json_backup` フォルダに保存します
+   - フォルダが存在しない場合は作成してください：`\\cev-file5\share\NEVの窓ブラウザ版\json_backup\`
+
+7. **data.jsonを配置**
+   - ダウンロードした `data.json` で共有フォルダのdata.jsonを置き換えます
 
 #### ステップ2: HTMLを再生成
 
