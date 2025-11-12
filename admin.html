@@ -62,6 +62,22 @@
 
     <button id="scrollTopBtn" class="scroll-to-top" onclick="scrollToTop()" title="トップへ戻る"></button>
 
+    <!-- Modal for move/add item operations -->
+    <div id="actionModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">操作</h3>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be dynamically inserted -->
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">キャンセル</button>
+                <button class="modal-btn modal-btn-primary" id="modalConfirmBtn" onclick="confirmModalAction()">確定</button>
+            </div>
+        </div>
+    </div>
+
     <script src="admin.js"></script>
 </body>
 </html>

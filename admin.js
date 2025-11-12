@@ -118,8 +118,12 @@ function renderAdminContent(tabName) {
                 </h2>
                 
                 <div class="section-preview" id="preview-${escapedTabName}-${sectionIndex}">
-                    ${renderSectionPreview(section)}
+                    ${renderSectionPreview(section, tabName, sectionIndex)}
                 </div>
+                
+                <button class="add-item-btn" onclick="showAddItemModal('${escapedTabName}', ${sectionIndex})">
+                    ➕ 項目を追加
+                </button>
                 
                 <div class="section-editor-container" id="editor-${escapedTabName}-${sectionIndex}" style="display: none;">
                     <textarea class="section-editor" id="textarea-${escapedTabName}-${sectionIndex}">
@@ -148,7 +152,7 @@ ${JSON.stringify(section, null, 2)}
 }
 
 // Render section preview
-function renderSectionPreview(section) {
+function renderSectionPreview(section, tabName, sectionIndex) {
     let html = '';
     
     // Check if section has subsections
@@ -165,14 +169,18 @@ function renderSectionPreview(section) {
             html += `<div class="subsection" data-subsection-index="${idx}">`;
             html += `<h3>${escapeHtml(subsec.name)}</h3>`;
             html += '<ul class="item-list">';
-            subsec.items.forEach(item => {
+            subsec.items.forEach((item, itemIdx) => {
                 if (typeof item === 'string') {
-                    html += `<li>${escapeHtml(item)}</li>`;
+                    html += `<li>${escapeHtml(item)}<span class="item-actions">
+                        <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, true, ${idx})">移動</button>
+                    </span></li>`;
                 } else if (item.text) {
                     const itemContent = item.link 
                         ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                         : escapeHtml(item.text);
-                    html += `<li>${itemContent}</li>`;
+                    html += `<li>${itemContent}<span class="item-actions">
+                        <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx}, true, ${idx})">移動</button>
+                    </span></li>`;
                 }
             });
             html += '</ul>';
@@ -184,7 +192,7 @@ function renderSectionPreview(section) {
         const hiddenItems = section.items.slice(3);
         
         // Show first 3 items
-        visibleItems.forEach(item => {
+        visibleItems.forEach((item, itemIdx) => {
             if (typeof item === 'object' && item.date) {
                 const detailContent = item.link 
                     ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
@@ -195,6 +203,9 @@ function renderSectionPreview(section) {
                         <div class="info-date">${escapeHtml(item.date)}</div>
                         <div class="info-content">${escapeHtml(item.content)}</div>
                         ${item.detail ? `<div class="info-detail">→ ${detailContent}</div>` : ''}
+                        <span class="item-actions">
+                            <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
+                        </span>
                     </div>
                 `;
             }
@@ -204,7 +215,8 @@ function renderSectionPreview(section) {
         if (hiddenItems.length > 0) {
             const collapseId = `collapse-${section.name.replace(/\s+/g, '-')}`;
             html += `<div class="collapsed-items" id="${collapseId}" style="display: none;">`;
-            hiddenItems.forEach(item => {
+            hiddenItems.forEach((item, idx) => {
+                const itemIdx = idx + 3; // Offset by 3 for the visible items
                 if (typeof item === 'object' && item.date) {
                     const detailContent = item.link 
                         ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.detail)}</a>`
@@ -215,6 +227,9 @@ function renderSectionPreview(section) {
                             <div class="info-date">${escapeHtml(item.date)}</div>
                             <div class="info-content">${escapeHtml(item.content)}</div>
                             ${item.detail ? `<div class="info-detail">→ ${detailContent}</div>` : ''}
+                            <span class="item-actions">
+                                <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
+                            </span>
                         </div>
                     `;
                 }
@@ -228,21 +243,27 @@ function renderSectionPreview(section) {
         }
     } else {
         html += '<ul class="item-list">';
-        section.items.forEach(item => {
+        section.items.forEach((item, itemIdx) => {
             if (typeof item === 'string') {
-                html += `<li>${escapeHtml(item)}</li>`;
+                html += `<li>${escapeHtml(item)}<span class="item-actions">
+                    <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
+                </span></li>`;
             } else if (item.text) {
                 // New structure with text and optional link
                 const itemContent = item.link 
                     ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                     : escapeHtml(item.text);
-                html += `<li>${itemContent}</li>`;
+                html += `<li>${itemContent}<span class="item-actions">
+                    <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
+                </span></li>`;
             } else if (item.name) {
                 // Department board structure
                 const itemText = item.link 
                     ? `<a href="${escapeHtml(getOfficeUri(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text)}</a>`
                     : escapeHtml(item.text);
-                html += `<li><strong>${escapeHtml(item.name)}</strong> - ${itemText}</li>`;
+                html += `<li><strong>${escapeHtml(item.name)}</strong> - ${itemText}<span class="item-actions">
+                    <button class="item-action-btn" onclick="moveItem('${escapeHtml(tabName)}', ${sectionIndex}, ${itemIdx})">移動</button>
+                </span></li>`;
             }
         });
         html += '</ul>';
@@ -274,7 +295,7 @@ function saveSection(tabName, sectionIndex) {
         
         // Update preview
         const preview = document.getElementById(`preview-${tabName}-${sectionIndex}`);
-        preview.innerHTML = renderSectionPreview(updatedSection);
+        preview.innerHTML = renderSectionPreview(updatedSection, tabName, sectionIndex);
         
         // Hide editor, show preview
         cancelEdit(tabName, sectionIndex);
@@ -466,6 +487,255 @@ window.addEventListener('scroll', function() {
         scrollTopBtn.classList.remove('visible');
     }
 });
+
+// Modal state management
+let currentModalAction = null;
+let currentModalData = null;
+
+// Move item to another section
+function moveItem(tabName, sectionIndex, itemIndex, isSubsection = false, subsectionIndex = null) {
+    const modal = document.getElementById('actionModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    
+    modalTitle.textContent = '項目を移動';
+    
+    // Get the item to move
+    let item;
+    if (isSubsection) {
+        item = boardData[tabName].sections[sectionIndex].subsections[subsectionIndex].items[itemIndex];
+    } else {
+        item = boardData[tabName].sections[sectionIndex].items[itemIndex];
+    }
+    
+    // Get item display text
+    let itemText = '';
+    if (typeof item === 'string') {
+        itemText = item;
+    } else if (item.text) {
+        itemText = item.text;
+    } else if (item.content) {
+        itemText = item.content;
+    } else if (item.name) {
+        itemText = item.name;
+    }
+    
+    // Build section selection dropdown
+    let html = `
+        <div class="form-group">
+            <label>移動する項目:</label>
+            <p style="padding: 10px; background: #f8f9fa; border-radius: 5px;">${escapeHtml(itemText)}</p>
+        </div>
+        <div class="form-group">
+            <label>移動先タブ:</label>
+            <select id="targetTab" onchange="updateTargetSections()">
+    `;
+    
+    // Add tab options
+    Object.keys(boardData).forEach(tab => {
+        html += `<option value="${escapeHtml(tab)}">${escapeHtml(tab)}</option>`;
+    });
+    
+    html += `
+            </select>
+        </div>
+        <div class="form-group">
+            <label>移動先セクション:</label>
+            <select id="targetSection">
+                <!-- Will be populated by updateTargetSections() -->
+            </select>
+        </div>
+    `;
+    
+    modalBody.innerHTML = html;
+    
+    // Store action data
+    currentModalAction = 'move';
+    currentModalData = { tabName, sectionIndex, itemIndex, isSubsection, subsectionIndex };
+    
+    // Populate sections for the default tab
+    updateTargetSections();
+    
+    // Show modal
+    modal.classList.add('active');
+}
+
+// Update target sections when tab changes
+function updateTargetSections() {
+    const targetTab = document.getElementById('targetTab').value;
+    const targetSectionSelect = document.getElementById('targetSection');
+    
+    const sections = boardData[targetTab].sections;
+    let html = '';
+    sections.forEach((section, index) => {
+        html += `<option value="${index}">${escapeHtml(section.name)}</option>`;
+    });
+    
+    targetSectionSelect.innerHTML = html;
+}
+
+// Show add item modal
+function showAddItemModal(tabName, sectionIndex) {
+    const modal = document.getElementById('actionModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    
+    modalTitle.textContent = '項目を追加';
+    
+    const section = boardData[tabName].sections[sectionIndex];
+    
+    // Determine item type based on section structure
+    let html = `
+        <div class="form-group">
+            <label>追加先セクション:</label>
+            <p style="padding: 10px; background: #f8f9fa; border-radius: 5px;">${escapeHtml(section.name)}</p>
+        </div>
+    `;
+    
+    // Check if this is an INFORMATION section
+    if (section.name === 'INFORMATION' || section.name.includes('INFORMATION')) {
+        html += `
+            <div class="form-group">
+                <label>日付:</label>
+                <input type="text" id="itemDate" placeholder="例: 2025.11.10">
+            </div>
+            <div class="form-group">
+                <label>内容:</label>
+                <input type="text" id="itemContent" placeholder="お知らせのタイトル" required>
+            </div>
+            <div class="form-group">
+                <label>詳細:</label>
+                <input type="text" id="itemDetail" placeholder="詳細情報">
+            </div>
+            <div class="form-group">
+                <label>リンク先 (オプション):</label>
+                <input type="text" id="itemLink" placeholder="例: INFORMATION\\ファイル名.pdf">
+            </div>
+        `;
+    } else {
+        // For other sections with text/link structure
+        html += `
+            <div class="form-group">
+                <label>テキスト:</label>
+                <input type="text" id="itemText" placeholder="項目名" required>
+            </div>
+            <div class="form-group">
+                <label>リンク先 (オプション):</label>
+                <input type="text" id="itemLink" placeholder="例: 共通コーナー\\ファイル名.pdf">
+            </div>
+        `;
+    }
+    
+    modalBody.innerHTML = html;
+    
+    // Store action data
+    currentModalAction = 'add';
+    currentModalData = { tabName, sectionIndex };
+    
+    // Show modal
+    modal.classList.add('active');
+}
+
+// Close modal
+function closeModal() {
+    const modal = document.getElementById('actionModal');
+    modal.classList.remove('active');
+    currentModalAction = null;
+    currentModalData = null;
+}
+
+// Confirm modal action
+function confirmModalAction() {
+    if (currentModalAction === 'move') {
+        confirmMoveItem();
+    } else if (currentModalAction === 'add') {
+        confirmAddItem();
+    }
+}
+
+// Confirm move item action
+function confirmMoveItem() {
+    const { tabName, sectionIndex, itemIndex, isSubsection, subsectionIndex } = currentModalData;
+    
+    const targetTab = document.getElementById('targetTab').value;
+    const targetSectionIndex = parseInt(document.getElementById('targetSection').value);
+    
+    // Get the item to move
+    let item;
+    if (isSubsection) {
+        item = boardData[tabName].sections[sectionIndex].subsections[subsectionIndex].items[itemIndex];
+        // Remove from source
+        boardData[tabName].sections[sectionIndex].subsections[subsectionIndex].items.splice(itemIndex, 1);
+    } else {
+        item = boardData[tabName].sections[sectionIndex].items[itemIndex];
+        // Remove from source
+        boardData[tabName].sections[sectionIndex].items.splice(itemIndex, 1);
+    }
+    
+    // Add to target
+    boardData[targetTab].sections[targetSectionIndex].items.push(item);
+    
+    // Refresh both affected sections
+    renderAdminContent(tabName);
+    if (targetTab !== tabName) {
+        renderAdminContent(targetTab);
+    }
+    
+    closeModal();
+    
+    alert('項目を移動しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+}
+
+// Confirm add item action
+function confirmAddItem() {
+    const { tabName, sectionIndex } = currentModalData;
+    const section = boardData[tabName].sections[sectionIndex];
+    
+    let newItem;
+    
+    // Check if this is an INFORMATION section
+    if (section.name === 'INFORMATION' || section.name.includes('INFORMATION')) {
+        const date = document.getElementById('itemDate').value.trim();
+        const content = document.getElementById('itemContent').value.trim();
+        const detail = document.getElementById('itemDetail').value.trim();
+        const link = document.getElementById('itemLink').value.trim();
+        
+        if (!content) {
+            alert('内容は必須です。');
+            return;
+        }
+        
+        newItem = {
+            date: date || '',
+            content: content,
+            detail: detail || '',
+            link: link || ''
+        };
+    } else {
+        const text = document.getElementById('itemText').value.trim();
+        const link = document.getElementById('itemLink').value.trim();
+        
+        if (!text) {
+            alert('テキストは必須です。');
+            return;
+        }
+        
+        newItem = {
+            text: text,
+            link: link || ''
+        };
+    }
+    
+    // Add the new item
+    boardData[tabName].sections[sectionIndex].items.push(newItem);
+    
+    // Refresh the section
+    renderAdminContent(tabName);
+    
+    closeModal();
+    
+    alert('項目を追加しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+}
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
