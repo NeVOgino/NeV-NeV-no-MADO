@@ -793,8 +793,17 @@ function confirmAddItem() {
         };
     }
     
-    // Add the new item at the top (index 0) instead of bottom
-    boardData[tabName].sections[sectionIndex].items.unshift(newItem);
+    // Add the new item at the top (index 0)
+    const targetSection = boardData[tabName].sections[sectionIndex];
+    
+    // Check if target section has subsections
+    if (targetSection.subsections && targetSection.subsections.length > 0) {
+        // If target section has subsections, add to the first subsection
+        targetSection.subsections[0].items.unshift(newItem);
+    } else {
+        // Otherwise, add to the section's items array
+        targetSection.items.unshift(newItem);
+    }
     
     // Refresh the section
     renderAdminContent(tabName);
