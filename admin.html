@@ -15,13 +15,6 @@
         </div>
     </header>
 
-    <nav class="tabs">
-        <div class="container">
-            <button class="tab-button active" data-tab="全員向け">全員向け</button>
-            <button class="tab-button" data-tab="職員向け">職員向け</button>
-        </div>
-    </nav>
-
     <main class="container">
         <div class="admin-instructions">
             <h3>📝 編集方法</h3>
@@ -62,6 +55,13 @@
             <button class="data-button download-button" onclick="downloadData()">💾 最後に：data.jsonかきこみ</button>
             <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="uploadData(event)">
         </div>
+
+        <nav class="tabs">
+            <div class="container">
+                <button class="tab-button active" data-tab="全員向け">全員向け</button>
+                <button class="tab-button" data-tab="職員向け">職員向け</button>
+            </div>
+        </nav>
 
         <div id="全員向け" class="tab-content active">
             <!-- Content will be loaded dynamically -->
