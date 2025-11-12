@@ -720,7 +720,16 @@ function confirmMoveItem() {
     }
     
     // Add to target at the top (index 0)
-    boardData[targetTab].sections[targetSectionIndex].items.unshift(item);
+    const targetSection = boardData[targetTab].sections[targetSectionIndex];
+    
+    // Check if target section has subsections
+    if (targetSection.subsections && targetSection.subsections.length > 0) {
+        // If target section has subsections, add to the first subsection
+        targetSection.subsections[0].items.unshift(item);
+    } else {
+        // Otherwise, add to the section's items array
+        targetSection.items.unshift(item);
+    }
     
     closeModal();
     
