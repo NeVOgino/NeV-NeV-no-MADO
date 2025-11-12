@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEVの窓 - 編集モード</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🪟 NEVの窓 - 編集モード</h1>
+            <p class="subtitle">掲示板の内容を編集できます</p>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <div class="container">
+            <button class="tab-button active" data-tab="全員向け">全員向け</button>
+            <button class="tab-button" data-tab="職員向け">職員向け</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="admin-instructions">
+            <h3>📝 編集方法</h3>
+            <ol>
+                <li><strong>data.jsonよみこみ：</strong> 最初に現在のdata.jsonファイルを読み込みます</li>
+                <li><strong>編集：</strong> 編集したいセクションの「編集」ボタンをクリックします</li>
+                <li><strong>内容変更：</strong> テキストエリアで内容を編集します（JSONフォーマット）</li>
+                <li><strong>保存：</strong> 「保存」ボタンをクリックして変更を保存します</li>
+                <li><strong>data.jsonかきこみ：</strong> 編集したデータをダウンロードして元のdata.jsonを置き換えます</li>
+                <li><strong>反映：</strong> コマンド <code>python generate_html.py</code> を実行してindex.htmlに反映します</li>
+            </ol>
+        </div>
+
+        <div class="backup-notice">
+            <p><strong>💡 自動バックアップ：</strong> 「かきこみ」ボタンをクリックすると、data.jsonファイルと一緒に、タイムスタンプ付きのバックアップファイル（例：data_backup_20251111_120530.json）が自動的にダウンロードされます。万が一の時に安心です。</p>
+        </div>
+
+        <div class="data-management-section">
+            <button class="data-button upload-button" onclick="document.getElementById('fileInput').click()">📂 初めに：data.jsonよみこみ</button>
+            <button class="data-button download-button" onclick="downloadData()">💾 最後に：data.jsonかきこみ</button>
+            <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="uploadData(event)">
+        </div>
+
+        <div id="全員向け" class="tab-content active">
+            <!-- Content will be loaded dynamically -->
+        </div>
+        
+        <div id="職員向け" class="tab-content">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NEV - Next-Generation Vehicle Promotion Center</p>
+        </div>
+    </footer>
+
+    <button id="scrollTopBtn" class="scroll-to-top" onclick="scrollToTop()" title="トップへ戻る"></button>
+
+    <script src="admin.js"></script>
+</body>
+</html>
