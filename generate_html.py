@@ -167,14 +167,33 @@ def generate_html():
                         if isinstance(item, str):
                             html_content += f'                            <li>{escape_html(item)}</li>\n'
                         elif isinstance(item, dict):
-                            if 'text' in item:
-                                text = item.get('text', '')
-                                link = item.get('link', '')
+                            # 統一フォーマット対応: content, text, date, detail, link
+                            date = item.get('date', '')
+                            content = item.get('content') or item.get('text', '')
+                            detail = item.get('detail', '')
+                            link = item.get('link', '')
+                            
+                            # 日付または詳細がある場合はINFORMATIONスタイル
+                            if date or detail:
+                                html_content += '                            <div class="info-item" style="margin-bottom: 10px;">\n'
+                                if date:
+                                    html_content += f'                                <div class="info-date">{escape_html(date)}</div>\n'
+                                if content:
+                                    html_content += f'                                <div class="info-content">{escape_html(content)}</div>\n'
+                                if detail:
+                                    if link:
+                                        office_uri = get_office_uri(link)
+                                        html_content += f'                                <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                                    else:
+                                        html_content += f'                                <div class="info-detail">→ {escape_html(detail)}</div>\n'
+                                html_content += '                            </div>\n'
+                            else:
+                                # シンプルなリスト項目
                                 if link:
                                     office_uri = get_office_uri(link)
-                                    html_content += f'                            <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                    html_content += f'                            <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(content)}</a></li>\n'
                                 else:
-                                    html_content += f'                            <li>{escape_html(text)}</li>\n'
+                                    html_content += f'                            <li>{escape_html(content)}</li>\n'
                     
                     html_content += '                        </ul>\n'
                     html_content += '                    </div>\n'
@@ -229,7 +248,7 @@ def generate_html():
                     html_content += '                    </div>\n'
                     html_content += f'                    <button class="toggle-button" onclick="toggleCollapse(\'{collapse_id}\')">さらに表示 ({len(items) - 3}件)</button>\n'
             else:
-                # リスト形式のセクション
+                # リスト形式のセクション（統一フォーマット対応）
                 items = section.get('items', [])
                 html_content += '                    <ul class="item-list">\n'
                 
@@ -237,25 +256,36 @@ def generate_html():
                     if isinstance(item, str):
                         html_content += f'                        <li>{escape_html(item)}</li>\n'
                     elif isinstance(item, dict):
-                        if 'text' in item:
-                            # text と link がある場合
-                            text = item.get('text', '')
-                            link = item.get('link', '')
+                        # 統一フォーマット対応: content, text, date, detail, link
+                        date = item.get('date', '')
+                        content = item.get('content') or item.get('text', '')
+                        detail = item.get('detail', '')
+                        link = item.get('link', '')
+                        
+                        # 日付または詳細がある場合はINFORMATIONスタイル（ul外にdivで表示）
+                        if date or detail:
+                            # ulを一旦閉じてdivを挿入
+                            html_content += '                    </ul>\n'
+                            html_content += '                    <div class="info-item">\n'
+                            if date:
+                                html_content += f'                        <div class="info-date">{escape_html(date)}</div>\n'
+                            if content:
+                                html_content += f'                        <div class="info-content">{escape_html(content)}</div>\n'
+                            if detail:
+                                if link:
+                                    office_uri = get_office_uri(link)
+                                    html_content += f'                        <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                                else:
+                                    html_content += f'                        <div class="info-detail">→ {escape_html(detail)}</div>\n'
+                            html_content += '                    </div>\n'
+                            html_content += '                    <ul class="item-list">\n'
+                        else:
+                            # シンプルなリスト項目
                             if link:
                                 office_uri = get_office_uri(link)
-                                html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
+                                html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(content)}</a></li>\n'
                             else:
-                                html_content += f'                        <li>{escape_html(text)}</li>\n'
-                        elif 'name' in item:
-                            # name と text がある場合（各部掲示板など）
-                            name = item.get('name', '')
-                            text = item.get('text', '')
-                            link = item.get('link', '')
-                            if link:
-                                office_uri = get_office_uri(link)
-                                html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(text)}</a></li>\n'
-                            else:
-                                html_content += f'                        <li>{escape_html(text)}</li>\n'
+                                html_content += f'                        <li>{escape_html(content)}</li>\n'
                 
                 html_content += '                    </ul>\n'
             
