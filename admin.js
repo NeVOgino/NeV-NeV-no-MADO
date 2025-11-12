@@ -722,16 +722,15 @@ function confirmMoveItem() {
     // Add to target at the top (index 0)
     boardData[targetTab].sections[targetSectionIndex].items.unshift(item);
     
-    // Refresh the source tab
-    renderAdminContent(tabName);
+    closeModal();
     
-    // If moving to a different tab, switch to that tab and render it
+    // Re-render both tabs to ensure display is updated
+    renderAdminContent(tabName);
     if (targetTab !== tabName) {
-        // Switch to the target tab
+        renderAdminContent(targetTab);
+        // Switch to the target tab to show the moved item
         switchTab(targetTab);
     }
-    
-    closeModal();
     
     alert('項目を移動しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
 }
