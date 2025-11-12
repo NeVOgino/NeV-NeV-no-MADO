@@ -841,11 +841,11 @@ function deleteItem(tabName, sectionIndex, itemIndex, isSubsection = false, subs
 function showAddSectionModal(tabName) {
     const modal = document.getElementById('actionModal');
     const modalTitle = document.getElementById('modalTitle');
-    const modalForm = document.getElementById('modalForm');
+    const modalBody = document.getElementById('modalBody');
     
     modalTitle.textContent = 'セクションを追加';
     
-    modalForm.innerHTML = `
+    modalBody.innerHTML = `
         <div class="form-group">
             <label for="sectionName">セクション名:</label>
             <input type="text" id="sectionName" placeholder="例: 新しいセクション" required>
