@@ -6,15 +6,16 @@
 
 | カテゴリ | リンク数 |
 |---------|---------|
-| 全員向け情報 | 56 |
+| 全員向け情報 | 58 |
 | 職員向け情報 | 71 |
-| **合計** | **127** |
+| **合計** | **129** |
 
 ### ファイル形式別統計
 
-- PDFファイル: 103件
+- PDFファイル: 104件
 - Excelファイル (.xlsx): 12件
 - Wordファイル (.docx): 2件
+- PowerPointファイル (.pptx): 1件
 - HTMLファイル: 2件
 - フォルダ: 8件
 
@@ -29,7 +30,9 @@
 | INFORMATION | - | サーベイ結果概要 | INFORMATION\第3回職員サーベイ（2025年7・8月実施）結果概要.pdf | .pdf |
 | INFORMATION | - | 訓練結果 | 20250901_トヨクモ全国一斉訓練/トヨクモ全国一斉安否確認訓練結果_NeV内報告.pdf | .pdf |
 | INFORMATION | - | 冊子版 | 20240724_大規模災害時初動心得（全職員向け）\全職員向け_初動対応.pdf | .pdf |
+| INFORMATION | - | ポケット版 | ms-powerpoint:ofv\|u\|H:/nev_window/20240724_大規模災害時初動心得（全職員向け）/全職員向け_ポケットマニュアル.pptx | .pptx |
 | INFORMATION | - | 派遣職員向け説明資料 | INFORMATION/20250701_派遣職員向けITセキュリティ/1_20250701_it_haken.pdf | .pdf |
+| INFORMATION | - | ITセキュリティに係る教材 | INFORMATION/20250701_派遣職員向けITセキュリティ/2_20250701_it_kyouzai.pdf | .pdf |
 | INFORMATION | - | お知らせ | INFORMATION\ハラスメント相談窓口設置について.pdf | .pdf |
 | INFORMATION | - | マニュアル | INFORMATION\マニュアル（決裁書・稟議書）2024.08.06.pdf | .pdf |
 | INFORMATION | - | NEV 組織・人員体制 | 共通コーナー\NEV人員体制\NEV%20組織・人員体制.pdf | .pdf |
