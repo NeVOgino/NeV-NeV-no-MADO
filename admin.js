@@ -251,6 +251,9 @@ function renderSectionPreview(section, tabName, sectionIndex) {
         const visibleItems = section.items.slice(0, 3);
         const hiddenItems = section.items.slice(3);
         
+        // Wrap INFORMATION items in a container div for consistent styling
+        html += '<div class="info-items-container">';
+        
         // Show first 3 items
         visibleItems.forEach((item, itemIdx) => {
             const actionButtons = generateItemActionButtons(tabName, sectionIndex, itemIdx, section.items.length);
@@ -275,6 +278,8 @@ function renderSectionPreview(section, tabName, sectionIndex) {
                 </button>
             `;
         }
+        
+        html += '</div>'; // Close info-items-container
     } else {
         html += '<ul class="item-list">';
         section.items.forEach((item, itemIdx) => {
