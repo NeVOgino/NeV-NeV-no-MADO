@@ -731,18 +731,13 @@ function confirmMoveItem() {
     
     // Use setTimeout to ensure modal is closed and DOM is ready before re-rendering
     setTimeout(() => {
+        // Always re-render both tabs to ensure consistency
+        renderAdminContent(tabName);
+        renderAdminContent(targetTab);
+        
         if (targetTab !== tabName) {
-            // Different tab - switch to the target tab (this will render the target tab automatically)
+            // Different tab - switch to the target tab
             switchTab(targetTab);
-            // Re-render the source tab for when user switches back
-            renderAdminContent(tabName);
-        } else {
-            // Same tab - force a complete re-render to ensure display updates
-            // First, clear the container to force a complete DOM rebuild
-            const container = document.getElementById(tabName);
-            container.innerHTML = '';
-            // Then re-render with updated data
-            renderAdminContent(tabName);
         }
         
         alert('項目を移動しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
@@ -803,12 +798,15 @@ function confirmAddItem() {
         targetSection.items.unshift(newItem);
     }
     
-    // Refresh the section
-    renderAdminContent(tabName);
-    
     closeModal();
     
-    alert('項目を追加しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+    // Use setTimeout to ensure modal is closed and DOM is ready before re-rendering
+    setTimeout(() => {
+        // Force a complete re-render to ensure all action buttons are properly updated
+        renderAdminContent(tabName);
+        
+        alert('項目を追加しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+    }, 100);
 }
 
 // Move item up within the same section
@@ -929,12 +927,14 @@ function confirmAddSection() {
     // Add to the beginning of sections array
     boardData[tabName].sections.unshift(newSection);
     
-    // Refresh the tab
-    renderAdminContent(tabName);
-    
     closeModal();
     
-    alert('セクションを追加しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+    // Use setTimeout to ensure proper re-rendering
+    setTimeout(() => {
+        renderAdminContent(tabName);
+        
+        alert('セクションを追加しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+    }, 100);
 }
 
 // Move section up
