@@ -121,6 +121,7 @@ function renderAdminContent(tabName) {
                     <span class="section-actions">
                         ${sectionIndex > 0 ? `<button class="item-action-btn move-up-btn" onclick="moveSectionUp('${escapedTabName}', ${sectionIndex})" title="セクションを上に移動">↑</button>` : ''}
                         ${sectionIndex < totalSections - 1 ? `<button class="item-action-btn move-down-btn" onclick="moveSectionDown('${escapedTabName}', ${sectionIndex})" title="セクションを下に移動">↓</button>` : ''}
+                        <button class="item-action-btn" onclick="showEditSectionNameModal('${escapedTabName}', ${sectionIndex})" title="セクション名を編集">✏️ 名称</button>
                         <button class="edit-button" onclick="editSection('${escapedTabName}', ${sectionIndex})">
                             ✏️ 編集
                         </button>
@@ -698,6 +699,8 @@ function confirmModalAction() {
         confirmAddItem();
     } else if (currentModalAction === 'addSection') {
         confirmAddSection();
+    } else if (currentModalAction === 'editSectionName') {
+        confirmEditSectionName();
     }
 }
 
@@ -939,6 +942,52 @@ function confirmAddSection() {
         renderAdminContent(tabName);
         
         alert('セクションを追加しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
+    }, 100);
+}
+
+// Show edit section name modal
+function showEditSectionNameModal(tabName, sectionIndex) {
+    const modal = document.getElementById('actionModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    
+    const currentName = boardData[tabName].sections[sectionIndex].name;
+    
+    modalTitle.textContent = 'セクション名を編集';
+    
+    modalBody.innerHTML = `
+        <div class="form-group">
+            <label for="editSectionName">セクション名:</label>
+            <input type="text" id="editSectionName" value="${escapeHtml(currentName)}" placeholder="例: INFORMATION" required>
+        </div>
+    `;
+    
+    currentModalAction = 'editSectionName';
+    currentModalData = { tabName, sectionIndex };
+    
+    modal.classList.add('active');
+}
+
+// Confirm edit section name
+function confirmEditSectionName() {
+    const { tabName, sectionIndex } = currentModalData;
+    const newName = document.getElementById('editSectionName').value.trim();
+    
+    if (!newName) {
+        alert('セクション名は必須です。');
+        return;
+    }
+    
+    // Update section name
+    boardData[tabName].sections[sectionIndex].name = newName;
+    
+    closeModal();
+    
+    // Use setTimeout to ensure proper re-rendering
+    setTimeout(() => {
+        renderAdminContent(tabName);
+        
+        alert('セクション名を変更しました。「data.jsonかきこみ」ボタンをクリックして保存してください。');
     }, 100);
 }
 
