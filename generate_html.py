@@ -197,97 +197,102 @@ def generate_html():
                     
                     html_content += '                        </ul>\n'
                     html_content += '                    </div>\n'
-            elif section_name == 'INFORMATION':
-                # INFORMATIONセクション（日付・コンテンツ・詳細形式）
+            else:
+                # セクションの最初のアイテムの構造をチェックして、INFORMATION形式かどうかを判定
                 items = section.get('items', [])
+                is_info_style = False
+                if items and isinstance(items[0], dict) and 'date' in items[0] and 'content' in items[0]:
+                    is_info_style = True
                 
-                # Display first 3 items
-                for idx, item in enumerate(items[:3]):
-                    date = item.get('date', '')
-                    content = item.get('content', '')
-                    detail = item.get('detail', '')
-                    link = item.get('link', '')
-                    
-                    html_content += '                    <div class="info-item">\n'
-                    html_content += f'                        <div class="info-date">{escape_html(date)}</div>\n'
-                    html_content += f'                        <div class="info-content">{escape_html(content)}</div>\n'
-                    
-                    if detail:
-                        if link:
-                            office_uri = get_office_uri(link)
-                            html_content += f'                        <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
-                        else:
-                            html_content += f'                        <div class="info-detail">→ {escape_html(detail)}</div>\n'
-                    
-                    html_content += '                    </div>\n'
-                
-                # Add collapsible section for remaining items
-                if len(items) > 3:
-                    collapse_id = f'collapse-{escape_html(tab_name)}-{section_idx}'
-                    html_content += f'                    <div id="{collapse_id}" class="collapsed-items" style="display: none;">\n'
-                    
-                    for idx, item in enumerate(items[3:]):
+                if is_info_style:
+                    # INFORMATIONスタイルのセクション（日付・コンテンツ・詳細形式）
+                    # Display first 3 items
+                    for idx, item in enumerate(items[:3]):
                         date = item.get('date', '')
                         content = item.get('content', '')
                         detail = item.get('detail', '')
                         link = item.get('link', '')
                         
-                        html_content += '                        <div class="info-item">\n'
-                        html_content += f'                            <div class="info-date">{escape_html(date)}</div>\n'
-                        html_content += f'                            <div class="info-content">{escape_html(content)}</div>\n'
+                        html_content += '                    <div class="info-item">\n'
+                        html_content += f'                        <div class="info-date">{escape_html(date)}</div>\n'
+                        html_content += f'                        <div class="info-content">{escape_html(content)}</div>\n'
                         
                         if detail:
                             if link:
                                 office_uri = get_office_uri(link)
-                                html_content += f'                            <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                                html_content += f'                        <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
                             else:
-                                html_content += f'                            <div class="info-detail">→ {escape_html(detail)}</div>\n'
+                                html_content += f'                        <div class="info-detail">→ {escape_html(detail)}</div>\n'
                         
-                        html_content += '                        </div>\n'
+                        html_content += '                    </div>\n'
                     
-                    html_content += '                    </div>\n'
-                    html_content += f'                    <button class="toggle-button" onclick="toggleCollapse(\'{collapse_id}\')">さらに表示 ({len(items) - 3}件)</button>\n'
-            else:
-                # リスト形式のセクション（統一フォーマット対応）
-                items = section.get('items', [])
-                html_content += '                    <ul class="item-list">\n'
-                
-                for item in items:
-                    if isinstance(item, str):
-                        html_content += f'                        <li>{escape_html(item)}</li>\n'
-                    elif isinstance(item, dict):
-                        # 統一フォーマット対応: content, text, date, detail, link
-                        date = item.get('date', '')
-                        content = item.get('content') or item.get('text', '')
-                        detail = item.get('detail', '')
-                        link = item.get('link', '')
+                    # Add collapsible section for remaining items
+                    if len(items) > 3:
+                        collapse_id = f'collapse-{escape_html(tab_name)}-{section_idx}'
+                        html_content += f'                    <div id="{collapse_id}" class="collapsed-items" style="display: none;">\n'
                         
-                        # 日付または詳細がある場合はINFORMATIONスタイル（ul外にdivで表示）
-                        if date or detail:
-                            # ulを一旦閉じてdivを挿入
-                            html_content += '                    </ul>\n'
-                            html_content += '                    <div class="info-item">\n'
-                            if date:
-                                html_content += f'                        <div class="info-date">{escape_html(date)}</div>\n'
-                            if content:
-                                html_content += f'                        <div class="info-content">{escape_html(content)}</div>\n'
+                        for idx, item in enumerate(items[3:]):
+                            date = item.get('date', '')
+                            content = item.get('content', '')
+                            detail = item.get('detail', '')
+                            link = item.get('link', '')
+                            
+                            html_content += '                        <div class="info-item">\n'
+                            html_content += f'                            <div class="info-date">{escape_html(date)}</div>\n'
+                            html_content += f'                            <div class="info-content">{escape_html(content)}</div>\n'
+                            
                             if detail:
                                 if link:
                                     office_uri = get_office_uri(link)
-                                    html_content += f'                        <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                                    html_content += f'                            <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
                                 else:
-                                    html_content += f'                        <div class="info-detail">→ {escape_html(detail)}</div>\n'
-                            html_content += '                    </div>\n'
-                            html_content += '                    <ul class="item-list">\n'
-                        else:
-                            # シンプルなリスト項目
-                            if link:
-                                office_uri = get_office_uri(link)
-                                html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(content)}</a></li>\n'
+                                    html_content += f'                            <div class="info-detail">→ {escape_html(detail)}</div>\n'
+                            
+                            html_content += '                        </div>\n'
+                        
+                        html_content += '                    </div>\n'
+                        html_content += f'                    <button class="toggle-button" onclick="toggleCollapse(\'{collapse_id}\')">さらに表示 ({len(items) - 3}件)</button>\n'
+                else:
+                    # リスト形式のセクション（統一フォーマット対応）
+                    items = section.get('items', [])
+                    html_content += '                    <ul class="item-list">\n'
+                    
+                    for item in items:
+                        if isinstance(item, str):
+                            html_content += f'                        <li>{escape_html(item)}</li>\n'
+                        elif isinstance(item, dict):
+                            # 統一フォーマット対応: content, text, date, detail, link
+                            date = item.get('date', '')
+                            content = item.get('content') or item.get('text', '')
+                            detail = item.get('detail', '')
+                            link = item.get('link', '')
+                            
+                            # 日付または詳細がある場合はINFORMATIONスタイル（ul外にdivで表示）
+                            if date or detail:
+                                # ulを一旦閉じてdivを挿入
+                                html_content += '                    </ul>\n'
+                                html_content += '                    <div class="info-item">\n'
+                                if date:
+                                    html_content += f'                        <div class="info-date">{escape_html(date)}</div>\n'
+                                if content:
+                                    html_content += f'                        <div class="info-content">{escape_html(content)}</div>\n'
+                                if detail:
+                                    if link:
+                                        office_uri = get_office_uri(link)
+                                        html_content += f'                        <div class="info-detail">→ <a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(detail)}</a></div>\n'
+                                    else:
+                                        html_content += f'                        <div class="info-detail">→ {escape_html(detail)}</div>\n'
+                                html_content += '                    </div>\n'
+                                html_content += '                    <ul class="item-list">\n'
                             else:
-                                html_content += f'                        <li>{escape_html(content)}</li>\n'
-                
-                html_content += '                    </ul>\n'
+                                # シンプルなリスト項目
+                                if link:
+                                    office_uri = get_office_uri(link)
+                                    html_content += f'                        <li><a href="{escape_html(office_uri)}" target="_blank" rel="noopener noreferrer">{escape_html(content)}</a></li>\n'
+                                else:
+                                    html_content += f'                        <li>{escape_html(content)}</li>\n'
+                    
+                    html_content += '                    </ul>\n'
             
             html_content += '                </div>\n'
         
